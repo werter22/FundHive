@@ -24,16 +24,21 @@ FundHive ist eine FinTeech-Plattform, die Startups mit interessierten Investoren
 
 ## Explore-Board
 ### TRENDS & TECHNOLOGIE
-> Durch zunehmende Digitalisierung und einfachere Wege an Know-how zu gelangen hat sich besonders in der Schweiz in den letzten 15 Jahren ein wachsender Markt für Crowdfunding entwickelt.
+> Durch die zunehmende Digitalisierung und den erleichterten Zugang zu Know-how hat sich in der Schweiz in den letzten 15 Jahren ein wachsender Markt für Crowdfunding entwickelt. Wie in der folgenden Abbildung ersichtlich, gab es in den letzten zehn Jahren einen Boom an Crowdfunding-Plattformen. Dieser Boom hat sich jedoch mittlerweile abgeschwächt und die Gesamtanzahl der Plattformen ist seit 2020 weitgehend stabil geblieben.
 
-> Im Feld Trends & Technologien notieren wir Informationen über Megatrends sowie soziokulturelle Trends, Konsum- und Zeitgeisttrends, die einen Einfluss auf unser Projekt haben (könnten). Auch unsere Kenntnisse über aktuelle Technologien und Entwicklungen fließen hier hinein. Vor allem im Bereich der digitalen Innovationen sind diese wichtig.
+![Diagram](doc/abb_1.png)
+
+> Besonders relevant für FundHive ist die Entwicklung des Volumens im Bereich des Crowdinvestings. Diese Branche ist noch relativ jung und hat sich seit 2017 bei einem durchschnittlichen Volumen von rund 150 Millionen Franken stabilisiert.
+
+![Diagram](doc/abb_2.png)
+
+> FundHive sieht in der fortschreitenden Entwicklung von prädiktiven Modellen die Chance, sich in diesen Markt zu integrieren. Die stetig verbesserten Datenmodelle und das wachsende Volumen an Datensätzen ermöglichen es, eine Vielzahl von Branchen zu innovieren und diese werden Kapital benötigen.
 
 ### POTENTIELLE PARTNER & WETTBEWERB
-Grösste Wettbewerber im der Crowdfunding Branche: Conda, OOMNIUM 
+> Grösste Wettbewerber im der Crowdfunding Branche: Conda, OOMNIUM 
 
-
-> Im Feld Potenzielle Partnerschaften & Wettbewerb stehen alle Informationen über relevante Partnerschaften und Wettbewerber in dem Markt, den wir innovieren wollen.
-
+> Als mögliche Partner könnten Crowdhouse (gegründet 2015) und Foxstone(2017) unsere Plattform unterstützen da sie den Grossteil des Volumens in Crowdfunding einnehmen jedoch beträgt die Mindestinvestitionssummen in der Regel mehrere zehntausend Franken. Daher besteht die Möglichkeit das FundHive das finanzieren attraktiver macht für weniger Kapitaleinsatz.
+> 
 ### FAKTEN
 > Das Feld Fakten ist gewissermassen unser Joker. Hier steht alles, was sich in den anderen Feldern nicht einordnen lässt, aber irgendwie mit unserem Recherchethema zu tun hat.
 
