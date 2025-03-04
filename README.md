@@ -109,7 +109,7 @@ Machbarkeit: Hammer vs. Raumschiff
 > Hier die Use-Case Beschreibung einfügen so wie du das in RE gelernt hast. 
 
 ## Fachliches Datenmodell 
-> Hier das fachliche Datenmodell (ER-Modell) einbinden. Ein fachliches Modell enthält **keine** IDs oder Ähnliches
+![Datenmodell](doc/ER_drawio.svg)
 
 ## Erläuterungen zum Datenmodell 
 > Beschreibe die Entitäten, deren Attribute sowie die Beziehungen zwischen den Entitäten.
