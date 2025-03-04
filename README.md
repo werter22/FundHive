@@ -1,5 +1,5 @@
 # FundHive
-Ein kurzer Text als Intro
+FundHive ist eine FinTeech-Plattform, die Startups mit interessierten Investoren verbindet. Investoren können sich über die Startups informieren und direkt investieren. Die exklusive KI der Plattform hilft sowohl Investoren als auch Unternehmern, das Investitionsrisiko und die Erfolgsaussichten besser einzuschätzen.
 
 # Inhaltsverzeichnis
 - [Einleitung](#einleitung)
@@ -24,9 +24,14 @@ Ein kurzer Text als Intro
 
 ## Explore-Board
 ### TRENDS & TECHNOLOGIE
+> Durch zunehmende Digitalisierung und einfachere Wege an Know-how zu gelangen hat sich besonders in der Schweiz in den letzten 15 Jahren ein wachsender Markt für Crowdfunding entwickelt.
+
 > Im Feld Trends & Technologien notieren wir Informationen über Megatrends sowie soziokulturelle Trends, Konsum- und Zeitgeisttrends, die einen Einfluss auf unser Projekt haben (könnten). Auch unsere Kenntnisse über aktuelle Technologien und Entwicklungen fließen hier hinein. Vor allem im Bereich der digitalen Innovationen sind diese wichtig.
 
 ### POTENTIELLE PARTNER & WETTBEWERB
+Grösste Wettbewerber im der Crowdfunding Branche: Conda, OOMNIUM 
+
+
 > Im Feld Potenzielle Partnerschaften & Wettbewerb stehen alle Informationen über relevante Partnerschaften und Wettbewerber in dem Markt, den wir innovieren wollen.
 
 ### FAKTEN
@@ -93,6 +98,8 @@ Machbarkeit: Hammer vs. Raumschiff
 > Notiere Faktoren der Lösung, die nur schwer oder gar nicht kopierbar sind. Diese Faktoren machen es schwierig, ein Konkurrenzprodukt deiner Lösung zu lancieren. 
 
 ### KPI
+Anzahl Startups, Anzahl Investoren
+
 > Trage hier Messgrössen ein, mit denen sich der Erfolg deiner Lösung messen lässt. Beispiele: Anzahl Verkäufe, Anzahl Kunden, Anzahl Transaktionen, Umsatz...
 
 ### EINNAHMEQUELLEN
