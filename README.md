@@ -106,10 +106,11 @@ Machbarkeit: Hammer vs. Raumschiff
 > Hier das Diagramm einbinden
 
 ## Use-Case Beschreibung
+![Datenmodell](doc/UC_diagram.drawio.svg)
 > Hier die Use-Case Beschreibung einfügen so wie du das in RE gelernt hast. 
 
 ## Fachliches Datenmodell 
-![Datenmodell](doc/ER_drawio.svg)
+![Datenmodell](doc/ER_diagram.drawio.svg)
 
 ## Erläuterungen zum Datenmodell 
 > Beschreibe die Entitäten, deren Attribute sowie die Beziehungen zwischen den Entitäten.
