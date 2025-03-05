@@ -106,7 +106,15 @@ Neben klassischen Crowdinvesting-Methoden entstehen neue Modelle wie Revenue-Bas
 > - Erhöhte Sicherheit durch datenbasierte Startup-Bewertungen, um fundierte Investmententscheidungen zu treffen.
 
 ### PROBLEME
-> Im Feld Probleme notieren wir die ein bis drei drängendsten Probleme, die mit diesen Bedürfnissen zu tun haben.
+> Startups:
+> - Schwierigkeiten, relevante Investoren zu finden, die zu ihrem Geschäftsmodell passen.
+> - Fehlende Mittel oder Kenntnisse, um Finanz- und Unternehmensdaten verständlich aufzubereiten.
+> - Der Finanzierungsprozess ist aufwändig, langwierig und erfordert viel manuelle Arbeit.
+
+> Investoren:
+> - Fehlende Transparenz über die Qualität und das Potenzial eines Startups.
+> - Hoher Zeitaufwand für die individuelle Due-Diligence und Bewertung von Startups.
+> - Fehlende strukturierte Plattform, um Investments effizient zu vergleichen und Entscheidungen schneller zu treffen.
 
 ### IDEENPOTENZIAL
 Mehrwert: Mückenstich vs. Hai-Attacke
@@ -115,20 +123,21 @@ Mehrwert: Mückenstich vs. Hai-Attacke
 
 Übertragbarkeit: Robinson Crusoe vs. die Welt
 
-🔵🔵🔵🔵🔵⚪️⚪️⚪️⚪️⚪️
+🔵🔵🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️
 
 Machbarkeit: Hammer vs. Raumschiff
 
 🔵🔵🔵🔵🔵🔵🔵🔵⚪️⚪️
 
 ### DAS WOW
-> Im Feld Das Wow notieren wir das eine Detail unserer Lösungsidee, für das wir in der Presse gefeiert werden wollen.
+> „Die erste Plattform, die Startup-Investments mit KI-gestützten Bewertungen revolutioniert – Investoren erhalten datenbasierte Einblicke, die sonst nur Großbanken vorbehalten sind.“
 
 ### HIGH-LEVEL-KONZEPT
-> Im Feld High-Level-Konzept notieren wir eine griffige Analogie, mit der wir unsere Lösungsidee beschreiben könnten.
+> „Das Bloomberg-Terminal für Startup-Investments – einfach, transparent und datengetrieben.“
+> „Startup-Investing neu gedacht – datengetrieben, intuitiv und transparent.“
 
 ### WERTVERSPRECHEN
-> Ins Feld Wertversprechen schreiben wir unsere Lösungshypothese. Sie ist die Synthese aus Idee, NutzerIn, Bedürfnis und Ideenpotenzial. Und sie ist unsere Antwort auf die Wie-können-wir-Frage aus den EXPLORE-BOARD.
+> FundHive macht datengetriebene Startup-Investments für Investoren einfacher und effizienter. Durch KI-gestützte Bewertungen reduzieren wir den Aufwand für Due Diligence und ermöglichen eine objektive Analyse von Startups. Dies erleichtert Investoren den Zugang zu fundierten Entscheidungen und ermöglicht Startups eine glaubwürdige und professionelle Präsentation. FundHive bringt Investoren und Startups datenbasiert zusammen – für schnellere, transparentere und smartere Investments.
 
 ## Evaluate-Board
 ### KANÄLE
