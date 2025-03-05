@@ -81,13 +81,29 @@ Neben klassischen Crowdinvesting-Methoden entstehen neue Modelle wie Revenue-Bas
 
 ## Create-Board
 ### IDEEN-BESCHREIBUNG
-> Im Feld Ideenbeschreibung notieren wir den Kern unserer Idee. Sie sollte sich auf einen klaren Anwendungsfall fokussieren und diesen beschreiben.
+> FundHive ist eine Plattform, die Startups eine optimierte Präsentation und Investoren eine datengetriebene Bewertung bietet. Durch KI-gestützte Finanzanalysen werden Investoren in die Lage versetzt, fundierte Entscheidungen zu treffen, ohne komplexe Berechnungen selbst durchführen zu müssen.
+
+> Anwendungsfall: Ein Startup stellt sich auf FundHive mit einer KI-gestützten Unternehmensbewertung vor. Investoren sehen nicht nur Finanzkennzahlen, sondern auch automatisierte Risikoanalysen und Zusammenhänge, die durch Algorithmen erkannt wurden. Dadurch können sie fundierte Investmententscheidungen treffen, ohne selbst tief in Finanzmodelle einsteigen zu müssen.
 
 ### ADRESSIERTE NUTZER
-> Im Feld Adressierte NutzerInnen schreiben wir Details und Besonderheiten zu den NutzerInnen auf, für die wir unsere Lösungsidee entwickeln.
+> Startups (Kapitalnehmende):
+> - Frühphasen-Startups (Seed bis Series A), die Kapital für Wachstum benötigen.
+> - Junge Unternehmen mit innovativen Geschäftsmodellen, die sich abseits klassischer VC-Finanzierungen bewegen.
+
+> Investoren (Kapitalgebende):
+> - Angel-Investoren & Business Angels → Erfahrene Einzelpersonen, die in junge Startups investieren und oft auch Mentoring bieten.
+> - VC-Fonds → Professionelle Investoren, die in Startups mit erstem Markterfolg investieren, um schnelles Wachstum zu fördern.
 
 ### ADRESSIERTE BEDÜRFNISSE
-> In Feld Bedürfnisse notieren wir die Bedürfnisse der NutzerInnen, die wir mit unserer Idee erfüllen wollen.
+> Startups:
+> - Zugang zu passenden Investoren, die über das nötige Kapital und Branchenwissen verfügen.
+> - Glaubwürdige Präsentation der eigenen Finanz- und Geschäftsdaten, um das Vertrauen von Investoren zu gewinnen.
+> - Vereinfachung des Investment-Prozesses, um weniger Zeit für Investorensuche und Due-Diligence-Verfahren aufwenden zu müssen.
+
+> Investoren:
+> - Zugriff auf strukturierte, verständliche und KI-gestützte Bewertungen, um Startups effizient einschätzen zu können.
+> - Reduzierung des eigenen Rechercheaufwands durch vorbereitete Finanzkennzahlen und Risikoanalysen.
+> - Erhöhte Sicherheit durch datenbasierte Startup-Bewertungen, um fundierte Investmententscheidungen zu treffen.
 
 ### PROBLEME
 > Im Feld Probleme notieren wir die ein bis drei drängendsten Probleme, die mit diesen Bedürfnissen zu tun haben.
