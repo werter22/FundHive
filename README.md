@@ -137,7 +137,7 @@ Machbarkeit: Hammer vs. Raumschiff
 „Startup-Investing neu gedacht – datengetrieben, intuitiv und transparent.“
 
 ### WERTVERSPRECHEN
-> FundHive macht datengetriebene Startup-Investments für Investoren einfacher und effizienter. Durch KI-gestützte Bewertungen reduzieren wir den Aufwand für Due Diligence und ermöglichen eine objektive Analyse von Startups. Dies erleichtert Investoren den Zugang zu fundierten Entscheidungen und ermöglicht Startups eine glaubwürdige und professionelle Präsentation. FundHive bringt Investoren und Startups datenbasiert zusammen – für schnellere, transparentere und smartere Investments.
+FundHive verbindet Startups und Investoren durch datenbasierte, transparente Analysen. Unsere KI-gestützte Plattform reduziert den Due-Diligence-Aufwand und schafft Vertrauen durch objektive Bewertungen – für effizientere, schnellere und fundierte Investmententscheidungen.
 
 ## Evaluate-Board
 ### KANÄLE
