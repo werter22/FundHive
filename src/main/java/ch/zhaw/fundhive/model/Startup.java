@@ -10,7 +10,7 @@ import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 @AllArgsConstructor
 @Getter
 @Setter
-@Document(collection = "startups")
+@Document("startups")
 public class Startup {
     @Id
     private String id;
