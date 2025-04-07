@@ -1,4 +1,4 @@
-package ch.zhaw.fundhive.repository;
+package ch.zhaw.fundhive.repository.custom;
 
 import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.model.enums.IndustryType;

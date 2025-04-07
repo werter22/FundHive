@@ -5,6 +5,7 @@ import ch.zhaw.fundhive.repository.InvestmentTransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,5 +20,16 @@ public class InvestmentTransactionService {
 
     public InvestmentTransaction create(InvestmentTransaction transaction) {
         return repository.save(transaction);
+    }
+
+    public List<InvestmentTransaction> getFilteredTransactions(
+            String investmentRoundId,
+            String investorId,
+            Double minAmount,
+            Double maxAmount,
+            LocalDate startDate,
+            LocalDate endDate) {
+        return repository.filterInvestmentTransactions(
+                investmentRoundId, investorId, minAmount, maxAmount, startDate, endDate);
     }
 }

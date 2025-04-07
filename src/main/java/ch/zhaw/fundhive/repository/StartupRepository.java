@@ -3,6 +3,8 @@ package ch.zhaw.fundhive.repository;
 import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
+import ch.zhaw.fundhive.repository.custom.CustomStartupRepository;
+
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
