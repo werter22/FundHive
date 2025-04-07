@@ -6,6 +6,7 @@ import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -13,6 +14,9 @@ public class InvestmentRoundService {
 
     @Autowired
     private InvestmentRoundRepository repository;
+
+    @Autowired
+    private InvestmentRoundRepository investmentRoundRepository;
 
     public List<InvestmentRound> getAll() {
         return repository.findAll();
@@ -53,4 +57,11 @@ public class InvestmentRoundService {
             }
         });
     }
+
+    public List<InvestmentRound> getFilteredInvestmentRounds(double minAmountRaised, double maxAmountRaised,
+            LocalDate startDate, LocalDate endDate) {
+        return investmentRoundRepository.findByAmountRaisedAndDateBetween(
+                minAmountRaised, maxAmountRaised, startDate, endDate);
+    }
+
 }
