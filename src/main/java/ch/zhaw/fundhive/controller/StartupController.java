@@ -5,6 +5,8 @@ import ch.zhaw.fundhive.model.StartupFundingAggregationDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.service.StartupService;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -86,4 +88,17 @@ public class StartupController {
     public List<StartupFundingAggregationDTO> getFundingStatusAggregation() {
         return startupService.getFundingStatusAggregation();
     }
+
+    @GetMapping("/startups")
+    public ResponseEntity<List<Startup>> getFilteredStartups(
+            @RequestParam(required = false) IndustryType industry,
+            @RequestParam(required = false) StartupFundingStatus fundingStatus,
+            @RequestParam(required = false) Double minValuation,
+            @RequestParam(required = false) Double maxValuation) {
+
+        List<Startup> startups = startupService.getFilteredStartups(industry, fundingStatus, minValuation,
+                maxValuation);
+        return new ResponseEntity<>(startups, HttpStatus.OK);
+    }
+
 }

@@ -86,4 +86,13 @@ public class StartupService {
     public List<StartupFundingAggregationDTO> getFundingStatusAggregation() {
         return startupRepository.getFundingStatusAggregation();
     }
+
+    public List<Startup> getFilteredStartups(
+            IndustryType industry,
+            StartupFundingStatus fundingStatus,
+            Double minValuation,
+            Double maxValuation) {
+
+        return startupRepository.filterStartups(industry, fundingStatus, minValuation, maxValuation);
+    }
 }
