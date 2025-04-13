@@ -1,4 +1,4 @@
-package ch.zhaw.fundhive.model;
+package ch.zhaw.fundhive.model.dto;
 
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import lombok.AllArgsConstructor;

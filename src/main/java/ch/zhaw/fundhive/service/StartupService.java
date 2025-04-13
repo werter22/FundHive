@@ -1,7 +1,7 @@
 package ch.zhaw.fundhive.service;
 
 import ch.zhaw.fundhive.model.Startup;
-import ch.zhaw.fundhive.model.StartupFundingAggregationDTO;
+import ch.zhaw.fundhive.model.dto.StartupFundingAggregationDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.repository.StartupRepository;

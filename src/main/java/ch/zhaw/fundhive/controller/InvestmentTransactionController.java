@@ -1,6 +1,7 @@
 package ch.zhaw.fundhive.controller;
 
 import ch.zhaw.fundhive.model.InvestmentTransaction;
+import ch.zhaw.fundhive.model.dto.InvestmentAllTransactionsDTO;
 import ch.zhaw.fundhive.service.InvestmentTransactionService;
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,12 @@ public class InvestmentTransactionController {
     @ResponseStatus(HttpStatus.CREATED)
     public InvestmentTransaction create(@RequestBody InvestmentTransaction transaction) {
         return service.create(transaction);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<InvestmentAllTransactionsDTO>> getAllTransactionsForAdmin() {
+        List<InvestmentAllTransactionsDTO> result = service.getAllTransactionsForAdmin();
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/investment-transactions")
