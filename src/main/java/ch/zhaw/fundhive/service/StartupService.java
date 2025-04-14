@@ -1,6 +1,7 @@
 package ch.zhaw.fundhive.service;
 
 import ch.zhaw.fundhive.model.Startup;
+import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.dto.StartupFundingAggregationDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
@@ -94,5 +95,9 @@ public class StartupService {
             Double maxValuation) {
 
         return startupRepository.filterStartups(industry, fundingStatus, minValuation, maxValuation);
+    }
+
+    public FundingOverviewDTO getFundingOverview(String startupId) {
+        return startupRepository.getFundingOverview(startupId);
     }
 }

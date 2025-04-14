@@ -1,6 +1,7 @@
 package ch.zhaw.fundhive.repository.custom;
 
 import ch.zhaw.fundhive.model.Startup;
+import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 
@@ -12,4 +13,6 @@ public interface CustomStartupRepository {
             StartupFundingStatus fundingStatus,
             Double minValuation,
             Double maxValuation);
+
+    FundingOverviewDTO getFundingOverview(String startupId);
 }

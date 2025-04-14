@@ -1,6 +1,7 @@
 package ch.zhaw.fundhive.controller;
 
 import ch.zhaw.fundhive.model.Startup;
+import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.dto.StartupFundingAggregationDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
@@ -99,6 +100,15 @@ public class StartupController {
         List<Startup> startups = startupService.getFilteredStartups(industry, fundingStatus, minValuation,
                 maxValuation);
         return new ResponseEntity<>(startups, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/funding-overview")
+    public ResponseEntity<FundingOverviewDTO> getFundingOverview(@PathVariable("id") String startupId) {
+        FundingOverviewDTO overview = startupService.getFundingOverview(startupId);
+        if (overview == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(overview);
     }
 
 }
