@@ -3,6 +3,8 @@ package ch.zhaw.fundhive.service;
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
 import ch.zhaw.fundhive.model.InvestmentTransaction;
 import ch.zhaw.fundhive.model.dto.InvestmentAllTransactionsDTO;
+import ch.zhaw.fundhive.model.dto.InvestmentSummaryDTO;
+import ch.zhaw.fundhive.model.dto.InvestorPortfolioDTO;
 import ch.zhaw.fundhive.repository.InvestmentTransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,28 @@ public class InvestmentTransactionService {
         return investmentRoundRepository.findById(investmentRoundId)
                 .map(investmentRound -> investmentRound.getStartupId())
                 .orElse("unknown-startup"); // fallback if the round doesn't exist
+    }
+
+    public InvestorPortfolioDTO getInvestorPortfolio(String investorId) {
+        List<InvestmentTransaction> transactions = repository.findByInvestorId(investorId);
+
+        double totalAmount = transactions.stream()
+                .mapToDouble(tx -> Double.parseDouble(tx.getAmount()))
+                .sum();
+
+        List<InvestmentAllTransactionsDTO> dtoList = transactions.stream()
+                .map(tx -> new InvestmentAllTransactionsDTO(
+                        tx.getId(),
+                        tx.getInvestorId(),
+                        tx.getInvestmentRoundId(),
+                        resolveStartupId(tx.getInvestmentRoundId()),
+                        Double.parseDouble(tx.getAmount()),
+                        tx.getDate()))
+                .toList();
+
+        return new InvestorPortfolioDTO(
+                new InvestmentSummaryDTO(totalAmount, transactions.size()),
+                dtoList);
     }
 
 }

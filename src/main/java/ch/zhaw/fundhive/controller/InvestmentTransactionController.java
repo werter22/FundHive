@@ -2,6 +2,7 @@ package ch.zhaw.fundhive.controller;
 
 import ch.zhaw.fundhive.model.InvestmentTransaction;
 import ch.zhaw.fundhive.model.dto.InvestmentAllTransactionsDTO;
+import ch.zhaw.fundhive.model.dto.InvestorPortfolioDTO;
 import ch.zhaw.fundhive.service.InvestmentTransactionService;
 import lombok.RequiredArgsConstructor;
 
@@ -48,6 +49,12 @@ public class InvestmentTransactionController {
         List<InvestmentTransaction> results = service.getFilteredTransactions(
                 investmentRoundId, investorId, minAmount, maxAmount, startDate, endDate);
         return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/api/investors/{id}/portfolio")
+    public ResponseEntity<InvestorPortfolioDTO> getPortfolio(@PathVariable String id) {
+        InvestorPortfolioDTO portfolio = service.getInvestorPortfolio(id);
+        return ResponseEntity.ok(portfolio);
     }
 
 }
