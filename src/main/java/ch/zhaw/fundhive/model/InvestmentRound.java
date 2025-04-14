@@ -32,5 +32,5 @@ public class InvestmentRound {
     private String startupId;
 
     @NonNull
-    private InvestmentStatus status;
+    private InvestmentStatus investmentStatus = InvestmentStatus.UPCOMING;
 }

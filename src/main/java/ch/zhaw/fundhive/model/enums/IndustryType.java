@@ -9,5 +9,6 @@ public enum IndustryType {
     ENERGY,
     AUTOMOTIVE,
     REAL_ESTATE,
-    MEDIA
+    MEDIA,
+    OTHERS
 }
