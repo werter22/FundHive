@@ -20,7 +20,7 @@ public class InvestmentTransaction {
     private String investorId;
 
     @NonNull
-    private String amount;
+    private Double amount;
 
     @NonNull
     private String date;

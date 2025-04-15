@@ -15,9 +15,6 @@ public class InvestmentRoundService {
     @Autowired
     private InvestmentRoundRepository repository;
 
-    @Autowired
-    private InvestmentRoundRepository investmentRoundRepository;
-
     public List<InvestmentRound> getAll() {
         return repository.findAll();
     }
@@ -44,23 +41,19 @@ public class InvestmentRoundService {
 
     public void checkAndClose(String id) {
         repository.findById(id).ifPresent(round -> {
-            try {
-                double raised = Double.parseDouble(round.getAmount_raised());
-                double goal = Double.parseDouble(round.getGoal_amount());
+            double raised = round.getAmount_raised();
+            double goal = round.getGoal_amount();
 
-                if (raised >= goal && round.getStatus() == InvestmentStatus.OPEN) {
-                    round.setStatus(InvestmentStatus.CLOSED);
-                    repository.save(round);
-                }
-            } catch (NumberFormatException e) {
-                throw new RuntimeException("Invalid amount format");
+            if (raised >= goal && round.getStatus() == InvestmentStatus.OPEN) {
+                round.setStatus(InvestmentStatus.CLOSED);
+                repository.save(round);
             }
         });
     }
 
     public List<InvestmentRound> getFilteredInvestmentRounds(double minAmountRaised, double maxAmountRaised,
             LocalDate startDate, LocalDate endDate) {
-        return investmentRoundRepository.findByAmountRaisedAndDateBetween(
+        return repository.findByAmountRaisedAndDateBetween(
                 minAmountRaised, maxAmountRaised, startDate, endDate);
     }
 

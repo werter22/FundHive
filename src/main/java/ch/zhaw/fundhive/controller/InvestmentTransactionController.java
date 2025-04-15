@@ -38,7 +38,7 @@ public class InvestmentTransactionController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/investment-transactions")
+    @GetMapping("/filtered")
     public ResponseEntity<List<InvestmentTransaction>> getFilteredTransactions(
             @RequestParam(required = false) String investmentRoundId,
             @RequestParam(required = false) String investorId,
@@ -51,7 +51,7 @@ public class InvestmentTransactionController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/api/investors/{id}/portfolio")
+    @GetMapping("/{id}/portfolio")
     public ResponseEntity<InvestorPortfolioDTO> getPortfolio(@PathVariable String id) {
         InvestorPortfolioDTO portfolio = service.getInvestorPortfolio(id);
         return ResponseEntity.ok(portfolio);

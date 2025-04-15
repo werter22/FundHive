@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.LookupOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.UnwindOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -48,16 +51,30 @@ public class CustomStartupRepositoryImpl implements CustomStartupRepository {
 
     @Override
     public FundingOverviewDTO getFundingOverview(String startupId) {
-        MatchOperation matchStartup = match(Criteria.where("startupId").is(startupId));
+        LookupOperation joinRounds = LookupOperation.newLookup()
+                .from("investmentRounds")
+                .localField("investmentRoundId")
+                .foreignField("_id")
+                .as("round");
 
-        GroupOperation groupStats = group("startupId")
-                .count().as("roundCount")
+        UnwindOperation unwindRound = unwind("round");
+
+        MatchOperation matchStartup = match(Criteria.where("round.startupId").is(startupId));
+
+        GroupOperation groupStats = group("round.startupId")
                 .sum("amount").as("totalRaised")
-                .avg("amount").as("avgPerRound");
+                .count().as("roundCount");
+
+        ProjectionOperation project = project()
+                .and("_id").as("startupId")
+                .andInclude("totalRaised", "roundCount");
 
         Aggregation aggregation = newAggregation(
+                joinRounds,
+                unwindRound,
                 matchStartup,
-                groupStats);
+                groupStats,
+                project);
 
         AggregationResults<FundingOverviewDTO> results = mongoTemplate.aggregate(
                 aggregation,

@@ -18,67 +18,74 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InvestmentTransactionService {
 
-    private final InvestmentTransactionRepository repository;
-    private final InvestmentRoundRepository investmentRoundRepository;
+        private final InvestmentTransactionRepository repository;
+        private final InvestmentRoundRepository investmentRoundRepository;
+        private final InvestmentAggregationService aggregationService;
 
-    public List<InvestmentTransaction> getAll() {
-        return repository.findAll();
-    }
+        public List<InvestmentTransaction> getAll() {
+                return repository.findAll();
+        }
 
-    public InvestmentTransaction create(InvestmentTransaction transaction) {
-        return repository.save(transaction);
-    }
+        public InvestmentTransaction create(InvestmentTransaction transaction) {
+                InvestmentTransaction savedTransaction = repository.save(transaction);
 
-    public List<InvestmentTransaction> getFilteredTransactions(
-            String investmentRoundId,
-            String investorId,
-            Double minAmount,
-            Double maxAmount,
-            LocalDate startDate,
-            LocalDate endDate) {
-        return repository.filterInvestmentTransactions(
-                investmentRoundId, investorId, minAmount, maxAmount, startDate, endDate);
-    }
+                // Update the amount_raised in the corresponding investment round
+                aggregationService.recalculateAmountRaised(transaction.getInvestmentRoundId());
 
-    public List<InvestmentAllTransactionsDTO> getAllTransactionsForAdmin() {
-        return repository.findAll().stream()
-                .sorted(Comparator.comparing(InvestmentTransaction::getDate)) // Assumes date is ISO string
-                .map(tx -> new InvestmentAllTransactionsDTO(
-                        tx.getId(),
-                        tx.getInvestorId(),
-                        tx.getInvestmentRoundId(),
-                        resolveStartupId(tx.getInvestmentRoundId()), // helper method below
-                        Double.parseDouble(tx.getAmount()),
-                        tx.getDate()))
-                .collect(Collectors.toList());
-    }
+                return savedTransaction;
+        }
 
-    private String resolveStartupId(String investmentRoundId) {
-        return investmentRoundRepository.findById(investmentRoundId)
-                .map(investmentRound -> investmentRound.getStartupId())
-                .orElse("unknown-startup"); // fallback if the round doesn't exist
-    }
+        public List<InvestmentTransaction> getFilteredTransactions(
+                        String investmentRoundId,
+                        String investorId,
+                        Double minAmount,
+                        Double maxAmount,
+                        LocalDate startDate,
+                        LocalDate endDate) {
+                return repository.filterInvestmentTransactions(
+                                investmentRoundId, investorId, minAmount, maxAmount, startDate, endDate);
+        }
 
-    public InvestorPortfolioDTO getInvestorPortfolio(String investorId) {
-        List<InvestmentTransaction> transactions = repository.findByInvestorId(investorId);
+        public List<InvestmentAllTransactionsDTO> getAllTransactionsForAdmin() {
+                return repository.findAll().stream()
+                                .sorted(Comparator.comparing(InvestmentTransaction::getDate)) // Assumes date is ISO
+                                                                                              // string
+                                .map(tx -> new InvestmentAllTransactionsDTO(
+                                                tx.getId(),
+                                                tx.getInvestorId(),
+                                                tx.getInvestmentRoundId(),
+                                                resolveStartupId(tx.getInvestmentRoundId()), // helper method below
+                                                tx.getAmount(),
+                                                tx.getDate()))
+                                .collect(Collectors.toList());
+        }
 
-        double totalAmount = transactions.stream()
-                .mapToDouble(tx -> Double.parseDouble(tx.getAmount()))
-                .sum();
+        private String resolveStartupId(String investmentRoundId) {
+                return investmentRoundRepository.findById(investmentRoundId)
+                                .map(investmentRound -> investmentRound.getStartupId())
+                                .orElse("unknown-startup"); // fallback if the round doesn't exist
+        }
 
-        List<InvestmentAllTransactionsDTO> dtoList = transactions.stream()
-                .map(tx -> new InvestmentAllTransactionsDTO(
-                        tx.getId(),
-                        tx.getInvestorId(),
-                        tx.getInvestmentRoundId(),
-                        resolveStartupId(tx.getInvestmentRoundId()),
-                        Double.parseDouble(tx.getAmount()),
-                        tx.getDate()))
-                .toList();
+        public InvestorPortfolioDTO getInvestorPortfolio(String investorId) {
+                List<InvestmentTransaction> transactions = repository.findByInvestorId(investorId);
 
-        return new InvestorPortfolioDTO(
-                new InvestmentSummaryDTO(totalAmount, transactions.size()),
-                dtoList);
-    }
+                double totalAmount = transactions.stream()
+                                .mapToDouble(tx -> tx.getAmount())
+                                .sum();
+
+                List<InvestmentAllTransactionsDTO> dtoList = transactions.stream()
+                                .map(tx -> new InvestmentAllTransactionsDTO(
+                                                tx.getId(),
+                                                tx.getInvestorId(),
+                                                tx.getInvestmentRoundId(),
+                                                resolveStartupId(tx.getInvestmentRoundId()),
+                                                tx.getAmount(),
+                                                tx.getDate()))
+                                .toList();
+
+                return new InvestorPortfolioDTO(
+                                new InvestmentSummaryDTO(totalAmount, transactions.size()),
+                                dtoList);
+        }
 
 }

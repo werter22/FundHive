@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface InvestmentTransactionRepository
                 extends MongoRepository<InvestmentTransaction, String>, CustomInvestmentTransactionRepository {
         List<InvestmentTransaction> findByInvestorId(String investorId);
+
+        List<InvestmentTransaction> findByInvestmentRoundId(String investmentRoundId);
 }

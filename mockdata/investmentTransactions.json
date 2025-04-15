@@ -3,182 +3,182 @@
         "_id": "IT1",
         "investmentRoundId": "FR1",
         "investorId": "IV3",
-        "amount": "8000",
+        "amount": 8000,
         "date": "2024-09-08"
     },
     {
         "_id": "IT2",
         "investmentRoundId": "FR1",
         "investorId": "IV4",
-        "amount": "20000",
+        "amount": 20000,
         "date": "2024-09-17"
     },
     {
         "_id": "IT3",
         "investmentRoundId": "FR1",
         "investorId": "IV3",
-        "amount": "50500",
+        "amount": 50500,
         "date": "2024-10-01"
     },
     {
         "_id": "IT4",
         "investmentRoundId": "FR1",
         "investorId": "IV3",
-        "amount": "19500",
+        "amount": 19500,
         "date": "2024-10-11"
     },
     {
         "_id": "IT5",
         "investmentRoundId": "FR2",
         "investorId": "IV5",
-        "amount": "70000",
+        "amount": 70000,
         "date": "2024-08-17"
     },
     {
         "_id": "IT6",
         "investmentRoundId": "FR2",
         "investorId": "IV1",
-        "amount": "20000",
+        "amount": 20000,
         "date": "2024-10-12"
     },
     {
         "_id": "IT7",
         "investmentRoundId": "FR2",
         "investorId": "IV4",
-        "amount": "35000",
+        "amount": 35000,
         "date": "2025-02-10"
     },
     {
         "_id": "IT8",
         "investmentRoundId": "FR2",
         "investorId": "IV2",
-        "amount": "88000",
+        "amount": 88000,
         "date": "2025-04-06"
     },
     {
         "_id": "IT9",
         "investmentRoundId": "FR3",
         "investorId": "IV5",
-        "amount": "51000",
+        "amount": 51000,
         "date": "2024-06-02"
     },
     {
         "_id": "IT10",
         "investmentRoundId": "FR3",
         "investorId": "IV3",
-        "amount": "98500",
+        "amount": 98500,
         "date": "2024-08-07"
     },
     {
         "_id": "IT11",
         "investmentRoundId": "FR3",
         "investorId": "IV3",
-        "amount": "2700",
+        "amount": 2700,
         "date": "2024-07-22"
     },
     {
         "_id": "IT12",
         "investmentRoundId": "FR4",
         "investorId": "IV3",
-        "amount": "26000",
+        "amount": 26000,
         "date": "2024-10-14"
     },
     {
         "_id": "IT13",
         "investmentRoundId": "FR4",
         "investorId": "IV5",
-        "amount": "37500",
+        "amount": 37500,
         "date": "2025-01-27"
     },
     {
         "_id": "IT14",
         "investmentRoundId": "FR4",
         "investorId": "IV2",
-        "amount": "81500",
+        "amount": 81500,
         "date": "2024-11-22"
     },
     {
         "_id": "IT15",
         "investmentRoundId": "FR5",
         "investorId": "IV1",
-        "amount": "23000",
+        "amount": 23000,
         "date": "2025-01-20"
     },
     {
         "_id": "IT16",
         "investmentRoundId": "FR5",
         "investorId": "IV5",
-        "amount": "8400",
+        "amount": 8400,
         "date": "2025-02-19"
     },
     {
         "_id": "IT17",
         "investmentRoundId": "FR5",
         "investorId": "IV3",
-        "amount": "5400",
+        "amount": 5400,
         "date": "2025-01-27"
     },
     {
         "_id": "IT18",
         "investmentRoundId": "FR5",
         "investorId": "IV5",
-        "amount": "10000",
+        "amount": 10000,
         "date": "2025-03-04"
     },
     {
         "_id": "IT19",
         "investmentRoundId": "FR6",
         "investorId": "IV3",
-        "amount": "4600",
+        "amount": 4600,
         "date": "2025-01-26"
     },
     {
         "_id": "IT20",
         "investmentRoundId": "FR6",
         "investorId": "IV1",
-        "amount": "4500",
+        "amount": 4500,
         "date": "2025-02-07"
     },
     {
         "_id": "IT21",
         "investmentRoundId": "FR6",
         "investorId": "IV4",
-        "amount": "6200",
+        "amount": 6200,
         "date": "2025-02-20"
     },
     {
         "_id": "IT22",
         "investmentRoundId": "FR7",
         "investorId": "IV3",
-        "amount": "8700",
+        "amount": 8700,
         "date": "2024-04-07"
     },
     {
         "_id": "IT23",
         "investmentRoundId": "FR7",
         "investorId": "IV5",
-        "amount": "33000",
+        "amount": 33000,
         "date": "2024-06-05"
     },
     {
         "_id": "IT24",
         "investmentRoundId": "FR8",
         "investorId": "IV1",
-        "amount": "7900",
+        "amount": 7900,
         "date": "2025-03-09"
     },
     {
         "_id": "IT25",
         "investmentRoundId": "FR8",
         "investorId": "IV2",
-        "amount": "33500",
+        "amount": 33500,
         "date": "2025-01-26"
     },
     {
         "_id": "IT26",
         "investmentRoundId": "FR8",
         "investorId": "IV4",
-        "amount": "7300",
+        "amount": 7300,
         "date": "2025-03-06"
     }
 ]

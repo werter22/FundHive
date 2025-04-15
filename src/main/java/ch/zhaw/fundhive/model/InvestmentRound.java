@@ -20,10 +20,10 @@ public class InvestmentRound {
     private String round_name;
 
     @NonNull
-    private String amount_raised;
+    private Double amount_raised;
 
     @NonNull
-    private String goal_amount;
+    private Double goal_amount;
 
     @NonNull
     private String date;
@@ -32,5 +32,5 @@ public class InvestmentRound {
     private String startupId;
 
     @NonNull
-    private InvestmentStatus investmentStatus = InvestmentStatus.UPCOMING;
+    private InvestmentStatus status = InvestmentStatus.UPCOMING;
 }
