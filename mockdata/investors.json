@@ -1,0 +1,32 @@
+[
+    {
+        "_id": "IV1",
+        "name": "John Doe",
+        "email": "investor1@mail.com",
+        "aiRating": "4.71"
+    },
+    {
+        "_id": "IV2",
+        "name": "Mary Smith",
+        "email": "investor2@mail.com",
+        "aiRating": "4.04"
+    },
+    {
+        "_id": "IV3",
+        "name": "Alice Johnson",
+        "email": "investor3@mail.com",
+        "aiRating": "4.05"
+    },
+    {
+        "_id": "IV4",
+        "name": "Bob Brown",
+        "email": "investor4@mail.com",
+        "aiRating": "4.96"
+    },
+    {
+        "_id": "1b75e54d39e17d1cbe13c3b2",
+        "name": "Charlie Davis",
+        "email": "investor5@mail.com",
+        "aiRating": "3.95"
+    }
+]

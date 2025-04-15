@@ -1,0 +1,74 @@
+[
+    {
+        "_id": "FR1",
+        "round_name": "Round A",
+        "amount_raised": "98000",
+        "goal_amount": "90000",
+        "date": "2024-09-07",
+        "startupId": "SU1",
+        "status": "CLOSED"
+    },
+    {
+        "_id": "FR2",
+        "round_name": "Round B",
+        "amount_raised": "213000",
+        "goal_amount": "250000",
+        "date": "2024-07-31",
+        "startupId": "SU2",
+        "status": "OPEN"
+    },
+    {
+        "_id": "FR3",
+        "round_name": "Round A",
+        "amount_raised": "152200",
+        "goal_amount": "150000",
+        "date": "2024-05-19",
+        "startupId": "SU3",
+        "status": "CLOSED"
+    },
+    {
+        "_id": "FR4",
+        "round_name": "Round A",
+        "amount_raised": "145000",
+        "goal_amount": "150000",
+        "date": "2024-09-17",
+        "startupId": "SU4",
+        "status": "OPEN"
+    },
+    {
+        "_id": "FR5",
+        "round_name": "Round A",
+        "amount_raised": "46800",
+        "goal_amount": "50000",
+        "date": "2024-11-30",
+        "startupId": "SU5",
+        "status": "OPEN"
+    },
+    {
+        "_id": "FR6",
+        "round_name": "Round B",
+        "amount_raised": "15300",
+        "goal_amount": "20000",
+        "date": "2025-01-22",
+        "startupId": "SU1",
+        "status": "OPEN"
+    },
+    {
+        "_id": "FR7",
+        "round_name": "Round A",
+        "amount_raised": "41700",
+        "goal_amount": "40000",
+        "date": "2024-03-29",
+        "startupId": "SU2",
+        "status": "CLOSED"
+    },
+    {
+        "_id": "FR8",
+        "round_name": "Round B",
+        "amount_raised": "48700",
+        "goal_amount": "50000",
+        "date": "2024-12-07",
+        "startupId": "SU3",
+        "status": "OPEN"
+    }
+]
