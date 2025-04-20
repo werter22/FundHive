@@ -20,13 +20,16 @@ public class InvestmentRound {
     private String round_name;
 
     @NonNull
-    private Double amount_raised;
+    private Double amount_raised = 0.0;
 
     @NonNull
     private Double goal_amount;
 
     @NonNull
     private String date;
+
+    @NonNull
+    private String endDate;
 
     @NonNull
     private String startupId;

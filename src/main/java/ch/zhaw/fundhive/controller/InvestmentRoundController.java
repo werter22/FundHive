@@ -44,7 +44,19 @@ public class InvestmentRoundController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/investment-rounds")
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelRound(@PathVariable String id) {
+        service.cancelRound(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/open")
+    public ResponseEntity<Void> openRound(@PathVariable String id) {
+        service.openRound(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/filter")
     public ResponseEntity<List<InvestmentRound>> getFilteredInvestmentRounds(
             @RequestParam double minAmountRaised,
             @RequestParam double maxAmountRaised,

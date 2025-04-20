@@ -1,10 +1,12 @@
 package ch.zhaw.fundhive.service;
 
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
+import ch.zhaw.fundhive.model.InvestmentRound;
 import ch.zhaw.fundhive.model.InvestmentTransaction;
 import ch.zhaw.fundhive.model.dto.InvestmentAllTransactionsDTO;
 import ch.zhaw.fundhive.model.dto.InvestmentSummaryDTO;
 import ch.zhaw.fundhive.model.dto.InvestorPortfolioDTO;
+import ch.zhaw.fundhive.model.enums.InvestmentStatus;
 import ch.zhaw.fundhive.repository.InvestmentTransactionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,20 @@ public class InvestmentTransactionService {
         private final InvestmentRoundRepository investmentRoundRepository;
         private final InvestmentAggregationService aggregationService;
 
+        // --- CRUD methods --- (due to immutability of InvestmentTransaction, we only
+        // need create and getAll)
         public List<InvestmentTransaction> getAll() {
                 return repository.findAll();
         }
 
         public InvestmentTransaction create(InvestmentTransaction transaction) {
+                // Block investment if round is not OPEN
+                InvestmentRound round = investmentRoundRepository.findById(transaction.getInvestmentRoundId())
+                                .orElseThrow(() -> new RuntimeException("Investment round not found"));
+
+                if (round.getStatus() != InvestmentStatus.OPEN) {
+                        throw new RuntimeException("Investments can only be made into OPEN rounds.");
+                }
                 InvestmentTransaction savedTransaction = repository.save(transaction);
 
                 // Update the amount_raised in the corresponding investment round
@@ -35,16 +46,7 @@ public class InvestmentTransactionService {
                 return savedTransaction;
         }
 
-        public List<InvestmentTransaction> getFilteredTransactions(
-                        String investmentRoundId,
-                        String investorId,
-                        Double minAmount,
-                        Double maxAmount,
-                        LocalDate startDate,
-                        LocalDate endDate) {
-                return repository.filterInvestmentTransactions(
-                                investmentRoundId, investorId, minAmount, maxAmount, startDate, endDate);
-        }
+        // --- Custom DTOs ---
 
         public List<InvestmentAllTransactionsDTO> getAllTransactionsForAdmin() {
                 return repository.findAll().stream()
@@ -86,6 +88,19 @@ public class InvestmentTransactionService {
                 return new InvestorPortfolioDTO(
                                 new InvestmentSummaryDTO(totalAmount, transactions.size()),
                                 dtoList);
+        }
+
+        // --- Investment filtering ---
+
+        public List<InvestmentTransaction> getFilteredTransactions(
+                        String investmentRoundId,
+                        String investorId,
+                        Double minAmount,
+                        Double maxAmount,
+                        LocalDate startDate,
+                        LocalDate endDate) {
+                return repository.filterInvestmentTransactions(
+                                investmentRoundId, investorId, minAmount, maxAmount, startDate, endDate);
         }
 
 }

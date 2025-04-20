@@ -15,13 +15,16 @@ public class InvestmentRoundService {
     @Autowired
     private InvestmentRoundRepository repository;
 
-    public List<InvestmentRound> getAll() {
-        return repository.findAll();
-    }
+    // --- CRUD methods ---
 
     public InvestmentRound create(InvestmentRound round) {
-        round.setStatus(InvestmentStatus.OPEN);
+        LocalDate startDate = LocalDate.parse(round.getDate());
+        round.setEndDate(startDate.plusDays(90).toString());
         return repository.save(round);
+    }
+
+    public List<InvestmentRound> getAll() {
+        return repository.findAll();
     }
 
     public InvestmentRound update(String id, InvestmentRound updated) {
@@ -39,6 +42,9 @@ public class InvestmentRoundService {
         repository.deleteById(id);
     }
 
+    // --- Round status management ---
+
+    // closes round when target amount is reached
     public void checkAndClose(String id) {
         repository.findById(id).ifPresent(round -> {
             double raised = round.getAmount_raised();
@@ -50,6 +56,48 @@ public class InvestmentRoundService {
             }
         });
     }
+
+    // manually cancel round
+    public void cancelRound(String id) {
+        repository.findById(id).ifPresent(round -> {
+            round.setStatus(InvestmentStatus.CANCELLED);
+            repository.save(round);
+        });
+    }
+
+    // manually open round
+    public void openRound(String id) {
+        repository.findById(id).ifPresent(round -> {
+            if (round.getStatus() == InvestmentStatus.UPCOMING) {
+                round.setStatus(InvestmentStatus.OPEN);
+                repository.save(round);
+            } else {
+                throw new IllegalStateException("Only UPCOMING rounds can be opened.");
+            }
+        });
+    }
+
+    // Round expires after 90 days
+    public void expireOutdatedRounds() {
+        List<InvestmentRound> rounds = repository.findAll();
+        LocalDate today = LocalDate.now();
+
+        for (InvestmentRound round : rounds) {
+            InvestmentStatus status = round.getStatus();
+            boolean isInactive = status == InvestmentStatus.CLOSED || status == InvestmentStatus.CANCELLED
+                    || status == InvestmentStatus.EXPIRED;
+
+            if (!isInactive) {
+                LocalDate endDate = LocalDate.parse(round.getEndDate());
+                if (today.isAfter(endDate)) {
+                    round.setStatus(InvestmentStatus.EXPIRED);
+                    repository.save(round);
+                }
+            }
+        }
+    }
+
+    // --- Filter methods ---
 
     public List<InvestmentRound> getFilteredInvestmentRounds(double minAmountRaised, double maxAmountRaised,
             LocalDate startDate, LocalDate endDate) {
