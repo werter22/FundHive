@@ -8,8 +8,11 @@ import lombok.Getter;
 public class InvestmentAllTransactionsDTO {
     private String transactionId;
     private String investorId;
-    private String investmentRoundId;
+    private String investorName;
+    private String roundId;
+    private String roundName;
     private String startupId;
+    private String startupName;
     private double amount;
-    private String date; // You can use LocalDate if you prefer
+    private String date;
 }

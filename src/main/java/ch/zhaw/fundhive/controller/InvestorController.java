@@ -9,32 +9,29 @@ import ch.zhaw.fundhive.service.InvestorService;
 import ch.zhaw.fundhive.model.Investor;
 
 @RestController
-@RequestMapping("/api/investors")
+@RequestMapping("/api")
 public class InvestorController {
 
     @Autowired
-    private InvestorService investorService;
+    private InvestorService service;
 
-    @GetMapping
+    /* --- CRUD Endpoints --- */
+
+    @GetMapping("/investors")
     public List<Investor> getAllInvestors() {
-        return investorService.getAllInvestors();
+        return service.getAllInvestors();
     }
 
-    @PostMapping
+    @PostMapping("/investors")
     public ResponseEntity<Investor> createInvestor(@RequestBody Investor investor) {
-        Investor savedInvestor = investorService.createInvestor(investor);
+        Investor savedInvestor = service.createInvestor(investor);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedInvestor);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/investors/{id}")
     public ResponseEntity<Investor> updateInvestor(@PathVariable String id, @RequestBody Investor investorDetails) {
-        Investor updatedInvestor = investorService.updateInvestor(id, investorDetails);
+        Investor updatedInvestor = service.updateInvestor(id, investorDetails);
         return ResponseEntity.ok(updatedInvestor);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteInvestor(@PathVariable String id) {
-        investorService.deleteInvestor(id);
-        return ResponseEntity.ok("Investor deleted successfully");
-    }
 }

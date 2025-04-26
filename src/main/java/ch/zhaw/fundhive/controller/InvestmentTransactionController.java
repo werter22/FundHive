@@ -6,6 +6,7 @@ import ch.zhaw.fundhive.model.dto.InvestorPortfolioDTO;
 import ch.zhaw.fundhive.service.InvestmentTransactionService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,43 +16,39 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/investment-transactions")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class InvestmentTransactionController {
 
+    @Autowired
     private final InvestmentTransactionService service;
 
-    @GetMapping
-    public List<InvestmentTransaction> getAll() {
-        return service.getAll();
-    }
+    /* --- CRUD Endpoints --- */
 
-    @PostMapping
+    @PostMapping("/investment-transactions")
     @ResponseStatus(HttpStatus.CREATED)
     public InvestmentTransaction create(@RequestBody InvestmentTransaction transaction) {
         return service.create(transaction);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<InvestmentAllTransactionsDTO>> getAllTransactionsForAdmin() {
-        List<InvestmentAllTransactionsDTO> result = service.getAllTransactionsForAdmin();
-        return ResponseEntity.ok(result);
-    }
+    /* --- Filter Endpoint for Admin audit --- */
 
-    @GetMapping("/filtered")
-    public ResponseEntity<List<InvestmentTransaction>> getFilteredTransactions(
-            @RequestParam(required = false) String investmentRoundId,
+    @GetMapping("/investment-transactions")
+    public ResponseEntity<List<InvestmentAllTransactionsDTO>> getFilteredTransactions(
             @RequestParam(required = false) String investorId,
+            @RequestParam(required = false) String startupId,
+            @RequestParam(required = false) String roundId,
             @RequestParam(required = false) Double minAmount,
             @RequestParam(required = false) Double maxAmount,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        List<InvestmentTransaction> results = service.getFilteredTransactions(
-                investmentRoundId, investorId, minAmount, maxAmount, startDate, endDate);
-        return ResponseEntity.ok(results);
+        return ResponseEntity.ok(service.getFilteredTransactionsForAdmin(
+                investorId, startupId, roundId, minAmount, maxAmount, startDate, endDate));
     }
 
-    @GetMapping("/{id}/portfolio")
+    /* --- Investor Portfolio --- */
+
+    @GetMapping("/investment-transactions/{id}/portfolio")
     public ResponseEntity<InvestorPortfolioDTO> getPortfolio(@PathVariable String id) {
         InvestorPortfolioDTO portfolio = service.getInvestorPortfolio(id);
         return ResponseEntity.ok(portfolio);

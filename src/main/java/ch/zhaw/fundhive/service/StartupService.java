@@ -2,9 +2,9 @@ package ch.zhaw.fundhive.service;
 
 import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
-import ch.zhaw.fundhive.model.dto.StartupFundingAggregationDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
+import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
 import ch.zhaw.fundhive.repository.StartupRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +21,17 @@ public class StartupService {
     @Autowired
     private StartupRepository startupRepository;
 
-    public StartupService(StartupRepository startupRepository) {
-        this.startupRepository = startupRepository;
-    }
+    @Autowired
+    private InvestmentRoundRepository investmentRoundRepository;
 
-    // Fetch all startups
-    public List<Startup> getAllStartups() {
-        return startupRepository.findAll();
-    }
-
-    // Fetch a single startup by ID
     public Optional<Startup> getStartupById(String id) {
         return startupRepository.findById(id);
     }
 
-    // Create a new startup
     public Startup createStartup(Startup startup) {
         return startupRepository.save(startup);
     }
 
-    // Update an existing startup
     public Startup updateStartup(String id, Startup updatedStartup) {
         return startupRepository.findById(id)
                 .map(existingStartup -> {
@@ -55,49 +46,24 @@ public class StartupService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Startup not found"));
     }
 
-    // Delete a startup
-    public void deleteStartup(String id) {
-        if (!startupRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Startup not found");
-        }
-        startupRepository.deleteById(id);
-    }
-
-    // Find startups by industry
-    public List<Startup> findStartupsByIndustry(IndustryType industry) {
-        return startupRepository.findByIndustry(industry);
-    }
-
-    // Find startups by funding status
-    public List<Startup> findStartupsByFundingStatus(StartupFundingStatus status) {
-        return startupRepository.findByFundingStatus(status);
-    }
-
-    // Find startups within a valuation range
-    public List<Startup> findStartupsByValuationRange(double min, double max) {
-        return startupRepository.findByValuationBetween(min, max);
-    }
-
-    // Find startups by industry & valuation range
-    public List<Startup> findStartupsByIndustryAndValuation(IndustryType industry, double min, double max) {
-        return startupRepository.findByIndustryAndValuationBetween(industry, min, max);
-    }
-
-    // Aggregation: Get funding status distribution
-    public List<StartupFundingAggregationDTO> getFundingStatusAggregation() {
-        return startupRepository.getFundingStatusAggregation();
-    }
-
-    public List<Startup> getFilteredStartups(
+    public List<Startup> filterStartups(
             IndustryType industry,
             StartupFundingStatus fundingStatus,
             Double minValuation,
-            Double maxValuation) {
-
-        return startupRepository.filterStartups(industry, fundingStatus, minValuation, maxValuation);
+            Double maxValuation,
+            String name,
+            Double aiRating) {
+        return startupRepository.findAll().stream()
+                .filter(s -> industry == null || s.getIndustry() == industry)
+                .filter(s -> fundingStatus == null || s.getFundingStatus() == fundingStatus)
+                .filter(s -> minValuation == null || Double.parseDouble(s.getValuation()) >= minValuation)
+                .filter(s -> maxValuation == null || Double.parseDouble(s.getValuation()) <= maxValuation)
+                .filter(s -> name == null || s.getName().toLowerCase().contains(name.toLowerCase()))
+                .filter(s -> aiRating == null || Double.parseDouble(s.getAiRating()) >= aiRating)
+                .toList();
     }
 
     public FundingOverviewDTO getFundingOverview(String startupId) {
-        return startupRepository.getFundingOverview(startupId);
+        return investmentRoundRepository.getFundingOverview(startupId);
     }
 }
