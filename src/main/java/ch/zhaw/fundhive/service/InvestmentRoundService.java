@@ -92,18 +92,35 @@ public class InvestmentRoundService {
 
         Query query = new Query();
 
-        if (minAmountRaised != null) {
-            query.addCriteria(Criteria.where("amount_raised").gte(minAmountRaised));
+        if (minAmountRaised != null || maxAmountRaised != null) {
+            Criteria amountCrit = Criteria.where("amount_raised");
+            if (minAmountRaised != null) {
+                amountCrit = amountCrit.gte(minAmountRaised);
+            }
+            if (maxAmountRaised != null) {
+                amountCrit = amountCrit.lte(maxAmountRaised);
+            }
+            query.addCriteria(amountCrit);
         }
-        if (maxAmountRaised != null) {
-            query.addCriteria(Criteria.where("amount_raised").lte(maxAmountRaised));
+
+        if (startDate != null || endDate != null) {
+            Criteria dateCrit = Criteria.where("date");
+            if (startDate != null)
+                dateCrit = dateCrit.gte(startDate.toString());
+            if (endDate != null)
+                dateCrit = dateCrit.lte(endDate.toString());
+            query.addCriteria(dateCrit);
         }
-        if (startDate != null) {
-            query.addCriteria(Criteria.where("date").gte(startDate.toString()));
+
+        if (startDate != null || endDate != null) {
+            Criteria endCrit = Criteria.where("endDate");
+            if (startDate != null)
+                endCrit = endCrit.gte(startDate.toString());
+            if (endDate != null)
+                endCrit = endCrit.lte(endDate.toString());
+            query.addCriteria(endCrit);
         }
-        if (endDate != null) {
-            query.addCriteria(Criteria.where("date").lte(endDate.toString()));
-        }
+
         if (status != null) {
             query.addCriteria(Criteria.where("status").is(status));
         }
