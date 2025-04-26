@@ -4,7 +4,9 @@ import ch.zhaw.fundhive.model.InvestmentRound;
 import ch.zhaw.fundhive.model.enums.InvestmentStatus;
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
+import org.springframework.data.mongodb.core.query.Query;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,16 +17,15 @@ public class InvestmentRoundService {
     @Autowired
     private InvestmentRoundRepository repository;
 
-    // --- CRUD methods ---
+    @Autowired
+    private org.springframework.data.mongodb.core.MongoTemplate mongoTemplate;
+
+    /* --- CRUD methods --- */
 
     public InvestmentRound create(InvestmentRound round) {
         LocalDate startDate = LocalDate.parse(round.getDate());
         round.setEndDate(startDate.plusDays(90).toString());
         return repository.save(round);
-    }
-
-    public List<InvestmentRound> getAll() {
-        return repository.findAll();
     }
 
     public InvestmentRound update(String id, InvestmentRound updated) {
@@ -38,24 +39,7 @@ public class InvestmentRoundService {
         }).orElseThrow(() -> new RuntimeException("Round not found"));
     }
 
-    public void delete(String id) {
-        repository.deleteById(id);
-    }
-
-    // --- Round status management ---
-
-    // closes round when target amount is reached
-    public void checkAndClose(String id) {
-        repository.findById(id).ifPresent(round -> {
-            double raised = round.getAmount_raised();
-            double goal = round.getGoal_amount();
-
-            if (raised >= goal && round.getStatus() == InvestmentStatus.OPEN) {
-                round.setStatus(InvestmentStatus.CLOSED);
-                repository.save(round);
-            }
-        });
-    }
+    /* --- Round status management --- */
 
     // manually cancel round
     public void cancelRound(String id) {
@@ -97,12 +81,51 @@ public class InvestmentRoundService {
         }
     }
 
-    // --- Filter methods ---
+    /* --- Filter method for Admin audit --- */
 
-    public List<InvestmentRound> getFilteredInvestmentRounds(double minAmountRaised, double maxAmountRaised,
-            LocalDate startDate, LocalDate endDate) {
-        return repository.findByAmountRaisedAndDateBetween(
-                minAmountRaised, maxAmountRaised, startDate, endDate);
+    public List<InvestmentRound> getAllInvestmentRounds(
+            Double minAmountRaised,
+            Double maxAmountRaised,
+            LocalDate startDate,
+            LocalDate endDate,
+            InvestmentStatus status) {
+
+        Query query = new Query();
+
+        if (minAmountRaised != null || maxAmountRaised != null) {
+            Criteria amountCrit = Criteria.where("amount_raised");
+            if (minAmountRaised != null) {
+                amountCrit = amountCrit.gte(minAmountRaised);
+            }
+            if (maxAmountRaised != null) {
+                amountCrit = amountCrit.lte(maxAmountRaised);
+            }
+            query.addCriteria(amountCrit);
+        }
+
+        if (startDate != null || endDate != null) {
+            Criteria dateCrit = Criteria.where("date");
+            if (startDate != null)
+                dateCrit = dateCrit.gte(startDate.toString());
+            if (endDate != null)
+                dateCrit = dateCrit.lte(endDate.toString());
+            query.addCriteria(dateCrit);
+        }
+
+        if (startDate != null || endDate != null) {
+            Criteria endCrit = Criteria.where("endDate");
+            if (startDate != null)
+                endCrit = endCrit.gte(startDate.toString());
+            if (endDate != null)
+                endCrit = endCrit.lte(endDate.toString());
+            query.addCriteria(endCrit);
+        }
+
+        if (status != null) {
+            query.addCriteria(Criteria.where("status").is(status));
+        }
+
+        return mongoTemplate.find(query, InvestmentRound.class);
     }
 
 }

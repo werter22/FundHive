@@ -1,6 +1,7 @@
 package ch.zhaw.fundhive.controller;
 
 import ch.zhaw.fundhive.model.InvestmentRound;
+import ch.zhaw.fundhive.model.enums.InvestmentStatus;
 import ch.zhaw.fundhive.service.InvestmentRoundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,59 +12,51 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/investment-rounds")
+@RequestMapping("/api")
 public class InvestmentRoundController {
 
     @Autowired
     private InvestmentRoundService service;
 
-    @GetMapping
-    public List<InvestmentRound> getAll() {
-        return service.getAll();
-    }
+    /* --- CRUD Endpoints --- */
 
-    @PostMapping
+    @PostMapping("/investment-rounds")
     public ResponseEntity<InvestmentRound> create(@RequestBody InvestmentRound round) {
         return ResponseEntity.status(201).body(service.create(round));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/investment-rounds/{id}")
     public ResponseEntity<InvestmentRound> update(@PathVariable String id, @RequestBody InvestmentRound round) {
         return ResponseEntity.ok(service.update(id, round));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+    /* --- Frontend state Endpoints for Entrepreneur --- */
 
-    @PutMapping("/{id}/check-close")
-    public ResponseEntity<Void> checkAndClose(@PathVariable String id) {
-        service.checkAndClose(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/{id}/cancel")
+    @PutMapping("/investment-rounds/{id}/cancel")
     public ResponseEntity<Void> cancelRound(@PathVariable String id) {
         service.cancelRound(id);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{id}/open")
+    @PutMapping("/investment-rounds/{id}/open")
     public ResponseEntity<Void> openRound(@PathVariable String id) {
         service.openRound(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<InvestmentRound>> getFilteredInvestmentRounds(
-            @RequestParam double minAmountRaised,
-            @RequestParam double maxAmountRaised,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        List<InvestmentRound> results = service.getFilteredInvestmentRounds(
-                minAmountRaised, maxAmountRaised, startDate, endDate);
+    /* --- Filter Endpoint for Admin audit --- */
+
+    @GetMapping("/investment-rounds")
+    public ResponseEntity<List<InvestmentRound>> getAllInvestmentRounds(
+            @RequestParam(required = false) Double minAmountRaised,
+            @RequestParam(required = false) Double maxAmountRaised,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) InvestmentStatus status) {
+
+        List<InvestmentRound> results = service.getAllInvestmentRounds(
+                minAmountRaised, maxAmountRaised, startDate, endDate, status);
+
         return ResponseEntity.ok(results);
     }
 }

@@ -12,14 +12,19 @@ public class InvestorService {
     @Autowired
     private InvestorRepository investorRepository;
 
+    /* --- CRUD methods --- */
+
+    // return all investors in DB
     public List<Investor> getAllInvestors() {
         return investorRepository.findAll();
     }
 
+    // adds a new investor to the DB
     public Investor createInvestor(Investor investor) {
         return investorRepository.save(investor);
     }
 
+    // updates an existing investor in the DB
     public Investor updateInvestor(String id, Investor investorDetails) {
         return investorRepository.findById(id).map(existingInvestor -> {
             existingInvestor.setName(investorDetails.getName());
@@ -29,7 +34,4 @@ public class InvestorService {
         }).orElseThrow(() -> new RuntimeException("Investor not found"));
     }
 
-    public void deleteInvestor(String id) {
-        investorRepository.deleteById(id);
-    }
 }
