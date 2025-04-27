@@ -1,5 +1,6 @@
 <script>
   import "./styles.css";
+
 </script>
 
 <nav class="navbar navbar-expand-lg bg-light">
@@ -17,7 +18,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link" href="/startups">Startups</a>
         </li>
@@ -30,6 +31,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/summaries">Summaries</a>
         </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/account">Account</a>
+          </li>
       </ul>
     </div>
   </div>

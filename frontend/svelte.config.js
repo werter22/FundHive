@@ -12,8 +12,13 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			pages: '../src/main/resources/static'
-		})
+			pages: '../src/main/resources/static',
+			fallback: 'index.html'
+		}),
+		//silence warnings about dynamic routes
+		prerender: {
+			entries: []
+		}
 	}
 };
 
