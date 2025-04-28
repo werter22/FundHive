@@ -81,6 +81,12 @@ public class InvestmentRoundService {
         }
     }
 
+    /* --- Gets all the rounds of any given startup --- */
+
+    public List<InvestmentRound> getRoundsByStartupId(String startupId) {
+        return repository.findByStartupId(startupId);
+    }
+
     /* --- Filter method for Admin audit --- */
 
     public List<InvestmentRound> getAllInvestmentRounds(

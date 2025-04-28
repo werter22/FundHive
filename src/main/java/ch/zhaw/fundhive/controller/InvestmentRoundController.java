@@ -44,6 +44,14 @@ public class InvestmentRoundController {
         return ResponseEntity.ok().build();
     }
 
+    /* --- Get all the rounds for any given startup --- */
+
+    @GetMapping("/investment-rounds/{startupId}")
+    public ResponseEntity<List<InvestmentRound>> getInvestmentRoundsForStartup(@PathVariable String startupId) {
+        List<InvestmentRound> rounds = service.getRoundsByStartupId(startupId);
+        return ResponseEntity.ok(rounds);
+    }
+
     /* --- Filter Endpoint for Admin audit --- */
 
     @GetMapping("/investment-rounds")

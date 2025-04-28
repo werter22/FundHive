@@ -1,11 +1,20 @@
 <script>
   import "./styles.css";
-
+  const logoSrc = "images/FundHive_Logo.png";
 </script>
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">FundHive</a>
+    <a class="navbar-brand" href="/">
+      <img
+        src={logoSrc}
+        alt="FundHive"
+        height="50"
+        class="d-inline-block align-text-top"
+      />
+      <!-- for screen-readers: -->
+      <span class="visually-hidden">FundHive</span>
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -29,11 +38,8 @@
           <a class="nav-link" href="/investment-transactions">Transactions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/summaries">Summaries</a>
+          <a class="nav-link" href="/account">Account</a>
         </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/account">Account</a>
-          </li>
       </ul>
     </div>
   </div>
@@ -42,3 +48,10 @@
 <div class="container mt-3">
   <slot />
 </div>
+
+<style>
+  .navbar-brand img {
+    height: 2.5rem;
+    width: auto;
+  }
+</style>

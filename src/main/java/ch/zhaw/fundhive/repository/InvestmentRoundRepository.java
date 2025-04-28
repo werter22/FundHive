@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InvestmentRoundRepository extends MongoRepository<InvestmentRound, String> {
 
+        List<InvestmentRound> findByStartupId(String startupId);
+
         @Aggregation({
                         "{ '$addFields': { 'amountRaisedNumeric': { '$toDouble': '$amountRaised' } } }",
                         "{ '$match': { 'amountRaisedNumeric': { '$gte': ?0, '$lte': ?1 }, 'date': { '$gte': ?2, '$lte': ?3 } } }",
