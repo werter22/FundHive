@@ -2,6 +2,7 @@
     import axios from "axios";
     import { page } from "$app/state";
     import { onMount } from "svelte";
+    import { jwt_token } from "../../store"; 
   
     const API_ROOT = page.url.origin;
   
@@ -27,7 +28,7 @@
       var config = {
         method: "get",
         url: `${API_ROOT}/api/investment-rounds`,
-        headers: {},
+        headers: {Authorization: "Bearer "+$jwt_token},
         params: params,
       };
   

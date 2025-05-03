@@ -5,6 +5,7 @@ import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.service.StartupService;
+import ch.zhaw.fundhive.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,16 @@ public class StartupController {
     @Autowired
     private StartupService service;
 
+    @Autowired
+    private UserService userService;
+
     /* --- CRUD Endpoints --- */
 
     @PostMapping("/startups")
     public ResponseEntity<Startup> createStartup(@RequestBody Startup startup) {
+        if (!userService.userHasRole("entrepreneur")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return ResponseEntity.status(201).body(service.createStartup(startup));
     }
 
@@ -36,6 +43,9 @@ public class StartupController {
 
     @PutMapping("/startups/{id}")
     public ResponseEntity<Startup> updateStartup(@PathVariable String id, @RequestBody Startup startup) {
+        if (!userService.userHasRole("entrepreneur")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         return ResponseEntity.ok(service.updateStartup(id, startup));
     }
 
