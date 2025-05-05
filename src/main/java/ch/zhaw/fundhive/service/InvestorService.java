@@ -5,6 +5,7 @@ import ch.zhaw.fundhive.repository.InvestorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @Service
 public class InvestorService {
@@ -20,6 +21,34 @@ public class InvestorService {
     }
 
     // adds a new investor to the DB
+    public Investor upsertInvestorFromJwt(Jwt jwt) {
+        String id = jwt.getSubject();
+        String email = jwt.getClaimAsString("email");
+
+        String given = jwt.getClaimAsString("given_name");
+        String family = jwt.getClaimAsString("family_name");
+        String fullName = (given != null && family != null)
+                ? given + " " + family
+                : jwt.getClaimAsString("name");
+
+        return investorRepository.findById(id)
+                .map(existing -> {
+                    // update any fields you care about
+                    existing.setEmail(email);
+                    existing.setName(fullName);
+                    return investorRepository.save(existing);
+                })
+                .orElseGet(() -> {
+                    // doesn't exist yet → create new
+                    Investor inv = new Investor();
+                    inv.setId(id);
+                    inv.setEmail(email);
+                    inv.setName(fullName);
+                    inv.setAiRating("3.00");
+                    return investorRepository.save(inv);
+                });
+    }
+
     public Investor createInvestor(Investor investor) {
         return investorRepository.save(investor);
     }

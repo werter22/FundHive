@@ -26,4 +26,6 @@ public class Startup {
     private StartupFundingStatus fundingStatus;
     @NonNull
     private String aiRating;
+    @NonNull
+    private String ownerId;
 }

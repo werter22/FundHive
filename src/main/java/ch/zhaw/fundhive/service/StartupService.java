@@ -66,4 +66,5 @@ public class StartupService {
     public FundingOverviewDTO getFundingOverview(String startupId) {
         return investmentRoundRepository.getFundingOverview(startupId);
     }
+
 }

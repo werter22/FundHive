@@ -2,6 +2,7 @@
   import axios from "axios";
   import { page } from "$app/state";
   import { onMount } from "svelte";
+  
 
   const API_ROOT = page.url.origin;
 
@@ -29,6 +30,7 @@
     var config = {
       method: "get",
       url: `${API_ROOT}/api/startups`,
+      // public available API, no need for auth token
       headers: {},
       params: params,
     };

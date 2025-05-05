@@ -1,11 +1,14 @@
 package ch.zhaw.fundhive.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import ch.zhaw.fundhive.service.InvestorService;
+import ch.zhaw.fundhive.service.UserService;
 import ch.zhaw.fundhive.model.Investor;
 
 @RestController
@@ -15,11 +18,23 @@ public class InvestorController {
     @Autowired
     private InvestorService service;
 
+    @Autowired
+    private UserService userService;
+
     /* --- CRUD Endpoints --- */
 
     @GetMapping("/investors")
     public List<Investor> getAllInvestors() {
         return service.getAllInvestors();
+    }
+
+    @PostMapping("/investors/me")
+    public ResponseEntity<Void> upsertCurrentInvestor(@AuthenticationPrincipal Jwt jwt) {
+        if (!userService.userHasRole("investor")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        service.upsertInvestorFromJwt(jwt);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/investors")

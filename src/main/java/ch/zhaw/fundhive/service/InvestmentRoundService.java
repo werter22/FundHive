@@ -3,6 +3,7 @@ package ch.zhaw.fundhive.service;
 import ch.zhaw.fundhive.model.InvestmentRound;
 import ch.zhaw.fundhive.model.enums.InvestmentStatus;
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;

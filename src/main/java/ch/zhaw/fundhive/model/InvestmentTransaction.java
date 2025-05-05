@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Setter
 @Getter
 @Document(collection = "investmentTransactions")
 public class InvestmentTransaction {

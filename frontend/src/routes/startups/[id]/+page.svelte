@@ -3,6 +3,8 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
+  import { get } from "svelte/store";
+  import { jwt_token, user, isAuthenticated } from "../../../store";
 
   const API_ROOT = $page.url.origin;
   const id = $page.params.id;
@@ -23,17 +25,23 @@
   let investingRoundId = $state(null); // ID of the round we are investing into
   let newInvestmentAmount = $state(null);
 
-  onMount(() => {
+  onMount(async () => {
+    //  if not logged in, bounce right back to the list
+    if (!get(isAuthenticated)) {
+      goto("/startups");
+      return;
+    }
+    //  otherwise carry on as before
     getStartup();
     getFundingOverview();
-    getInvestmentRounds();
+    +getInvestmentRounds();
   });
 
   function getFundingOverview() {
     var config = {
       method: "get",
       url: `${API_ROOT}/api/startups/${id}/funding-overview`,
-      headers: {},
+      headers: { Authorization: "Bearer " + $jwt_token },
     };
 
     axios(config)
@@ -49,7 +57,7 @@
     var config = {
       method: "get",
       url: `${API_ROOT}/api/startups/${id}`,
-      headers: {},
+      headers: { Authorization: "Bearer " + $jwt_token },
     };
 
     axios(config)
@@ -68,6 +76,7 @@
       url: `${API_ROOT}/api/startups/${id}`,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + $jwt_token,
       },
       data: startup,
     };
@@ -90,6 +99,7 @@
       url: `${API_ROOT}/api/investment-rounds`,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + $jwt_token,
       },
       data: {
         round_name: newRound.round_name,
@@ -116,7 +126,7 @@
     var config = {
       method: "get",
       url: `${API_ROOT}/api/investment-rounds/${id}`,
-      headers: {},
+      headers: { Authorization: "Bearer " + $jwt_token },
     };
 
     axios(config)
@@ -131,7 +141,7 @@
     var config = {
       method: "put",
       url: `${API_ROOT}/api/investment-rounds/${roundId}/open`,
-      headers: {},
+      headers: { Authorization: "Bearer " + $jwt_token },
     };
 
     axios(config)
@@ -149,7 +159,7 @@
     var config = {
       method: "put",
       url: `${API_ROOT}/api/investment-rounds/${roundId}/cancel`,
-      headers: {},
+      headers: { Authorization: "Bearer " + $jwt_token },
     };
 
     axios(config)
@@ -184,11 +194,11 @@
       url: `${API_ROOT}/api/investment-transactions`,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + $jwt_token,
       },
       data: {
-        investorId: "IV5", // ⚡ hardcoded for now, will come from Auth0 later
-        roundId: investingRoundId,
-        amount: newInvestmentAmount,
+        investmentRoundId: investingRoundId,
+        amount: newInvestmentAmount
       },
     };
 
@@ -215,7 +225,9 @@
 {:else}
   <h1 class="mt-4">
     {startup.name || "Untitled Startup"}
+    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
     <input class="form-control" bind:value={startup.name} placeholder="Name" />
+    {/if}
   </h1>
 
   <h2 class="mt-3">Funding Overview</h2>
@@ -235,126 +247,178 @@
   <div class="card p-4 mb-4">
     <h3 class="mb-3">Startup Details</h3>
 
-    <div class="mb-3">
-      <label for="description"><strong>Description:</strong></label>
-      <textarea
-        id="description"
-        class="form-control"
-        bind:value={startup.description}
-        rows="3"
-      ></textarea>
-    </div>
+    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
+      <div class="mb-3">
+        <label for="description"><strong>Description:</strong></label>
+        <textarea
+          id="description"
+          class="form-control"
+          bind:value={startup.description}
+          rows="3"
+        ></textarea>
+      </div>
 
-    <div class="mb-3">
-      <label for="industry"><strong>Industry:</strong></label>
-      <select id="industry" class="form-select" bind:value={startup.industry}>
-        <option value="TECH">Tech</option>
-        <option value="HEALTHCARE">Healthcare</option>
-        <option value="ECOMMERCE">Ecommerce</option>
-        <option value="EDUCATION">Education</option>
-        <option value="ENERGY">Energy</option>
-        <option value="AUTOMOTIVE">Automotive</option>
-        <option value="REAL_ESTATE">Real Estate</option>
-        <option value="MEDIA">Media</option>
-        <option value="OTHERS">Others</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label for="industry"><strong>Industry:</strong></label>
+        <select id="industry" class="form-select" bind:value={startup.industry}>
+          <option value="TECH">Tech</option>
+          <option value="HEALTHCARE">Healthcare</option>
+          <option value="ECOMMERCE">Ecommerce</option>
+          <option value="EDUCATION">Education</option>
+          <option value="ENERGY">Energy</option>
+          <option value="AUTOMOTIVE">Automotive</option>
+          <option value="REAL_ESTATE">Real Estate</option>
+          <option value="MEDIA">Media</option>
+          <option value="OTHERS">Others</option>
+        </select>
+      </div>
 
-    <div class="mb-3">
-      <label for="valuation"><strong>Valuation:</strong></label>
-      <input
-        id="valuation"
-        class="form-control"
-        type="number"
-        bind:value={startup.valuation}
-      />
-    </div>
+      <div class="mb-3">
+        <label for="valuation"><strong>Valuation:</strong></label>
+        <input
+          id="valuation"
+          class="form-control"
+          type="number"
+          bind:value={startup.valuation}
+        />
+      </div>
 
-    <div class="mb-3">
-      <label for="funding-status"><strong>Funding Status:</strong></label>
-      <select
-        id="funding-status"
-        class="form-select"
-        bind:value={startup.fundingStatus}
+      <div class="mb-3">
+        <label for="funding-status"><strong>Funding Status:</strong></label>
+        <select
+          id="funding-status"
+          class="form-select"
+          bind:value={startup.fundingStatus}
+        >
+          <option value="PRE_SEED">Pre-Seed</option>
+          <option value="SEED">Seed</option>
+          <option value="SERIES_A">Series A</option>
+          <option value="SERIES_B">Series B</option>
+          <option value="SERIES_C">Series C</option>
+          <option value="ACQUIRED">Acquired</option>
+          <option value="IPO">IPO</option>
+          <option value="BOOTSTRAPPED">Bootstrapped</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="ai-rating"><strong>AI Rating:</strong></label>
+        <input
+          id="ai-rating"
+          class="form-control"
+          type="number"
+          step="0.01"
+          min="0"
+          max="5"
+          bind:value={startup.aiRating}
+        />
+      </div>
+
+      <button class="btn btn-success mt-3" onclick={saveChanges}
+        >Save Changes</button
       >
-        <option value="PRE_SEED">Pre-Seed</option>
-        <option value="SEED">Seed</option>
-        <option value="SERIES_A">Series A</option>
-        <option value="SERIES_B">Series B</option>
-        <option value="SERIES_C">Series C</option>
-        <option value="ACQUIRED">Acquired</option>
-        <option value="IPO">IPO</option>
-        <option value="BOOTSTRAPPED">Bootstrapped</option>
-      </select>
+    {/if}
+  </div>
+
+  {#if $isAuthenticated && $user.user_roles && ($user.sub !== startup.ownerId)}
+    <div class="mb-3">
+      <label for="description" class="form-label"
+        ><strong>Description:</strong></label
+      >
+      <p class="form-control-plaintext">{startup.description || "—"}</p>
     </div>
 
     <div class="mb-3">
-      <label for="ai-rating"><strong>AI Rating:</strong></label>
-      <input
-        id="ai-rating"
-        class="form-control"
-        type="number"
-        step="0.01"
-        min="0"
-        max="5"
-        bind:value={startup.aiRating}
-      />
+      <label for="industry-display" class="form-label"
+        ><strong>Industry:</strong></label
+      >
+      <p id="industry-display" class="form-control-plaintext">
+        {startup.industry}
+      </p>
     </div>
 
-    <button class="btn btn-success mt-3" onclick={saveChanges}
-      >Save Changes</button
-    >
-  </div>
+    <div class="mb-3">
+      <label for="valuation-display" class="form-label"
+        ><strong>Valuation:</strong></label
+      >
+      <p id="valuation-display" class="form-control-plaintext">
+        ${Number(startup.valuation ?? 0).toLocaleString()}
+      </p>
+    </div>
+
+    <div class="mb-3">
+      <label for="funding-status-display" class="form-label"
+        ><strong>Funding Status:</strong></label
+      >
+      <p id="funding-status-display" class="form-control-plaintext">
+        {startup.fundingStatus}
+      </p>
+    </div>
+
+    <div class="mb-3">
+      <label for="ai-rating-display" class="form-label"
+        ><strong>AI Rating:</strong></label
+      >
+      <p id="ai-rating-display" class="form-control-plaintext">
+        {startup.aiRating}
+      </p>
+    </div>
+  {/if}
 
   <h2 class="mt-4">Investment Rounds</h2>
 
-  {#if !creatingRound}
-    <button class="btn btn-primary mb-3" onclick={() => (creatingRound = true)}>
-      + Create New Funding Round
-    </button>
-  {:else}
-    <div class="card p-4 mb-4">
-      <h5>Create New Funding Round</h5>
+  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
+    {#if !creatingRound}
+      <button
+        class="btn btn-primary mb-3"
+        onclick={() => (creatingRound = true)}
+      >
+        + Create New Funding Round
+      </button>
+    {:else}
+      <div class="card p-4 mb-4">
+        <h5>Create New Funding Round</h5>
 
-      <div class="mb-3">
-        <label for="round-name">Round Name</label>
-        <input
-          id="round-name"
-          class="form-control"
-          bind:value={newRound.round_name}
-        />
-      </div>
+        <div class="mb-3">
+          <label for="round-name">Round Name</label>
+          <input
+            id="round-name"
+            class="form-control"
+            bind:value={newRound.round_name}
+          />
+        </div>
 
-      <div class="mb-3">
-        <label for="goal-amount">Goal Amount</label>
-        <input
-          id="goal-amount"
-          class="form-control"
-          type="number"
-          bind:value={newRound.goal_amount}
-        />
-      </div>
+        <div class="mb-3">
+          <label for="goal-amount">Goal Amount</label>
+          <input
+            id="goal-amount"
+            class="form-control"
+            type="number"
+            bind:value={newRound.goal_amount}
+          />
+        </div>
 
-      <div class="mb-3">
-        <label for="start-date">Start Date</label>
-        <input
-          id="start-date"
-          class="form-control"
-          type="date"
-          bind:value={newRound.date}
-        />
-      </div>
+        <div class="mb-3">
+          <label for="start-date">Start Date</label>
+          <input
+            id="start-date"
+            class="form-control"
+            type="date"
+            bind:value={newRound.date}
+          />
+        </div>
 
-      <div class="d-flex gap-2">
-        <button class="btn btn-success" onclick={createFundingRound}
-          >Save</button
-        >
-        <button
-          class="btn btn-secondary"
-          onclick={() => (creatingRound = false)}>Cancel</button
-        >
+        <div class="d-flex gap-2">
+          <button class="btn btn-success" onclick={createFundingRound}
+            >Save</button
+          >
+          <button
+            class="btn btn-secondary"
+            onclick={() => (creatingRound = false)}>Cancel</button
+          >
+        </div>
       </div>
-    </div>
+    {/if}
   {/if}
 
   {#if investmentRounds.length > 0}
@@ -381,45 +445,51 @@
             <td>{round.status}</td>
             <td>
               {#if round.status === "UPCOMING"}
-                <div class="d-flex gap-2">
-                  <button
-                    class="btn btn-success btn-sm"
-                    onclick={() => publishRound(round.id)}>Publish</button
-                  >
-                  <button
-                    class="btn btn-danger btn-sm"
-                    onclick={() => cancelRound(round.id)}>Cancel</button
-                  >
-                </div>
+                {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
+                  <div class="d-flex gap-2">
+                    <button
+                      class="btn btn-success btn-sm"
+                      onclick={() => publishRound(round.id)}>Publish</button
+                    >
+                    <button
+                      class="btn btn-danger btn-sm"
+                      onclick={() => cancelRound(round.id)}>Cancel</button
+                    >
+                  </div>
+                {/if}
               {:else if round.status === "OPEN"}
                 <div class="d-flex flex-column gap-2">
-                  <button
-                    class="btn btn-danger btn-sm"
-                    onclick={() => cancelRound(round.id)}>Cancel</button
-                  >
-
-                  {#if investingRoundId !== round.id}
+                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
                     <button
-                      class="btn btn-primary btn-sm"
-                      onclick={() => startInvesting(round.id)}>Invest</button
+                      class="btn btn-danger btn-sm"
+                      onclick={() => cancelRound(round.id)}>Cancel</button
                     >
-                  {:else}
-                    <div class="d-flex gap-2">
-                      <input
-                        type="number"
-                        class="form-control form-control-sm"
-                        placeholder="Amount"
-                        bind:value={newInvestmentAmount}
-                      />
+                  {/if}
+
+                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("investor")}
+                    {#if investingRoundId !== round.id}
                       <button
-                        class="btn btn-success btn-sm"
-                        onclick={submitInvestment}>Confirm</button
+                        class="btn btn-primary btn-sm"
+                        onclick={() => startInvesting(round.id)}>Invest</button
                       >
-                      <button
-                        class="btn btn-secondary btn-sm"
-                        onclick={cancelInvesting}>Cancel</button
-                      >
-                    </div>
+                    {:else}
+                      <div class="d-flex gap-2">
+                        <input
+                          type="number"
+                          class="form-control form-control-sm"
+                          placeholder="Amount"
+                          bind:value={newInvestmentAmount}
+                        />
+                        <button
+                          class="btn btn-success btn-sm"
+                          onclick={submitInvestment}>Confirm</button
+                        >
+                        <button
+                          class="btn btn-secondary btn-sm"
+                          onclick={cancelInvesting}>Cancel</button
+                        >
+                      </div>
+                    {/if}
                   {/if}
                 </div>
               {:else}
