@@ -3,6 +3,7 @@ package ch.zhaw.fundhive.controller;
 import ch.zhaw.fundhive.model.InvestmentRound;
 import ch.zhaw.fundhive.model.enums.InvestmentStatus;
 import ch.zhaw.fundhive.service.InvestmentRoundService;
+import ch.zhaw.fundhive.service.OwnershipService;
 import ch.zhaw.fundhive.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +24,9 @@ public class InvestmentRoundController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OwnershipService ownerService;
+
     /* --- CRUD Endpoints --- */
 
     @PostMapping("/investment-rounds")
@@ -30,6 +34,12 @@ public class InvestmentRoundController {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        String me = userService.getCurrentUserId();
+        if (!ownerService.ownsStartup(round.getStartupId(), me)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         return ResponseEntity.status(201).body(service.create(round));
     }
 
@@ -38,6 +48,12 @@ public class InvestmentRoundController {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        String me = userService.getCurrentUserId();
+        if (!ownerService.ownsRound(id, me)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         return ResponseEntity.ok(service.update(id, round));
     }
 
@@ -48,6 +64,12 @@ public class InvestmentRoundController {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        String me = userService.getCurrentUserId();
+        if (!ownerService.ownsRound(id, me)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         service.cancelRound(id);
         return ResponseEntity.ok().build();
     }
@@ -56,6 +78,10 @@ public class InvestmentRoundController {
     public ResponseEntity<Void> openRound(@PathVariable String id) {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        String me = userService.getCurrentUserId();
+        if (!ownerService.ownsRound(id, me)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         service.openRound(id);
         return ResponseEntity.ok().build();

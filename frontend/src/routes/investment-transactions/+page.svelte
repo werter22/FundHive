@@ -7,8 +7,9 @@
   const API_ROOT = page.url.origin;
 
   let portfolio = $state(null);
+  let loadError = $state(false);
 
-  let investorId = $state("IV5"); // hardcoded for now
+  let investorId = $state();
   let startupId = $state();
   let roundId = $state();
   let minAmount = $state();
@@ -20,23 +21,29 @@
 
   onMount(() => {
     getTransactions();
-    getPortfolio();
+    if ($isAuthenticated && $user.user_roles.includes("investor")) {
+      getPortfolio();
+    }
   });
 
   function getPortfolio() {
+    const me = $user.sub;
     var config = {
       method: "get",
-      url: `${API_ROOT}/api/investment-transactions/${investorId}/portfolio`,
+      url: `${API_ROOT}/api/investment-transactions/${me}/portfolio`,
       headers: { Authorization: "Bearer " + $jwt_token },
     };
 
     axios(config)
       .then(function (response) {
         portfolio = response.data;
+        loadError = false;
       })
       .catch(function (error) {
-        console.error("Failed to load portfolio:", error);
-        alert("Could not load portfolio");
+        if (!(error.response && error.response.status === 403)) {
+          console.error("Portfolio load failed:", error);
+          loadError = true;
+        }
       });
   }
 
@@ -64,7 +71,6 @@
       })
       .catch(function (error) {
         console.error("Failed to load transactions:", error);
-        alert("Could not load transactions");
       });
   }
 </script>
@@ -72,7 +78,11 @@
 {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("investor")}
   <h1 class="mt-4">Investor Portfolio</h1>
 
-  {#if portfolio}
+  {#if loadError}
+    <p class="text-danger">
+      Oops, something went wrong loading your portfolio. Please try again later.
+    </p>
+  {:else if portfolio}
     <div class="card mb-4 p-4">
       <h5>Summary</h5>
       <p>
@@ -110,7 +120,7 @@
         </tbody>
       </table>
     {:else}
-      <p class="text-muted">No transactions yet.</p>
+      <p class="text-muted">You haven’t made any investments yet.</p>
     {/if}
   {:else}
     <p class="text-muted">Loading portfolio...</p>

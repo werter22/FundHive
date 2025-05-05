@@ -15,4 +15,12 @@ public class UserService {
         }
         return false;
     }
+
+    public String getCurrentUserId() {
+        Jwt jwt = (Jwt) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return jwt.getSubject();
+    }
 }

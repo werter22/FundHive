@@ -4,6 +4,7 @@ import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
+import ch.zhaw.fundhive.service.OwnershipService;
 import ch.zhaw.fundhive.service.StartupService;
 import ch.zhaw.fundhive.service.UserService;
 
@@ -24,6 +25,9 @@ public class StartupController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OwnershipService ownerService;
+
     /* --- CRUD Endpoints --- */
 
     @PostMapping("/startups")
@@ -31,6 +35,7 @@ public class StartupController {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        startup.setOwnerId(userService.getCurrentUserId());
         return ResponseEntity.status(201).body(service.createStartup(startup));
     }
 
@@ -46,6 +51,13 @@ public class StartupController {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        String me = userService.getCurrentUserId();
+
+        if (!ownerService.ownsStartup(id, me)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         return ResponseEntity.ok(service.updateStartup(id, startup));
     }
 

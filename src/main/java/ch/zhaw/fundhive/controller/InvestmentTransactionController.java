@@ -34,6 +34,8 @@ public class InvestmentTransactionController {
         if (!userService.userHasRole("investor")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        transaction.setInvestorId(userService.getCurrentUserId());
+
         InvestmentTransaction saved = service.create(transaction);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
@@ -63,7 +65,14 @@ public class InvestmentTransactionController {
         if (!userService.userHasRole("investor")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        InvestorPortfolioDTO portfolio = service.getInvestorPortfolio(id);
+
+        String me = userService.getCurrentUserId();
+
+        if (!me.equals(id)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        InvestorPortfolioDTO portfolio = service.getInvestorPortfolio(me);
         return ResponseEntity.ok(portfolio);
     }
 

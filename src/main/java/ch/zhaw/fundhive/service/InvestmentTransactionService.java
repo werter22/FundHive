@@ -45,11 +45,11 @@ public class InvestmentTransactionService {
                 if (round.getStatus() != InvestmentStatus.OPEN) {
                         throw new RuntimeException("Investments can only be made into OPEN rounds.");
                 }
-
-                // Save transaction
+                // set today's date (YYYY-MM-DD) before save
+                transaction.setDate(LocalDate.now().toString());
                 InvestmentTransaction savedTransaction = investmentTransactionRepository.save(transaction);
 
-                // Recalculate amount_raised
+                // Recalculate amount_raised of given round
                 double updatedTotal = investmentTransactionRepository
                                 .findByInvestmentRoundId(transaction.getInvestmentRoundId())
                                 .stream()
@@ -58,7 +58,7 @@ public class InvestmentTransactionService {
 
                 round.setAmount_raised(updatedTotal);
 
-                // Auto-close if goal met
+                // Auto-close if funding goal of this round is met
                 if (round.getStatus() == InvestmentStatus.OPEN && updatedTotal >= round.getGoal_amount()) {
                         round.setStatus(InvestmentStatus.CLOSED);
                 }

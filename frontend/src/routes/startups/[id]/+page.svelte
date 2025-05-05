@@ -197,9 +197,8 @@
         Authorization: "Bearer " + $jwt_token,
       },
       data: {
-        investorId: "IV5", // ⚡ hardcoded for now, will come from Auth0 later
-        roundId: investingRoundId,
-        amount: newInvestmentAmount,
+        investmentRoundId: investingRoundId,
+        amount: newInvestmentAmount
       },
     };
 
@@ -248,7 +247,7 @@
   <div class="card p-4 mb-4">
     <h3 class="mb-3">Startup Details</h3>
 
-    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
+    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
       <div class="mb-3">
         <label for="description"><strong>Description:</strong></label>
         <textarea
@@ -321,7 +320,7 @@
     {/if}
   </div>
 
-  {#if $isAuthenticated && $user.user_roles && ($user.user_roles.includes("investor") || $user.user_roles.includes("admin"))}
+  {#if $isAuthenticated && $user.user_roles && ($user.sub !== startup.ownerId)}
     <div class="mb-3">
       <label for="description" class="form-label"
         ><strong>Description:</strong></label
@@ -368,7 +367,7 @@
 
   <h2 class="mt-4">Investment Rounds</h2>
 
-  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
+  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
     {#if !creatingRound}
       <button
         class="btn btn-primary mb-3"
@@ -446,7 +445,7 @@
             <td>{round.status}</td>
             <td>
               {#if round.status === "UPCOMING"}
-                {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
+                {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
                   <div class="d-flex gap-2">
                     <button
                       class="btn btn-success btn-sm"
@@ -460,7 +459,7 @@
                 {/if}
               {:else if round.status === "OPEN"}
                 <div class="d-flex flex-column gap-2">
-                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
+                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
                     <button
                       class="btn btn-danger btn-sm"
                       onclick={() => cancelRound(round.id)}>Cancel</button
