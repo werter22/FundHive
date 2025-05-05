@@ -4,6 +4,8 @@ import { goto } from '$app/navigation';
 import axios from "axios";
 import config from "./auth.config";
 
+const API_ROOT = window.location.origin;
+
 let auth0Client;
 
 async function createClient() {
@@ -29,7 +31,7 @@ function signup(
       email: email,
       password: password,
       connection: "Username-Password-Authentication",
-      user_metadata: {}, 
+      user_metadata: {},
       // you can set any of these properties as well if needed
       // username: "johndoe", // if not provided, email will be used as username for login. if provided, username has to be validated (must not already exist)
       // given_name: "John",
@@ -40,9 +42,9 @@ function signup(
     },
   };
 
-  if (userType && userType.length > 0) { 
+  if (userType && userType.length > 0) {
     options.data.user_metadata.user_type = userType;
-  } 
+  }
 
   if (firstName && firstName.length > 0) {
     options.data.given_name = firstName;
@@ -88,11 +90,21 @@ function login(username, password, redirectToHome = false) {
       jwt_token.set(id_token);
       console.log(id_token);
       getUserInfo(access_token);
+
+      axios.post(
+        `${API_ROOT}/api/investors/me`,
+        {},
+        { headers: { Authorization: "Bearer " + id_token } }
+      ).catch(err => {
+        console.warn("Investor upsert failed:", err);
+      });
+
+
       if (redirectToHome) {
         // go to start page after 500ms. Explanation: if we do not wait, the login form on the
         // start page might still be visible because $isAuthenticated is not yet set to true.
         setTimeout(() => {
-          goto("/") 
+          goto("/")
         }, 500);
       }
     })
@@ -128,7 +140,7 @@ async function logout() {
     await createClient();
     user.set({});
     jwt_token.set("");
-    await auth0Client.logout({logoutParams:{returnTo: window.location.origin}});
+    await auth0Client.logout({ logoutParams: { returnTo: window.location.origin } });
   } catch (e) {
     console.error(e);
   }
