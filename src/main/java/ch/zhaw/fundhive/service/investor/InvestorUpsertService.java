@@ -1,26 +1,19 @@
-package ch.zhaw.fundhive.service;
+package ch.zhaw.fundhive.service.investor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
 
 import ch.zhaw.fundhive.model.Investor;
 import ch.zhaw.fundhive.repository.InvestorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
-import org.springframework.security.oauth2.jwt.Jwt;
 
 @Service
-public class InvestorService {
+public class InvestorUpsertService {
 
     @Autowired
     private InvestorRepository investorRepository;
 
-    /* --- CRUD methods --- */
-
-    // return all investors in DB
-    public List<Investor> getAllInvestors() {
-        return investorRepository.findAll();
-    }
-
-    // adds a new investor to the DB
+    // adds a new investor to the DB on frontend login
     public Investor upsertInvestorFromJwt(Jwt jwt) {
         String id = jwt.getSubject();
         String email = jwt.getClaimAsString("email");
@@ -44,23 +37,7 @@ public class InvestorService {
                     inv.setId(id);
                     inv.setEmail(email);
                     inv.setName(fullName);
-                    inv.setAiRating("3.00");
                     return investorRepository.save(inv);
                 });
     }
-
-    public Investor createInvestor(Investor investor) {
-        return investorRepository.save(investor);
-    }
-
-    // updates an existing investor in the DB
-    public Investor updateInvestor(String id, Investor investorDetails) {
-        return investorRepository.findById(id).map(existingInvestor -> {
-            existingInvestor.setName(investorDetails.getName());
-            existingInvestor.setEmail(investorDetails.getEmail());
-            existingInvestor.setAiRating(investorDetails.getAiRating());
-            return investorRepository.save(existingInvestor);
-        }).orElseThrow(() -> new RuntimeException("Investor not found"));
-    }
-
 }

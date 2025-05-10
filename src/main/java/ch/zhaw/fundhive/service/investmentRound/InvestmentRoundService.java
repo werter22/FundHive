@@ -1,6 +1,7 @@
-package ch.zhaw.fundhive.service;
+package ch.zhaw.fundhive.service.investmentRound;
 
 import ch.zhaw.fundhive.model.InvestmentRound;
+import ch.zhaw.fundhive.model.dto.InvestmentRoundCreateDTO;
 import ch.zhaw.fundhive.model.enums.InvestmentStatus;
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
 
@@ -23,63 +24,18 @@ public class InvestmentRoundService {
 
     /* --- CRUD methods --- */
 
-    public InvestmentRound create(InvestmentRound round) {
-        LocalDate startDate = LocalDate.parse(round.getDate());
+    public InvestmentRound create(InvestmentRoundCreateDTO dto) {
+        InvestmentRound round = new InvestmentRound();
+
+        round.setRound_name(dto.getRound_name());
+        round.setGoal_amount(dto.getGoal_amount());
+        round.setDate(dto.getDate());
+        round.setStartupId(dto.getStartupId());
+
+        LocalDate startDate = LocalDate.parse(dto.getDate());
         round.setEndDate(startDate.plusDays(90).toString());
+
         return repository.save(round);
-    }
-
-    public InvestmentRound update(String id, InvestmentRound updated) {
-        return repository.findById(id).map(existing -> {
-            existing.setRound_name(updated.getRound_name());
-            existing.setAmount_raised(updated.getAmount_raised());
-            existing.setGoal_amount(updated.getGoal_amount());
-            existing.setDate(updated.getDate());
-            existing.setStartupId(updated.getStartupId());
-            return repository.save(existing);
-        }).orElseThrow(() -> new RuntimeException("Round not found"));
-    }
-
-    /* --- Round status management --- */
-
-    // manually cancel round
-    public void cancelRound(String id) {
-        repository.findById(id).ifPresent(round -> {
-            round.setStatus(InvestmentStatus.CANCELLED);
-            repository.save(round);
-        });
-    }
-
-    // manually open round
-    public void openRound(String id) {
-        repository.findById(id).ifPresent(round -> {
-            if (round.getStatus() == InvestmentStatus.UPCOMING) {
-                round.setStatus(InvestmentStatus.OPEN);
-                repository.save(round);
-            } else {
-                throw new IllegalStateException("Only UPCOMING rounds can be opened.");
-            }
-        });
-    }
-
-    // Round expires after 90 days
-    public void expireOutdatedRounds() {
-        List<InvestmentRound> rounds = repository.findAll();
-        LocalDate today = LocalDate.now();
-
-        for (InvestmentRound round : rounds) {
-            InvestmentStatus status = round.getStatus();
-            boolean isInactive = status == InvestmentStatus.CLOSED || status == InvestmentStatus.CANCELLED
-                    || status == InvestmentStatus.EXPIRED;
-
-            if (!isInactive) {
-                LocalDate endDate = LocalDate.parse(round.getEndDate());
-                if (today.isAfter(endDate)) {
-                    round.setStatus(InvestmentStatus.EXPIRED);
-                    repository.save(round);
-                }
-            }
-        }
     }
 
     /* --- Gets all the rounds of any given startup --- */
@@ -134,5 +90,4 @@ public class InvestmentRoundService {
 
         return mongoTemplate.find(query, InvestmentRound.class);
     }
-
 }

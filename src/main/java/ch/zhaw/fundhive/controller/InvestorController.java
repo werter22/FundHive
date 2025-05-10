@@ -7,8 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import ch.zhaw.fundhive.service.InvestorService;
-import ch.zhaw.fundhive.service.UserService;
+
+import ch.zhaw.fundhive.service.helpers.UserService;
+import ch.zhaw.fundhive.service.investor.InvestorService;
+import ch.zhaw.fundhive.service.investor.InvestorUpsertService;
 import ch.zhaw.fundhive.model.Investor;
 
 @RestController
@@ -19,13 +21,21 @@ public class InvestorController {
     private InvestorService service;
 
     @Autowired
+    private InvestorUpsertService upsertService;
+
+    @Autowired
     private UserService userService;
 
     /* --- CRUD Endpoints --- */
 
     @GetMapping("/investors")
-    public List<Investor> getAllInvestors() {
-        return service.getAllInvestors();
+    public ResponseEntity<?> getAllInvestors() {
+        if (!userService.userHasRole("admin")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        List<Investor> investors = service.getAllInvestors();
+        return ResponseEntity.ok(investors);
     }
 
     @PostMapping("/investors/me")
@@ -33,7 +43,7 @@ public class InvestorController {
         if (!userService.userHasRole("investor")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        service.upsertInvestorFromJwt(jwt);
+        upsertService.upsertInvestorFromJwt(jwt);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

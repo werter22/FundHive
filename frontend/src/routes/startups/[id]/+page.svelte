@@ -34,7 +34,7 @@
     //  otherwise carry on as before
     getStartup();
     getFundingOverview();
-    +getInvestmentRounds();
+    getInvestmentRounds();
   });
 
   function getFundingOverview() {
@@ -145,8 +145,9 @@
     };
 
     axios(config)
-      .then(function () {
-        alert("Round published successfully!");
+      .then(function (response) {
+        const round = response.data;
+        alert(`Round "${round.round_name}" is now OPEN.`);
         getInvestmentRounds(); // reload updated list
       })
       .catch(function (error) {
@@ -163,8 +164,9 @@
     };
 
     axios(config)
-      .then(function () {
-        alert("Round cancelled successfully!");
+      .then(function (response) {
+        const round = response.data;
+        alert(`Round "${round.round_name}" was successfully cancelled.`);
         getInvestmentRounds(); // reload updated list
       })
       .catch(function (error) {
@@ -198,7 +200,7 @@
       },
       data: {
         investmentRoundId: investingRoundId,
-        amount: newInvestmentAmount
+        amount: newInvestmentAmount,
       },
     };
 
@@ -226,7 +228,11 @@
   <h1 class="mt-4">
     {startup.name || "Untitled Startup"}
     {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
-    <input class="form-control" bind:value={startup.name} placeholder="Name" />
+      <input
+        class="form-control"
+        bind:value={startup.name}
+        placeholder="Name"
+      />
     {/if}
   </h1>
 
@@ -247,7 +253,7 @@
   <div class="card p-4 mb-4">
     <h3 class="mb-3">Startup Details</h3>
 
-    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
+    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
       <div class="mb-3">
         <label for="description"><strong>Description:</strong></label>
         <textarea
@@ -320,7 +326,7 @@
     {/if}
   </div>
 
-  {#if $isAuthenticated && $user.user_roles && ($user.sub !== startup.ownerId)}
+  {#if $isAuthenticated && $user.user_roles && $user.sub !== startup.ownerId}
     <div class="mb-3">
       <label for="description" class="form-label"
         ><strong>Description:</strong></label
@@ -367,7 +373,7 @@
 
   <h2 class="mt-4">Investment Rounds</h2>
 
-  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
+  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
     {#if !creatingRound}
       <button
         class="btn btn-primary mb-3"
@@ -445,7 +451,7 @@
             <td>{round.status}</td>
             <td>
               {#if round.status === "UPCOMING"}
-                {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
+                {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
                   <div class="d-flex gap-2">
                     <button
                       class="btn btn-success btn-sm"
@@ -459,7 +465,7 @@
                 {/if}
               {:else if round.status === "OPEN"}
                 <div class="d-flex flex-column gap-2">
-                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && ($user.sub === startup.ownerId)}
+                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
                     <button
                       class="btn btn-danger btn-sm"
                       onclick={() => cancelRound(round.id)}>Cancel</button

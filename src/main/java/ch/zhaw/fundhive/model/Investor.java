@@ -20,5 +20,5 @@ public class Investor {
     private String email;
 
     @NonNull
-    private String aiRating;
+    private String aiRating = "3.0";
 }

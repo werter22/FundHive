@@ -12,7 +12,6 @@
     industry: null,
     valuation: null,
     fundingStatus: null,
-    aiRating: null,
   });
 
   function createStartup() {
@@ -37,7 +36,6 @@
           industry: null,
           valuation: null,
           fundingStatus: null,
-          aiRating: null,
         };
       })
       .catch(function (error) {
@@ -139,20 +137,6 @@
         <option value="IPO">IPO</option>
         <option value="BOOTSTRAPPED">Bootstrapped</option>
       </select>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label" for="aiRating">AI Rating</label>
-      <input
-        class="form-control"
-        id="aiRating"
-        type="number"
-        step="0.01"
-        min="0"
-        max="5"
-        bind:value={startup.aiRating}
-        required
-      />
     </div>
 
     <button class="btn btn-success" type="submit">Create Startup</button>

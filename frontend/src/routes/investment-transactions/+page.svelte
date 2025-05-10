@@ -87,12 +87,12 @@
       <h5>Summary</h5>
       <p>
         <strong>Total Investment:</strong> ${Number(
-          portfolio.summary.totalAmount ?? 0,
+          portfolio.totalAmount ?? 0,
         ).toLocaleString()}
       </p>
       <p>
         <strong>Transactions Made:</strong>
-        {portfolio.summary.transactionCount}
+        {portfolio.transactionCount}
       </p>
     </div>
 

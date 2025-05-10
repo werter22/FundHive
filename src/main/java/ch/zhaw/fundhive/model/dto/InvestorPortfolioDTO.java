@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class InvestorPortfolioDTO {
-    private InvestmentSummaryDTO summary;
+    private double totalAmount;
+    private int transactionCount;
     private List<InvestmentAllTransactionsDTO> transactions;
 }

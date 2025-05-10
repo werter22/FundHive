@@ -1,4 +1,4 @@
-package ch.zhaw.fundhive.service;
+package ch.zhaw.fundhive.service.helpers;
 
 import java.util.List;
 import org.springframework.stereotype.Service;

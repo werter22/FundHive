@@ -1,4 +1,4 @@
-package ch.zhaw.fundhive.service;
+package ch.zhaw.fundhive.service.helpers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

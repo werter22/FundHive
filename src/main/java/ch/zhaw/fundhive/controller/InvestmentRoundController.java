@@ -1,10 +1,13 @@
 package ch.zhaw.fundhive.controller;
 
 import ch.zhaw.fundhive.model.InvestmentRound;
+import ch.zhaw.fundhive.model.dto.InvestmentRoundCreateDTO;
 import ch.zhaw.fundhive.model.enums.InvestmentStatus;
-import ch.zhaw.fundhive.service.InvestmentRoundService;
-import ch.zhaw.fundhive.service.OwnershipService;
-import ch.zhaw.fundhive.service.UserService;
+import ch.zhaw.fundhive.service.StartupService;
+import ch.zhaw.fundhive.service.helpers.OwnershipService;
+import ch.zhaw.fundhive.service.helpers.UserService;
+import ch.zhaw.fundhive.service.investmentRound.InvestmentRoundService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -19,7 +22,10 @@ import java.util.List;
 public class InvestmentRoundController {
 
     @Autowired
-    private InvestmentRoundService service;
+    private InvestmentRoundService roundService;
+
+    @Autowired
+    private StartupService startupService;
 
     @Autowired
     private UserService userService;
@@ -27,71 +33,30 @@ public class InvestmentRoundController {
     @Autowired
     private OwnershipService ownerService;
 
-    /* --- CRUD Endpoints --- */
-
     @PostMapping("/investment-rounds")
-    public ResponseEntity<InvestmentRound> create(@RequestBody InvestmentRound round) {
+    public ResponseEntity<InvestmentRound> create(@RequestBody InvestmentRoundCreateDTO dto) {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        String me = userService.getCurrentUserId();
-        if (!ownerService.ownsStartup(round.getStartupId(), me)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        return ResponseEntity.status(201).body(service.create(round));
-    }
-
-    @PutMapping("/investment-rounds/{id}")
-    public ResponseEntity<InvestmentRound> update(@PathVariable String id, @RequestBody InvestmentRound round) {
-        if (!userService.userHasRole("entrepreneur")) {
+        String userId = userService.getCurrentUserId();
+        if (!ownerService.ownsStartup(dto.getStartupId(), userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        String me = userService.getCurrentUserId();
-        if (!ownerService.ownsRound(id, me)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        return ResponseEntity.ok(service.update(id, round));
-    }
-
-    /* --- Frontend state Endpoints for Entrepreneur --- */
-
-    @PutMapping("/investment-rounds/{id}/cancel")
-    public ResponseEntity<Void> cancelRound(@PathVariable String id) {
-        if (!userService.userHasRole("entrepreneur")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        String me = userService.getCurrentUserId();
-        if (!ownerService.ownsRound(id, me)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        service.cancelRound(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/investment-rounds/{id}/open")
-    public ResponseEntity<Void> openRound(@PathVariable String id) {
-        if (!userService.userHasRole("entrepreneur")) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-        String me = userService.getCurrentUserId();
-        if (!ownerService.ownsRound(id, me)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-        service.openRound(id);
-        return ResponseEntity.ok().build();
+        InvestmentRound created = roundService.create(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     /* --- Get all the rounds for any given startup --- */
 
     @GetMapping("/investment-rounds/{startupId}")
     public ResponseEntity<List<InvestmentRound>> getInvestmentRoundsForStartup(@PathVariable String startupId) {
-        List<InvestmentRound> rounds = service.getRoundsByStartupId(startupId);
+        if (!startupService.startupExists(startupId)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<InvestmentRound> rounds = roundService.getRoundsByStartupId(startupId);
         return ResponseEntity.ok(rounds);
     }
 
@@ -109,7 +74,7 @@ public class InvestmentRoundController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        List<InvestmentRound> results = service.getAllInvestmentRounds(
+        List<InvestmentRound> results = roundService.getAllInvestmentRounds(
                 minAmountRaised, maxAmountRaised, startDate, endDate, status);
 
         return ResponseEntity.ok(results);

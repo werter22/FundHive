@@ -2,12 +2,14 @@ package ch.zhaw.fundhive.controller;
 
 import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
+import ch.zhaw.fundhive.model.dto.StartupCreateDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
-import ch.zhaw.fundhive.service.OwnershipService;
 import ch.zhaw.fundhive.service.StartupService;
-import ch.zhaw.fundhive.service.UserService;
+import ch.zhaw.fundhive.service.helpers.OwnershipService;
+import ch.zhaw.fundhive.service.helpers.UserService;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,19 +33,21 @@ public class StartupController {
     /* --- CRUD Endpoints --- */
 
     @PostMapping("/startups")
-    public ResponseEntity<Startup> createStartup(@RequestBody Startup startup) {
+    public ResponseEntity<Startup> createStartup(@RequestBody StartupCreateDTO sDTO) {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        startup.setOwnerId(userService.getCurrentUserId());
-        return ResponseEntity.status(201).body(service.createStartup(startup));
+        Startup created = service.create(sDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/startups/{id}")
     public ResponseEntity<Startup> getStartupById(@PathVariable String id) {
-        return service.getStartupById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<Startup> startup = service.getStartupById(id);
+        if (startup.isPresent()) {
+            return new ResponseEntity<>(startup.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/startups/{id}")
@@ -52,12 +56,10 @@ public class StartupController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        String me = userService.getCurrentUserId();
-
-        if (!ownerService.ownsStartup(id, me)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        String userId = userService.getCurrentUserId();
+        if (!ownerService.ownsStartup(startup.getOwnerId(), userId)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
         return ResponseEntity.ok(service.updateStartup(id, startup));
     }
 
@@ -82,7 +84,7 @@ public class StartupController {
     public ResponseEntity<FundingOverviewDTO> getFundingOverview(@PathVariable("id") String startupId) {
         FundingOverviewDTO overview = service.getFundingOverview(startupId);
         if (overview == null) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return ResponseEntity.ok(overview);
     }

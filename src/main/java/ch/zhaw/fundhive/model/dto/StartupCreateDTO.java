@@ -14,5 +14,4 @@ public class StartupCreateDTO {
     private IndustryType industry;
     private double valuation;
     private StartupFundingStatus fundingStatus;
-    private double aiRating;
 }

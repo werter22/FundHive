@@ -21,11 +21,11 @@ public class Startup {
     @NonNull
     private IndustryType industry;
     @NonNull
-    private String valuation;
+    private Double valuation;
     @NonNull
     private StartupFundingStatus fundingStatus;
     @NonNull
-    private String aiRating;
+    private String aiRating = "0.0";
     @NonNull
     private String ownerId;
 }
