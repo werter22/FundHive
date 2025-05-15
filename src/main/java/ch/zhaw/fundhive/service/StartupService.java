@@ -59,7 +59,6 @@ public class StartupService {
         existingStartup.setIndustry(startup.getIndustry());
         existingStartup.setValuation(startup.getValuation());
         existingStartup.setFundingStatus(startup.getFundingStatus());
-        existingStartup.setAiRating(startup.getAiRating());
 
         return startupRepository.save(existingStartup);
     }

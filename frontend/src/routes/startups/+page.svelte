@@ -2,7 +2,6 @@
   import axios from "axios";
   import { page } from "$app/state";
   import { onMount } from "svelte";
-  
 
   const API_ROOT = page.url.origin;
 
@@ -44,6 +43,17 @@
         alert("Could not load startups");
       });
   }
+
+    function stripHtml(html) {
+    if (typeof html !== "string" || !html.trim()) return "";
+    try {
+      const div = document.createElement("div");
+      div.innerHTML = html;
+      return div.textContent || div.innerText || "";
+    } catch {
+      return html;
+    }
+  }
 </script>
 
 <h1 class="mt-4">Startups</h1>
@@ -70,11 +80,7 @@
     <option value="OTHERS">Others</option>
   </select>
 
-  <select
-    class="form-select"
-    bind:value={fundingStatus}
-    onchange={getStartups}
-  >
+  <select class="form-select" bind:value={fundingStatus} onchange={getStartups}>
     <option value="">All funding statuses</option>
     <option value="PRE_SEED">Pre-Seed</option>
     <option value="SEED">Seed</option>
@@ -127,8 +133,10 @@
     {#if startups.length > 0}
       {#each startups as s}
         <tr>
-          <td><a class="link-primary" href={`/startups/${s.id}`}>{s.name}</a></td>
-          <td>{s.description}</td>
+          <td
+            ><a class="link-primary" href={`/startups/${s.id}`}>{s.name}</a></td
+          >
+          <td>{stripHtml(s.description).slice(0, 100)}...</td>
           <td>{s.industry}</td>
           <td>{Number(s.valuation).toLocaleString()}</td>
           <td>{s.fundingStatus}</td>

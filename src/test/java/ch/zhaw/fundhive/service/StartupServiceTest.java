@@ -105,6 +105,12 @@ class StartupServiceTest {
     void updateStartup_updatesAndSavesFields() {
         Startup existing = new Startup();
         existing.setId("SU1");
+        existing.setName("Old Name");
+        existing.setDescription("Old Desc");
+        existing.setIndustry(IndustryType.TECH);
+        existing.setValuation(1_000_000.0);
+        existing.setFundingStatus(StartupFundingStatus.SEED);
+        existing.setAiRating("4.7");
 
         Startup incoming = new Startup();
         incoming.setName("Updated");
@@ -112,7 +118,6 @@ class StartupServiceTest {
         incoming.setIndustry(IndustryType.TECH);
         incoming.setValuation(1_500_000.0);
         incoming.setFundingStatus(StartupFundingStatus.SEED);
-        incoming.setAiRating("4.7");
 
         when(startupRepository.findById("SU1")).thenReturn(Optional.of(existing));
         when(startupRepository.save(existing)).thenReturn(existing);

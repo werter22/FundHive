@@ -5,11 +5,14 @@
   import { goto } from "$app/navigation";
   import { get } from "svelte/store";
   import { jwt_token, user, isAuthenticated } from "../../../store";
+  import QuillEditor from "$lib/components/QuillEditor.svelte";
 
   const API_ROOT = $page.url.origin;
   const id = $page.params.id;
 
   let startup = $state(null);
+  let quillEditorRef = $state(null);
+  let description = $state("");
   let overview = $state(null);
   let error = $state(null);
 
@@ -63,6 +66,7 @@
     axios(config)
       .then(function (response) {
         startup = response.data;
+        description = startup.description;
       })
       .catch(function (error) {
         console.error("Failed to load startup:", error);
@@ -71,6 +75,8 @@
   }
 
   function saveChanges() {
+    description = quillEditorRef.getHtml();
+    startup.description = description;
     var config = {
       method: "put",
       url: `${API_ROOT}/api/startups/${id}`,
@@ -78,7 +84,7 @@
         "Content-Type": "application/json",
         Authorization: "Bearer " + $jwt_token,
       },
-      data: startup,
+      data: JSON.parse(JSON.stringify(startup)),
     };
 
     axios(config)
@@ -88,6 +94,7 @@
         getStartup();
       })
       .catch(function (error) {
+        console.log(startup);
         console.error("Failed to save changes:", error);
         alert("Could not save changes.");
       });
@@ -220,6 +227,8 @@
   }
 </script>
 
+<!-- Main content -->
+
 {#if error}
   <div class="alert alert-danger mt-4">{error}</div>
 {:else if !startup}
@@ -236,6 +245,8 @@
     {/if}
   </h1>
 
+  <!-- Overview section -->
+
   <h2 class="mt-3">Funding Overview</h2>
   {#if overview}
     <div class="card mb-4 p-3">
@@ -250,18 +261,19 @@
     <p class="text-muted">No funding overview available.</p>
   {/if}
 
+  <!-- Startup edit form section -->
+
   <div class="card p-4 mb-4">
     <h3 class="mb-3">Startup Details</h3>
 
     {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
       <div class="mb-3">
         <label for="description"><strong>Description:</strong></label>
-        <textarea
-          id="description"
+        <QuillEditor
+          bind:this={quillEditorRef}
+          bind:content={description}
           class="form-control"
-          bind:value={startup.description}
-          rows="3"
-        ></textarea>
+        />
       </div>
 
       <div class="mb-3">
@@ -307,69 +319,60 @@
         </select>
       </div>
 
-      <div class="mb-3">
-        <label for="ai-rating"><strong>AI Rating:</strong></label>
-        <input
-          id="ai-rating"
-          class="form-control"
-          type="number"
-          step="0.01"
-          min="0"
-          max="5"
-          bind:value={startup.aiRating}
-        />
-      </div>
-
       <button class="btn btn-success mt-3" onclick={saveChanges}
         >Save Changes</button
       >
     {/if}
+
+    <!-- Startup Investor view section -->
+
+    {#if $isAuthenticated && $user.user_roles && $user.sub !== startup.ownerId}
+      <div class="mb-3">
+        <label for="description" class="form-label"
+          ><strong>Description:</strong></label
+        >
+        <p class="form-control-plaintext">{@html startup.description}</p>
+      </div>
+
+      <div class="mb-3">
+        <label for="industry-display" class="form-label"
+          ><strong>Industry:</strong></label
+        >
+        <p id="industry-display" class="form-control-plaintext">
+          {startup.industry}
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label for="valuation-display" class="form-label"
+          ><strong>Valuation:</strong></label
+        >
+        <p id="valuation-display" class="form-control-plaintext">
+          ${Number(startup.valuation ?? 0).toLocaleString()}
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label for="funding-status-display" class="form-label"
+          ><strong>Funding Status:</strong></label
+        >
+        <p id="funding-status-display" class="form-control-plaintext">
+          {startup.fundingStatus}
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label for="ai-rating-display" class="form-label"
+          ><strong>AI Rating:</strong></label
+        >
+        <p id="ai-rating-display" class="form-control-plaintext">
+          {startup.aiRating}
+        </p>
+      </div>
+    {/if}
   </div>
 
-  {#if $isAuthenticated && $user.user_roles && $user.sub !== startup.ownerId}
-    <div class="mb-3">
-      <label for="description" class="form-label"
-        ><strong>Description:</strong></label
-      >
-      <p class="form-control-plaintext">{startup.description || "—"}</p>
-    </div>
-
-    <div class="mb-3">
-      <label for="industry-display" class="form-label"
-        ><strong>Industry:</strong></label
-      >
-      <p id="industry-display" class="form-control-plaintext">
-        {startup.industry}
-      </p>
-    </div>
-
-    <div class="mb-3">
-      <label for="valuation-display" class="form-label"
-        ><strong>Valuation:</strong></label
-      >
-      <p id="valuation-display" class="form-control-plaintext">
-        ${Number(startup.valuation ?? 0).toLocaleString()}
-      </p>
-    </div>
-
-    <div class="mb-3">
-      <label for="funding-status-display" class="form-label"
-        ><strong>Funding Status:</strong></label
-      >
-      <p id="funding-status-display" class="form-control-plaintext">
-        {startup.fundingStatus}
-      </p>
-    </div>
-
-    <div class="mb-3">
-      <label for="ai-rating-display" class="form-label"
-        ><strong>AI Rating:</strong></label
-      >
-      <p id="ai-rating-display" class="form-control-plaintext">
-        {startup.aiRating}
-      </p>
-    </div>
-  {/if}
+  <!-- Investmentrounds creation form section -->
 
   <h2 class="mt-4">Investment Rounds</h2>
 
@@ -426,6 +429,8 @@
       </div>
     {/if}
   {/if}
+
+  <!-- Investmentrounds section -->
 
   {#if investmentRounds.length > 0}
     <table class="table table-striped">
