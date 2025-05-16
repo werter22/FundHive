@@ -11,8 +11,16 @@
   const id = $page.params.id;
 
   let startup = $state(null);
+
   let quillEditorRef = $state(null);
   let description = $state("");
+  let showChat = $state(false);
+
+  let chatContainer = $state(null);
+  
+  let chatMessages = $state([]);
+  let userMessage = $state("");
+
   let overview = $state(null);
   let error = $state(null);
 
@@ -39,6 +47,18 @@
     getFundingOverview();
     getInvestmentRounds();
   });
+
+  $effect(() => {
+  // Trigger when chatMessages change
+  chatMessages.length; // this tracks dependency
+
+  if (chatContainer) {
+    // Defer to let DOM update
+    setTimeout(() => {
+      chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: "smooth" });
+    }, 0);
+  }
+});
 
   function getFundingOverview() {
     var config = {
@@ -74,9 +94,39 @@
       });
   }
 
+  async function sendMessage() {
+    const htmlContent = quillEditorRef?.getHtml() || "";
+
+    const config = {
+      method: "post",
+      url: `${API_ROOT}/api/startups/${id}/chat`,
+      headers: {
+        Authorization: "Bearer " + $jwt_token,
+        "Content-Type": "application/json",
+      },
+      params: {
+        userInput: userMessage, // <-- this is @RequestParam String userInput
+      },
+      data: htmlContent, // <-- this is @RequestBody String htmlContent
+    };
+
+    axios(config)
+      .then((response) => {
+        chatMessages.push({ type: "user", text: userMessage });
+        chatMessages.push({ type: "bot", text: response.data.replace(/^```html|```$/g, "").trim() });
+        userMessage = "";
+      })
+      .catch((error) => {
+        alert("Chat failed");
+        console.error(error);
+      });
+  }
+
   function saveChanges() {
-    description = quillEditorRef.getHtml();
-    startup.description = description;
+  const rawHtml = quillEditorRef.getHtml();
+  description = stripInlineStyles(rawHtml);
+  startup.description = description;
+  
     var config = {
       method: "put",
       url: `${API_ROOT}/api/startups/${id}`,
@@ -274,6 +324,42 @@
           bind:content={description}
           class="form-control"
         />
+        <button
+          class="btn btn-primary mt-3"
+          onclick={() => (showChat = !showChat)}
+        >
+          {showChat ? "Close Chat" : "Open Description Assistant"}
+        </button>
+        {#if showChat}
+          <div class="chat-box mt-3 border rounded p-3 bg-light">
+            <div
+              class="chat-history"
+              bind:this={chatContainer}
+              style="max-height: 300px; overflow-y: auto;"
+            >
+              {#each chatMessages as msg}
+                <div class={msg.type === "user" ? "text-end" : "text-start"}>
+                  <div class="mb-2">
+                    <strong>{msg.type === "user" ? "You" : "AI"}:</strong>
+                    {@html msg.text}
+                  </div>
+                </div>
+              {/each}
+            </div>
+
+            <div class="input-group mt-3">
+              <input
+                type="text"
+                bind:value={userMessage}
+                class="form-control"
+                placeholder="Ask the assistant..."
+                onkeydown={(e) => e.key === "Enter" && sendMessage()}
+              />
+              <button class="btn btn-success" onclick={sendMessage}>Send</button
+              >
+            </div>
+          </div>
+        {/if}
       </div>
 
       <div class="mb-3">
