@@ -2,6 +2,7 @@
   import axios from "axios";
   import { page } from "$app/state";
   import { onMount } from "svelte";
+  import { jwt_token, isAuthenticated } from "../../store";
 
   const API_ROOT = page.url.origin;
 
@@ -14,7 +15,52 @@
 
   let startups = $state([]);
 
+  let showChat = $state(false);
+  let chatInput = $state("");
+  let chatLog = $state([]);
+  let chatError = $state("");
+  let inputBox = $state();
+
   onMount(getStartups);
+
+    function toggleChat() {
+    showChat = !showChat;
+  }
+
+    function closeChat() {
+    showChat = false;
+  }
+
+  function askStartupChat() {
+    if (!chatInput) return;
+
+    const prompt = chatInput;
+    chatInput = "";
+
+    var config = {
+      method: "get",
+      url: `${API_ROOT}/api/ai/startups/chat`,
+      headers: { Authorization: "Bearer " + $jwt_token },
+      params: {
+        message: prompt,
+      },
+    };
+
+    axios(config)
+      .then(function (response) {
+           chatLog = [...chatLog, { prompt, response: response.data }];
+      chatError = "";
+      inputBox.focus();
+      })
+      .catch(function (err) {
+        if (err.response?.status === 403) {
+          chatError = "Not authorized to use this feature.";
+        } else {
+          chatError = "Chat failed, try again later.";
+          console.error("Chat error:", err);
+        }
+      });
+  }
 
   function getStartups() {
     var params = {};
@@ -44,7 +90,7 @@
       });
   }
 
-    function stripHtml(html) {
+  function stripHtml(html) {
     if (typeof html !== "string" || !html.trim()) return "";
     try {
       const div = document.createElement("div");
@@ -56,7 +102,49 @@
   }
 </script>
 
-<h1 class="mt-4">Startups</h1>
+<div class="flex items-center justify-between mb-4">
+  <h1 class="text-3xl font-bold text-orange-600">Startups</h1>
+  <button class="btn btn-secondary" onclick={toggleChat}>
+    {showChat ? "Hide Chat" : "Chat Assistant"}
+  </button>
+</div>
+
+{#if $isAuthenticated && showChat}
+  <div class="card p-4 mb-4 shadow bg-gray-50">
+    <div class="flex justify-between items-center mb-2">
+      <h5 class="text-lg font-semibold">Startup Finder Assistant</h5>
+      <button onclick={closeChat} class="text-sm text-red-500 hover:underline">Close ✖</button>
+    </div>
+    
+    <textarea
+      class="form-control mb-2"
+      bind:this={inputBox}
+      bind:value={chatInput}
+      placeholder="Need help to find interesting startups? Ask here..."
+      onkeydown={(e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          askStartupChat();
+        }
+      }}
+    ></textarea>
+    <button class="btn btn-primary" onclick={askStartupChat}>Ask AI</button>
+
+    {#if chatError}
+      <p class="text-danger mt-2">{chatError}</p>
+    {:else if chatLog.length}
+      <div class="mt-3">
+        {#each chatLog as message}
+          <div class="mb-3 bg-light p-2 rounded">
+            <div><strong>You:</strong> {message.prompt}</div>
+            <div style="white-space: pre-wrap;"><strong>AI:</strong> {message.response}</div>
+          </div>
+        {/each}
+      </div>
+    {/if}
+  </div>
+{/if}
+
 
 <div class="filters">
   <input
