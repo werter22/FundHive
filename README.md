@@ -1,3 +1,7 @@
+![Workflow](https://github.com/werter22/FundHive/actions/workflows/ci.yml/badge.svg)
+![Coverage](https://github.com/werter22/FundHive/blob/main/.github/badges/jacoco.svg)
+![Branches](https://github.com/werter22/FundHive/blob/main/.github/badges/branches.svg)
+
 # FundHive
 FundHive ist eine FinTeech-Plattform, die Startups mit interessierten Investoren verbindet. Investoren können sich über die Startups informieren und direkt investieren. Die exklusive KI der Plattform hilft sowohl Investoren als auch Unternehmern, das Investitionsrisiko und die Erfolgsaussichten besser einzuschätzen.
 
