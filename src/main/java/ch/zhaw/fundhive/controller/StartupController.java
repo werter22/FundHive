@@ -57,7 +57,7 @@ public class StartupController {
         }
 
         String userId = userService.getCurrentUserId();
-        if (!ownerService.ownsStartup(startup.getOwnerId(), userId)) {
+        if (!ownerService.ownsStartup(id, userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         return ResponseEntity.ok(service.updateStartup(id, startup));

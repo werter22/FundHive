@@ -5,11 +5,22 @@
   import { goto } from "$app/navigation";
   import { get } from "svelte/store";
   import { jwt_token, user, isAuthenticated } from "../../../store";
+  import QuillEditor from "$lib/components/QuillEditor.svelte";
 
   const API_ROOT = $page.url.origin;
   const id = $page.params.id;
 
   let startup = $state(null);
+
+  let quillEditorRef = $state(null);
+  let description = $state("");
+  let showChat = $state(false);
+
+  let chatContainer = $state(null);
+  
+  let chatMessages = $state([]);
+  let userMessage = $state("");
+
   let overview = $state(null);
   let error = $state(null);
 
@@ -37,6 +48,18 @@
     getInvestmentRounds();
   });
 
+  $effect(() => {
+  // Trigger when chatMessages change
+  chatMessages.length; // this tracks dependency
+
+  if (chatContainer) {
+    // Defer to let DOM update
+    setTimeout(() => {
+      chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: "smooth" });
+    }, 0);
+  }
+});
+
   function getFundingOverview() {
     var config = {
       method: "get",
@@ -63,6 +86,7 @@
     axios(config)
       .then(function (response) {
         startup = response.data;
+        description = startup.description;
       })
       .catch(function (error) {
         console.error("Failed to load startup:", error);
@@ -70,7 +94,39 @@
       });
   }
 
+  async function sendMessage() {
+    const htmlContent = quillEditorRef?.getHtml() || "";
+
+    const config = {
+      method: "post",
+      url: `${API_ROOT}/api/startups/${id}/chat`,
+      headers: {
+        Authorization: "Bearer " + $jwt_token,
+        "Content-Type": "application/json",
+      },
+      params: {
+        userInput: userMessage, // <-- this is @RequestParam String userInput
+      },
+      data: htmlContent, // <-- this is @RequestBody String htmlContent
+    };
+
+    axios(config)
+      .then((response) => {
+        chatMessages.push({ type: "user", text: userMessage });
+        chatMessages.push({ type: "bot", text: response.data.replace(/^```html|```$/g, "").trim() });
+        userMessage = "";
+      })
+      .catch((error) => {
+        alert("Chat failed");
+        console.error(error);
+      });
+  }
+
   function saveChanges() {
+  const rawHtml = quillEditorRef.getHtml();
+  description = stripInlineStyles(rawHtml);
+  startup.description = description;
+  
     var config = {
       method: "put",
       url: `${API_ROOT}/api/startups/${id}`,
@@ -78,7 +134,7 @@
         "Content-Type": "application/json",
         Authorization: "Bearer " + $jwt_token,
       },
-      data: startup,
+      data: JSON.parse(JSON.stringify(startup)),
     };
 
     axios(config)
@@ -88,6 +144,7 @@
         getStartup();
       })
       .catch(function (error) {
+        console.log(startup);
         console.error("Failed to save changes:", error);
         alert("Could not save changes.");
       });
@@ -220,6 +277,8 @@
   }
 </script>
 
+<!-- Main content -->
+
 {#if error}
   <div class="alert alert-danger mt-4">{error}</div>
 {:else if !startup}
@@ -236,6 +295,8 @@
     {/if}
   </h1>
 
+  <!-- Overview section -->
+
   <h2 class="mt-3">Funding Overview</h2>
   {#if overview}
     <div class="card mb-4 p-3">
@@ -250,18 +311,55 @@
     <p class="text-muted">No funding overview available.</p>
   {/if}
 
+  <!-- Startup edit form section -->
+
   <div class="card p-4 mb-4">
     <h3 class="mb-3">Startup Details</h3>
 
     {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
       <div class="mb-3">
         <label for="description"><strong>Description:</strong></label>
-        <textarea
-          id="description"
+        <QuillEditor
+          bind:this={quillEditorRef}
+          bind:content={description}
           class="form-control"
-          bind:value={startup.description}
-          rows="3"
-        ></textarea>
+        />
+        <button
+          class="btn btn-primary mt-3"
+          onclick={() => (showChat = !showChat)}
+        >
+          {showChat ? "Close Chat" : "Open Description Assistant"}
+        </button>
+        {#if showChat}
+          <div class="chat-box mt-3 border rounded p-3 bg-light">
+            <div
+              class="chat-history"
+              bind:this={chatContainer}
+              style="max-height: 300px; overflow-y: auto;"
+            >
+              {#each chatMessages as msg}
+                <div class={msg.type === "user" ? "text-end" : "text-start"}>
+                  <div class="mb-2">
+                    <strong>{msg.type === "user" ? "You" : "AI"}:</strong>
+                    {@html msg.text}
+                  </div>
+                </div>
+              {/each}
+            </div>
+
+            <div class="input-group mt-3">
+              <input
+                type="text"
+                bind:value={userMessage}
+                class="form-control"
+                placeholder="Ask the assistant..."
+                onkeydown={(e) => e.key === "Enter" && sendMessage()}
+              />
+              <button class="btn btn-success" onclick={sendMessage}>Send</button
+              >
+            </div>
+          </div>
+        {/if}
       </div>
 
       <div class="mb-3">
@@ -307,69 +405,60 @@
         </select>
       </div>
 
-      <div class="mb-3">
-        <label for="ai-rating"><strong>AI Rating:</strong></label>
-        <input
-          id="ai-rating"
-          class="form-control"
-          type="number"
-          step="0.01"
-          min="0"
-          max="5"
-          bind:value={startup.aiRating}
-        />
-      </div>
-
       <button class="btn btn-success mt-3" onclick={saveChanges}
         >Save Changes</button
       >
     {/if}
+
+    <!-- Startup Investor view section -->
+
+    {#if $isAuthenticated && $user.user_roles && $user.sub !== startup.ownerId}
+      <div class="mb-3">
+        <label for="description" class="form-label"
+          ><strong>Description:</strong></label
+        >
+        <p class="form-control-plaintext">{@html startup.description}</p>
+      </div>
+
+      <div class="mb-3">
+        <label for="industry-display" class="form-label"
+          ><strong>Industry:</strong></label
+        >
+        <p id="industry-display" class="form-control-plaintext">
+          {startup.industry}
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label for="valuation-display" class="form-label"
+          ><strong>Valuation:</strong></label
+        >
+        <p id="valuation-display" class="form-control-plaintext">
+          ${Number(startup.valuation ?? 0).toLocaleString()}
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label for="funding-status-display" class="form-label"
+          ><strong>Funding Status:</strong></label
+        >
+        <p id="funding-status-display" class="form-control-plaintext">
+          {startup.fundingStatus}
+        </p>
+      </div>
+
+      <div class="mb-3">
+        <label for="ai-rating-display" class="form-label"
+          ><strong>AI Rating:</strong></label
+        >
+        <p id="ai-rating-display" class="form-control-plaintext">
+          {startup.aiRating}
+        </p>
+      </div>
+    {/if}
   </div>
 
-  {#if $isAuthenticated && $user.user_roles && $user.sub !== startup.ownerId}
-    <div class="mb-3">
-      <label for="description" class="form-label"
-        ><strong>Description:</strong></label
-      >
-      <p class="form-control-plaintext">{startup.description || "—"}</p>
-    </div>
-
-    <div class="mb-3">
-      <label for="industry-display" class="form-label"
-        ><strong>Industry:</strong></label
-      >
-      <p id="industry-display" class="form-control-plaintext">
-        {startup.industry}
-      </p>
-    </div>
-
-    <div class="mb-3">
-      <label for="valuation-display" class="form-label"
-        ><strong>Valuation:</strong></label
-      >
-      <p id="valuation-display" class="form-control-plaintext">
-        ${Number(startup.valuation ?? 0).toLocaleString()}
-      </p>
-    </div>
-
-    <div class="mb-3">
-      <label for="funding-status-display" class="form-label"
-        ><strong>Funding Status:</strong></label
-      >
-      <p id="funding-status-display" class="form-control-plaintext">
-        {startup.fundingStatus}
-      </p>
-    </div>
-
-    <div class="mb-3">
-      <label for="ai-rating-display" class="form-label"
-        ><strong>AI Rating:</strong></label
-      >
-      <p id="ai-rating-display" class="form-control-plaintext">
-        {startup.aiRating}
-      </p>
-    </div>
-  {/if}
+  <!-- Investmentrounds creation form section -->
 
   <h2 class="mt-4">Investment Rounds</h2>
 
@@ -426,6 +515,8 @@
       </div>
     {/if}
   {/if}
+
+  <!-- Investmentrounds section -->
 
   {#if investmentRounds.length > 0}
     <table class="table table-striped">

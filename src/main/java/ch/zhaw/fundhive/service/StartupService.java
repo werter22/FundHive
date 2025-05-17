@@ -7,6 +7,7 @@ import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
 import ch.zhaw.fundhive.repository.StartupRepository;
+import ch.zhaw.fundhive.service.ai.StartupAiRatingService;
 import ch.zhaw.fundhive.service.helpers.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,21 @@ public class StartupService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private StartupAiRatingService AiRatingService;
+
     public Startup create(StartupCreateDTO dto) {
+
         Startup startup = new Startup();
+
         startup.setName(dto.getName());
         startup.setDescription(dto.getDescription());
         startup.setIndustry(dto.getIndustry());
         startup.setValuation(dto.getValuation());
         startup.setFundingStatus(dto.getFundingStatus());
         startup.setOwnerId(userService.getCurrentUserId());
+        startup.setAiRating(AiRatingService.rateStartupOnCreation(startup));
+
         return startupRepository.save(startup);
     }
 
@@ -51,7 +59,6 @@ public class StartupService {
         existingStartup.setIndustry(startup.getIndustry());
         existingStartup.setValuation(startup.getValuation());
         existingStartup.setFundingStatus(startup.getFundingStatus());
-        existingStartup.setAiRating(startup.getAiRating());
 
         return startupRepository.save(existingStartup);
     }

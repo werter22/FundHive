@@ -7,11 +7,12 @@ import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.repository.StartupRepository;
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
+import ch.zhaw.fundhive.service.ai.StartupAiRatingService;
 import ch.zhaw.fundhive.service.helpers.UserService;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,11 +36,14 @@ class StartupServiceTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private StartupAiRatingService AiRatingService;
+
     @InjectMocks
     private StartupService startupService;
 
     @Test
-    void create_shouldPopulateAndSaveStartup() {
+    void create_shouldPopulateAndSaveStartup_withAiRating() {
         // Arrange
         StartupCreateDTO dto = new StartupCreateDTO();
         dto.setName("MyStartup");
@@ -48,17 +52,39 @@ class StartupServiceTest {
         dto.setValuation(1_000_000.0);
         dto.setFundingStatus(StartupFundingStatus.SEED);
 
+        // 1) Stub current user
         when(userService.getCurrentUserId()).thenReturn("USR1");
 
-        Startup saved = new Startup();
-        when(startupRepository.save(any())).thenReturn(saved);
+        // 2) Stub AI Rating
+        when(AiRatingService.rateStartupOnCreation(any(Startup.class)))
+                .thenReturn("4.2");
+
+        // 3) Capture the argument passed to save(...) and return it back
+        ArgumentCaptor<Startup> captor = ArgumentCaptor.forClass(Startup.class);
+        when(startupRepository.save(captor.capture()))
+                .thenAnswer(inv -> inv.getArgument(0));
 
         // Act
         Startup result = startupService.create(dto);
 
-        // Assert
-        assertEquals(saved, result);
-        verify(startupRepository).save(any());
+        // Assert: result is the saved entity
+        assertNotNull(result);
+
+        // Inspect what was passed into save(...)
+        Startup toSave = captor.getValue();
+        assertEquals("MyStartup", toSave.getName());
+        assertEquals("Innovative tech company", toSave.getDescription());
+        assertEquals(IndustryType.TECH, toSave.getIndustry());
+        assertEquals(1_000_000.0, toSave.getValuation());
+        assertEquals(StartupFundingStatus.SEED, toSave.getFundingStatus());
+        assertEquals("USR1", toSave.getOwnerId());
+        assertEquals("4.2", toSave.getAiRating(), "should set AI rating");
+
+        // Verify that save(...) was called exactly once
+        verify(startupRepository, times(1)).save(any(Startup.class));
+
+        // And the returned object is the same instance
+        assertSame(toSave, result);
     }
 
     @Test
@@ -79,6 +105,12 @@ class StartupServiceTest {
     void updateStartup_updatesAndSavesFields() {
         Startup existing = new Startup();
         existing.setId("SU1");
+        existing.setName("Old Name");
+        existing.setDescription("Old Desc");
+        existing.setIndustry(IndustryType.TECH);
+        existing.setValuation(1_000_000.0);
+        existing.setFundingStatus(StartupFundingStatus.SEED);
+        existing.setAiRating("4.7");
 
         Startup incoming = new Startup();
         incoming.setName("Updated");
@@ -86,7 +118,6 @@ class StartupServiceTest {
         incoming.setIndustry(IndustryType.TECH);
         incoming.setValuation(1_500_000.0);
         incoming.setFundingStatus(StartupFundingStatus.SEED);
-        incoming.setAiRating("4.7");
 
         when(startupRepository.findById("SU1")).thenReturn(Optional.of(existing));
         when(startupRepository.save(existing)).thenReturn(existing);
