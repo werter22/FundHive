@@ -29,7 +29,7 @@ public class InvestorController {
     /* --- CRUD Endpoints --- */
 
     @GetMapping("/investors")
-    public ResponseEntity<?> getAllInvestors() {
+    public ResponseEntity<List<Investor>> getAllInvestors() {
         if (!userService.userHasRole("admin")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

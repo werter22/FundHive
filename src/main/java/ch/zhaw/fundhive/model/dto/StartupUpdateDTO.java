@@ -1,22 +1,18 @@
 package ch.zhaw.fundhive.model.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
-import lombok.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class StartupCreateDTO {
-    @NonNull
+@NoArgsConstructor
+public class StartupUpdateDTO {
     private String name;
-    @NonNull
     private String description;
-    @NonNull
     private IndustryType industry;
-
-    private double valuation;
-    @NonNull
+    private Double valuation;
     private StartupFundingStatus fundingStatus;
 }

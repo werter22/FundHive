@@ -49,41 +49,45 @@ public class InvestmentRoundService {
     public List<InvestmentRound> getAllInvestmentRounds(
             Double minAmountRaised,
             Double maxAmountRaised,
-            LocalDate startDate,
-            LocalDate endDate,
+            LocalDate startDateFrom,
+            LocalDate startDateTo,
+            LocalDate endDateFrom,
+            LocalDate endDateTo,
             InvestmentStatus status) {
 
         Query query = new Query();
 
+        // 1) amount_raised range
         if (minAmountRaised != null || maxAmountRaised != null) {
-            Criteria amountCrit = Criteria.where("amount_raised");
-            if (minAmountRaised != null) {
-                amountCrit = amountCrit.gte(minAmountRaised);
-            }
-            if (maxAmountRaised != null) {
-                amountCrit = amountCrit.lte(maxAmountRaised);
-            }
-            query.addCriteria(amountCrit);
+            Criteria crit = Criteria.where("amount_raised");
+            if (minAmountRaised != null)
+                crit = crit.gte(minAmountRaised);
+            if (maxAmountRaised != null)
+                crit = crit.lte(maxAmountRaised);
+            query.addCriteria(crit);
         }
 
-        if (startDate != null || endDate != null) {
-            Criteria dateCrit = Criteria.where("date");
-            if (startDate != null)
-                dateCrit = dateCrit.gte(startDate.toString());
-            if (endDate != null)
-                dateCrit = dateCrit.lte(endDate.toString());
-            query.addCriteria(dateCrit);
+        // 2) start‐date range
+        if (startDateFrom != null || startDateTo != null) {
+            Criteria crit = Criteria.where("date");
+            if (startDateFrom != null)
+                crit = crit.gte(startDateFrom.toString());
+            if (startDateTo != null)
+                crit = crit.lte(startDateTo.toString());
+            query.addCriteria(crit);
         }
 
-        if (startDate != null || endDate != null) {
-            Criteria endCrit = Criteria.where("endDate");
-            if (startDate != null)
-                endCrit = endCrit.gte(startDate.toString());
-            if (endDate != null)
-                endCrit = endCrit.lte(endDate.toString());
-            query.addCriteria(endCrit);
+        // 3) end‐date range
+        if (endDateFrom != null || endDateTo != null) {
+            Criteria crit = Criteria.where("endDate");
+            if (endDateFrom != null)
+                crit = crit.gte(endDateFrom.toString());
+            if (endDateTo != null)
+                crit = crit.lte(endDateTo.toString());
+            query.addCriteria(crit);
         }
 
+        // 4) status
         if (status != null) {
             query.addCriteria(Criteria.where("status").is(status));
         }

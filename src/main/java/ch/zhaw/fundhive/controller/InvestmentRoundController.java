@@ -66,8 +66,10 @@ public class InvestmentRoundController {
     public ResponseEntity<List<InvestmentRound>> getAllInvestmentRounds(
             @RequestParam(required = false) Double minAmountRaised,
             @RequestParam(required = false) Double maxAmountRaised,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateTo,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDateTo,
             @RequestParam(required = false) InvestmentStatus status) {
 
         if (!userService.userHasRole("admin")) {
@@ -75,7 +77,7 @@ public class InvestmentRoundController {
         }
 
         List<InvestmentRound> results = roundService.getAllInvestmentRounds(
-                minAmountRaised, maxAmountRaised, startDate, endDate, status);
+                minAmountRaised, maxAmountRaised, startDateFrom, startDateTo, endDateFrom, endDateTo, status);
 
         return ResponseEntity.ok(results);
     }

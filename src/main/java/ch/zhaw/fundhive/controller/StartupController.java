@@ -3,6 +3,7 @@ package ch.zhaw.fundhive.controller;
 import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.dto.StartupCreateDTO;
+import ch.zhaw.fundhive.model.dto.StartupUpdateDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.service.StartupService;
@@ -51,7 +52,7 @@ public class StartupController {
     }
 
     @PutMapping("/startups/{id}")
-    public ResponseEntity<Startup> updateStartup(@PathVariable String id, @RequestBody Startup startup) {
+    public ResponseEntity<Startup> updateStartup(@PathVariable String id, @RequestBody StartupUpdateDTO dto) {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -60,7 +61,7 @@ public class StartupController {
         if (!ownerService.ownsStartup(id, userId)) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        return ResponseEntity.ok(service.updateStartup(id, startup));
+        return ResponseEntity.ok(service.updateStartup(id, dto));
     }
 
     /* --- Filtered Endpoint --- */

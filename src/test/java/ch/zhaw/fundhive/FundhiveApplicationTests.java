@@ -8,6 +8,7 @@ class FundhiveApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// intentionally left blank: this will fail if the Spring context cannot start
 	}
 
 }

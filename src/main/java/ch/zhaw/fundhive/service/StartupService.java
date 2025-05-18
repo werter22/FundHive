@@ -3,6 +3,7 @@ package ch.zhaw.fundhive.service;
 import ch.zhaw.fundhive.model.Startup;
 import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.dto.StartupCreateDTO;
+import ch.zhaw.fundhive.model.dto.StartupUpdateDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.repository.InvestmentRoundRepository;
@@ -50,7 +51,7 @@ public class StartupService {
         return startupRepository.findById(starupId);
     }
 
-    public Startup updateStartup(String startupId, Startup startup) {
+    public Startup updateStartup(String startupId, StartupUpdateDTO startup) {
         Optional<Startup> startupOptional = startupRepository.findById(startupId);
 
         Startup existingStartup = startupOptional.get();

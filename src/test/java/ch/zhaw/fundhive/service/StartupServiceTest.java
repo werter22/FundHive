@@ -2,6 +2,7 @@ package ch.zhaw.fundhive.service;
 
 import ch.zhaw.fundhive.model.dto.FundingOverviewDTO;
 import ch.zhaw.fundhive.model.dto.StartupCreateDTO;
+import ch.zhaw.fundhive.model.dto.StartupUpdateDTO;
 import ch.zhaw.fundhive.model.enums.IndustryType;
 import ch.zhaw.fundhive.model.enums.StartupFundingStatus;
 import ch.zhaw.fundhive.model.Startup;
@@ -103,6 +104,7 @@ class StartupServiceTest {
 
     @Test
     void updateStartup_updatesAndSavesFields() {
+        // 1) existing entity in DB
         Startup existing = new Startup();
         existing.setId("SU1");
         existing.setName("Old Name");
@@ -111,26 +113,34 @@ class StartupServiceTest {
         existing.setValuation(1_000_000.0);
         existing.setFundingStatus(StartupFundingStatus.SEED);
         existing.setAiRating("4.7");
+        existing.setOwnerId("owner1");
 
-        Startup incoming = new Startup();
-        incoming.setName("Updated");
-        incoming.setDescription("New Desc");
-        incoming.setIndustry(IndustryType.TECH);
-        incoming.setValuation(1_500_000.0);
-        incoming.setFundingStatus(StartupFundingStatus.SEED);
-
+        // stub find + save
         when(startupRepository.findById("SU1")).thenReturn(Optional.of(existing));
         when(startupRepository.save(existing)).thenReturn(existing);
 
-        Startup result = startupService.updateStartup("SU1", incoming);
+        // 2) DTO with the new values
+        StartupUpdateDTO dto = new StartupUpdateDTO();
+        dto.setName("Updated");
+        dto.setDescription("New Desc");
+        dto.setIndustry(IndustryType.TECH);
+        dto.setValuation(1_500_000.0);
+        dto.setFundingStatus(StartupFundingStatus.SEED);
 
+        // 3) call the new service method
+        Startup result = startupService.updateStartup("SU1", dto);
+
+        // 4) verify fields were updated
         assertEquals("Updated", result.getName());
         assertEquals("New Desc", result.getDescription());
         assertEquals(IndustryType.TECH, result.getIndustry());
         assertEquals(1_500_000.0, result.getValuation());
         assertEquals(StartupFundingStatus.SEED, result.getFundingStatus());
+
+        // aiRating should remain unchanged
         assertEquals("4.7", result.getAiRating());
 
+        // 5) ensure save() was called exactly once with our modified entity
         verify(startupRepository).save(existing);
     }
 

@@ -86,45 +86,45 @@ public class InvestmentRoundServiceTest {
 
     @ParameterizedTest
     @CsvSource({
-            // Complete range with status
-            "1000.0, 5000.0, 2025-01-01, 2025-03-01, CLOSED",
-
-            // Only max and endDate with status
-            "null, 3000.0, null, 2025-04-01, OPEN",
-
-            // Only min and startDate with status
-            "500.0, null, 2025-01-01, null, UPCOMING",
-
-            // Only status filter
-            "null, null, null, null, OPEN",
-
-            // Min and max without dates
-            "250.0, 7500.0, null, null, null",
-
-            // Only start date
-            "null, null, 2024-12-31, null, CANCELLED",
-
-            // Only end date
-            "null, null, null, 2025-06-01, EXPIRED",
-
-            // All filters null
-            "null, null, null, null, null"
+            // min, max, startFrom, startTo, endFrom, endTo, status
+            "1000.0, 5000.0, 2025-01-01, 2025-03-01, 2025-02-01, 2025-04-01, CLOSED",
+            "null,   3000.0, null,       null,       null,         2025-04-01, OPEN",
+            "500.0,  null,   2025-01-01, null,       null,         null,       UPCOMING",
+            "null,   null,   null,       null,       null,         null,       OPEN",
+            "250.0,  7500.0, null,       null,       null,         null,       null",
+            "null,   null,   2024-12-31, null,       null,         null,       CANCELLED",
+            "null,   null,   null,       null,       null,         2025-06-01, EXPIRED",
+            "null,   null,   null,       null,       null,         null,       null"
     })
     void getAllInvestmentRounds_appliesFiltersCorrectly(
-            String minStr, String maxStr, String startStr, String endStr, String statusStr) {
-
+            String minStr,
+            String maxStr,
+            String startFromStr,
+            String startToStr,
+            String endFromStr,
+            String endToStr,
+            String statusStr) {
         Double min = "null".equals(minStr) ? null : Double.valueOf(minStr);
         Double max = "null".equals(maxStr) ? null : Double.valueOf(maxStr);
-        LocalDate start = "null".equals(startStr) ? null : LocalDate.parse(startStr);
-        LocalDate end = "null".equals(endStr) ? null : LocalDate.parse(endStr);
+        LocalDate startFrom = "null".equals(startFromStr) ? null : LocalDate.parse(startFromStr);
+        LocalDate startTo = "null".equals(startToStr) ? null : LocalDate.parse(startToStr);
+        LocalDate endFrom = "null".equals(endFromStr) ? null : LocalDate.parse(endFromStr);
+        LocalDate endTo = "null".equals(endToStr) ? null : LocalDate.parse(endToStr);
         InvestmentStatus status = "null".equals(statusStr) ? null : InvestmentStatus.valueOf(statusStr);
 
+        // stub the mongo query to return something so service returns non-empty list
         when(mongoTemplate.find(any(Query.class), eq(InvestmentRound.class)))
                 .thenReturn(List.of(new InvestmentRound()));
 
-        List<InvestmentRound> result = service.getAllInvestmentRounds(min, max, start, end, status);
+        // call the new 7-arg method
+        List<InvestmentRound> result = service.getAllInvestmentRounds(
+                min, max,
+                startFrom, startTo,
+                endFrom, endTo,
+                status);
 
-        assertFalse(result.isEmpty());
+        assertFalse(result.isEmpty(), "Expected non-empty result list");
+        // verify we indeed invoked the mongoTemplate.find(...) once
         verify(mongoTemplate).find(any(Query.class), eq(InvestmentRound.class));
     }
 
