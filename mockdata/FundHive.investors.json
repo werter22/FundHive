@@ -1,0 +1,51 @@
+[{
+  "_id": "IV1",
+  "name": "John Doe",
+  "email": "investor1@mail.com",
+  "aiRating": "3.2",
+  "_class": "ch.zhaw.fundhive.model.Investor"
+},
+{
+  "_id": "IV2",
+  "name": "Mary Smith",
+  "email": "investor2@mail.com",
+  "aiRating": "3.3",
+  "_class": "ch.zhaw.fundhive.model.Investor"
+},
+{
+  "_id": "IV3",
+  "name": "Alice Johnson",
+  "email": "investor3@mail.com",
+  "aiRating": "3.6",
+  "_class": "ch.zhaw.fundhive.model.Investor"
+},
+{
+  "_id": "IV4",
+  "name": "Bob Brown",
+  "email": "investor4@mail.com",
+  "aiRating": "3.3",
+  "_class": "ch.zhaw.fundhive.model.Investor"
+},
+{
+  "_id": "IV5",
+  "name": "Charlie Davis",
+  "email": "investor5@mail.com",
+  "aiRating": "3.4",
+  "_class": "ch.zhaw.fundhive.model.Investor"
+},
+{
+  "_id": {
+    "$oid": "680d04631e709f7f60e4bde6"
+  },
+  "name": "Eliot Graham",
+  "email": "GrahamE@mail.com",
+  "aiRating": "3.0",
+  "_class": "ch.zhaw.fundhive.model.Investor"
+},
+{
+  "_id": "auth0|6815f7d58091b118bf5308e3",
+  "name": "Cerno Fajita",
+  "email": "cevifaj272@benznoi.com",
+  "aiRating": "3.3",
+  "_class": "ch.zhaw.fundhive.model.Investor"
+}]

@@ -1,0 +1,256 @@
+[{
+  "_id": "IT3",
+  "investmentRoundId": "FR1",
+  "investorId": "IV3",
+  "amount": 50500,
+  "date": "2024-10-01"
+},
+{
+  "_id": "IT23",
+  "investmentRoundId": "FR7",
+  "investorId": "IV5",
+  "amount": 33000,
+  "date": "2024-06-05"
+},
+{
+  "_id": "IT10",
+  "investmentRoundId": "FR3",
+  "investorId": "IV3",
+  "amount": 98500,
+  "date": "2024-08-07"
+},
+{
+  "_id": "IT18",
+  "investmentRoundId": "FR5",
+  "investorId": "IV5",
+  "amount": 10000,
+  "date": "2025-03-04"
+},
+{
+  "_id": "IT4",
+  "investmentRoundId": "FR1",
+  "investorId": "IV3",
+  "amount": 19500,
+  "date": "2024-10-11"
+},
+{
+  "_id": "IT11",
+  "investmentRoundId": "FR3",
+  "investorId": "IV3",
+  "amount": 2700,
+  "date": "2024-07-22"
+},
+{
+  "_id": "IT9",
+  "investmentRoundId": "FR3",
+  "investorId": "IV5",
+  "amount": 51000,
+  "date": "2024-06-02"
+},
+{
+  "_id": "IT24",
+  "investmentRoundId": "FR8",
+  "investorId": "IV1",
+  "amount": 7900,
+  "date": "2025-03-09"
+},
+{
+  "_id": "IT7",
+  "investmentRoundId": "FR2",
+  "investorId": "IV4",
+  "amount": 35000,
+  "date": "2025-02-10"
+},
+{
+  "_id": "IT12",
+  "investmentRoundId": "FR4",
+  "investorId": "IV3",
+  "amount": 26000,
+  "date": "2024-10-14"
+},
+{
+  "_id": "IT14",
+  "investmentRoundId": "FR4",
+  "investorId": "IV2",
+  "amount": 81500,
+  "date": "2024-11-22"
+},
+{
+  "_id": "IT5",
+  "investmentRoundId": "FR2",
+  "investorId": "IV5",
+  "amount": 70000,
+  "date": "2024-08-17"
+},
+{
+  "_id": "IT13",
+  "investmentRoundId": "FR4",
+  "investorId": "IV5",
+  "amount": 37500,
+  "date": "2025-01-27"
+},
+{
+  "_id": "IT16",
+  "investmentRoundId": "FR5",
+  "investorId": "IV5",
+  "amount": 8400,
+  "date": "2025-02-19"
+},
+{
+  "_id": "IT19",
+  "investmentRoundId": "FR6",
+  "investorId": "IV3",
+  "amount": 4600,
+  "date": "2025-01-26"
+},
+{
+  "_id": "IT17",
+  "investmentRoundId": "FR5",
+  "investorId": "IV3",
+  "amount": 5400,
+  "date": "2025-01-27"
+},
+{
+  "_id": "IT6",
+  "investmentRoundId": "FR2",
+  "investorId": "IV1",
+  "amount": 20000,
+  "date": "2024-10-12"
+},
+{
+  "_id": "IT21",
+  "investmentRoundId": "FR6",
+  "investorId": "IV4",
+  "amount": 6200,
+  "date": "2025-02-20"
+},
+{
+  "_id": "IT25",
+  "investmentRoundId": "FR8",
+  "investorId": "IV2",
+  "amount": 33500,
+  "date": "2025-01-26"
+},
+{
+  "_id": "IT20",
+  "investmentRoundId": "FR6",
+  "investorId": "IV1",
+  "amount": 4500,
+  "date": "2025-02-07"
+},
+{
+  "_id": "IT1",
+  "investmentRoundId": "FR1",
+  "investorId": "IV3",
+  "amount": 8000,
+  "date": "2024-09-08"
+},
+{
+  "_id": "IT8",
+  "investmentRoundId": "FR2",
+  "investorId": "IV2",
+  "amount": 88000,
+  "date": "2025-04-06"
+},
+{
+  "_id": "IT15",
+  "investmentRoundId": "FR5",
+  "investorId": "IV1",
+  "amount": 23000,
+  "date": "2025-01-20"
+},
+{
+  "_id": "IT2",
+  "investmentRoundId": "FR1",
+  "investorId": "IV4",
+  "amount": 20000,
+  "date": "2024-09-17"
+},
+{
+  "_id": "IT22",
+  "investmentRoundId": "FR7",
+  "investorId": "IV3",
+  "amount": 8700,
+  "date": "2024-04-07"
+},
+{
+  "_id": "IT26",
+  "investmentRoundId": "FR8",
+  "investorId": "IV4",
+  "amount": 7300,
+  "date": "2025-03-06"
+},
+{
+  "_id": "IT27",
+  "investmentRoundId": "FR2",
+  "investorId": "IV2",
+  "amount": 20000,
+  "date": "2024-08-01",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+},
+{
+  "_id": "IT28",
+  "investmentRoundId": "FR2",
+  "investorId": "IV2",
+  "amount": 7000,
+  "date": "2024-08-10",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+},
+{
+  "_id": "IT29",
+  "investmentRoundId": "FR2",
+  "investorId": "IV2",
+  "amount": 15000,
+  "date": "2024-08-15",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+},
+{
+  "_id": {
+    "$oid": "6804be719675592aa70d2c16"
+  },
+  "investmentRoundId": "6804bb089675592aa70d2c12",
+  "investorId": "IV1",
+  "amount": 5000,
+  "date": "2025-04-20",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+},
+{
+  "_id": {
+    "$oid": "680cc2884f541756bd2c72aa"
+  },
+  "investmentRoundId": "680cc1a74f541756bd2c72a9",
+  "investorId": "1b75e54d39e17d1cbe13c3b2",
+  "amount": 120000,
+  "date": "2025-04-27",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+},
+{
+  "_id": {
+    "$oid": "6817c512dc006b0546e8a563"
+  },
+  "investmentRoundId": "680f8dda1f271a3611d05015",
+  "investorId": "auth0|6815f7d58091b118bf5308e3",
+  "amount": 5000,
+  "date": "2025-05-04",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+},
+{
+  "_id": {
+    "$oid": "6818aca52d74bc20e192d244"
+  },
+  "investmentRoundId": "680cc1a74f541756bd2c72a9",
+  "investorId": "auth0|6815f7d58091b118bf5308e3",
+  "amount": 30000,
+  "date": "2025-05-05",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+},
+{
+  "_id": {
+    "$oid": "681f108ed8b0fa175c8c7d4d"
+  },
+  "investmentRoundId": "FR6",
+  "investorId": "auth0|6815f7d58091b118bf5308e3",
+  "amount": 200,
+  "date": "2025-05-10",
+  "_class": "ch.zhaw.fundhive.model.InvestmentTransaction"
+}]

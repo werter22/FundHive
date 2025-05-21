@@ -38,6 +38,7 @@ public class StartupController {
         if (!userService.userHasRole("entrepreneur")) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        System.out.println("Creating startup with name: " + sDTO.getName());
         Startup created = service.create(sDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }

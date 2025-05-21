@@ -42,8 +42,11 @@ public class StartupService {
         startup.setValuation(dto.getValuation());
         startup.setFundingStatus(dto.getFundingStatus());
         startup.setOwnerId(userService.getCurrentUserId());
-        startup.setAiRating(AiRatingService.rateStartupOnCreation(startup));
-
+        try {
+            startup.setAiRating(AiRatingService.rateStartupOnCreation(startup));
+        } catch (Exception ignored) {
+            // AI rating failed, default "0.0" will be used
+        }
         return startupRepository.save(startup);
     }
 
@@ -88,5 +91,4 @@ public class StartupService {
     public boolean startupExists(String startupId) {
         return startupRepository.existsById(startupId);
     }
-
 }

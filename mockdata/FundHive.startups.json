@@ -1,0 +1,93 @@
+[{
+  "_id": "SU1",
+  "name": "EcoTech",
+  "description": "<p>New generation of sustainable energy solutions</p>",
+  "industry": "ENERGY",
+  "valuation": 8174820,
+  "fundingStatus": "SERIES_B",
+  "aiRating": "4.2",
+  "ownerId": "ENT0",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+},
+{
+  "_id": "SU4",
+  "name": "DriveAI",
+  "description": "<p>Autonomous vehicle sensor software</p>",
+  "industry": "AUTOMOTIVE",
+  "valuation": 7041132,
+  "fundingStatus": "ACQUIRED",
+  "aiRating": "3.8",
+  "ownerId": "ENT1",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+},
+{
+  "_id": "SU3",
+  "name": "FinMate",
+  "description": "<p>Next-gen banking for freelancers</p>",
+  "industry": "FINTECH",
+  "valuation": 9303551,
+  "fundingStatus": "SERIES_C",
+  "aiRating": "3.5",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+},
+{
+  "_id": "SU5",
+  "name": "EduLoop",
+  "description": "<p>Gamified online education platform</p>",
+  "industry": "EDUCATION",
+  "valuation": 7369275,
+  "fundingStatus": "IPO",
+  "aiRating": "3.5",
+  "ownerId": "ENT3",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+},
+{
+  "_id": "SU2",
+  "name": "HealthWave",
+  "description": "<p>AI-powered remote health monitoring</p>",
+  "industry": "HEALTHCARE",
+  "valuation": 9000000,
+  "fundingStatus": "ACQUIRED",
+  "aiRating": "4.2",
+  "ownerId": "ENT4",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+},
+{
+  "_id": {
+    "$oid": "680934283569e52c194b30fc"
+  },
+  "name": "TestTech",
+  "description": "<p>AI-powered Code Testing with super advanced Postman 3000 technologie. Now 30% more AI-powered!</p>",
+  "industry": "TECH",
+  "valuation": 1000000,
+  "fundingStatus": "PRE_SEED",
+  "aiRating": "2.5",
+  "ownerId": "ENT5",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+},
+{
+  "_id": {
+    "$oid": "680e34a6d27b613e73cd8cfd"
+  },
+  "name": "ShopEase",
+  "description": "<p>Seamless online shopping experience with AI-driven personalization.</p>",
+  "industry": "ECOMMERCE",
+  "valuation": 5420000,
+  "fundingStatus": "SERIES_A",
+  "aiRating": "3.8",
+  "ownerId": "ENT6",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+},
+{
+  "_id": {
+    "$oid": "6818bd7f9a465b7e516fb63d"
+  },
+  "name": "GreenLeaf Packaging",
+  "description": "<p><span style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\">At GreenLeaf Packaging, we are dedicated to transforming the landscape of consumer goods packaging. Our mission is to provide sustainable, innovative solutions that not only meet the demands of modern businesses but also contribute positively to our planet. With our 100% plant-based materials, we are proud to offer a range of significant benefits:</span></p><ol><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\">Eco-Friendly Performance:</strong><span style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\"> Our packaging solutions are designed to be durable, moisture-resistant, and fully compostable, ensuring that they meet the highest standards of quality while being kind to the environment.</span></li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\">Cost Savings:</strong><span style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\"> We understand the importance of maintaining healthy profit margins. That’s why our products are competitively priced, allowing you to achieve cost efficiency without compromising on sustainability.</span></li><li data-list=\"bullet\"><span class=\"ql-ui\" contenteditable=\"false\"></span><strong style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\">Brand Impact:</strong><span style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\"> Stand out in the marketplace by showcasing your commitment to sustainability. Our custom printing options enable you to tell your unique sustainability story, enhancing your brand’s reputation and appeal to environmentally conscious consumers.</span></li></ol><p><span style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\">Join the growing community of leading brands that have successfully reduced plastic waste by an impressive 80% with GreenLeaf Packaging. Together, we can pave the way for a more sustainable future, one package at a time. Let’s grow greener, </span><strong style=\"background-color: rgb(248, 249, 250); color: rgb(33, 37, 41);\"><em><u>together!</u></em></strong></p><p><br></p>",
+  "industry": "OTHERS",
+  "valuation": 750000,
+  "fundingStatus": "PRE_SEED",
+  "aiRating": "4.2",
+  "ownerId": "auth0|6815ddb02fed306ce2dec9d4",
+  "_class": "ch.zhaw.fundhive.model.Startup"
+}]

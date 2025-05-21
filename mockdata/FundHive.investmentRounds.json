@@ -1,0 +1,150 @@
+[{
+  "_id": "FR1",
+  "round_name": "Round A",
+  "amount_raised": 98000,
+  "goal_amount": 90000,
+  "date": "2024-09-07",
+  "endDate": "2024-12-06",
+  "startupId": "SU1",
+  "status": "CLOSED"
+},
+{
+  "_id": "FR2",
+  "round_name": "Round B",
+  "amount_raised": 213000,
+  "goal_amount": 250000,
+  "date": "2024-07-31",
+  "endDate": "2024-10-29",
+  "startupId": "SU2",
+  "status": "EXPIRED",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": "FR3",
+  "round_name": "Round A",
+  "amount_raised": 152200,
+  "goal_amount": 150000,
+  "date": "2024-05-19",
+  "endDate": "2024-08-17",
+  "startupId": "SU3",
+  "status": "CLOSED"
+},
+{
+  "_id": "FR4",
+  "round_name": "Round A",
+  "amount_raised": 145000,
+  "goal_amount": 150000,
+  "date": "2024-09-17",
+  "endDate": "2024-12-16",
+  "startupId": "SU4",
+  "status": "EXPIRED",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": "FR5",
+  "round_name": "Round A",
+  "amount_raised": 46800,
+  "goal_amount": 50000,
+  "date": "2024-11-30",
+  "endDate": "2025-02-28",
+  "startupId": "SU5",
+  "status": "EXPIRED",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": "FR6",
+  "round_name": "Round B",
+  "amount_raised": 15500,
+  "goal_amount": 20000,
+  "date": "2025-01-22",
+  "endDate": "2025-04-22",
+  "startupId": "SU1",
+  "status": "EXPIRED",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": "FR7",
+  "round_name": "Round A",
+  "amount_raised": 41700,
+  "goal_amount": 40000,
+  "date": "2024-03-29",
+  "endDate": "2024-06-27",
+  "startupId": "SU2",
+  "status": "CLOSED"
+},
+{
+  "_id": "FR8",
+  "round_name": "Round B",
+  "amount_raised": 48700,
+  "goal_amount": 50000,
+  "date": "2024-12-07",
+  "endDate": "2025-03-07",
+  "startupId": "SU3",
+  "status": "EXPIRED",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": {
+    "$oid": "6804bb089675592aa70d2c12"
+  },
+  "round_name": "Seed Round",
+  "amount_raised": 5000,
+  "goal_amount": 100000,
+  "date": "2025-04-20",
+  "endDate": "2025-07-19",
+  "startupId": "SU1",
+  "status": "CANCELLED",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": {
+    "$oid": "6809f5efefc56748a4d944dd"
+  },
+  "round_name": "Round A",
+  "amount_raised": 0,
+  "goal_amount": 450000,
+  "date": "2025-04-24",
+  "endDate": "2025-07-23",
+  "startupId": "680934283569e52c194b30fc",
+  "status": "CANCELLED",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": {
+    "$oid": "680cc1a74f541756bd2c72a9"
+  },
+  "round_name": "Round A",
+  "amount_raised": 150000,
+  "goal_amount": 500000,
+  "date": "2025-04-24",
+  "endDate": "2025-07-23",
+  "startupId": "680934283569e52c194b30fc",
+  "status": "OPEN",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": {
+    "$oid": "680f8dda1f271a3611d05015"
+  },
+  "round_name": "SEED",
+  "amount_raised": 5000,
+  "goal_amount": 50000,
+  "date": "2025-04-26",
+  "endDate": "2025-07-25",
+  "startupId": "680e34a6d27b613e73cd8cfd",
+  "status": "OPEN",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+},
+{
+  "_id": {
+    "$oid": "6818be139a465b7e516fb63e"
+  },
+  "round_name": "SEED",
+  "amount_raised": 0,
+  "goal_amount": 100000,
+  "date": "2025-05-04",
+  "endDate": "2025-08-02",
+  "startupId": "6818bd7f9a465b7e516fb63d",
+  "status": "UPCOMING",
+  "_class": "ch.zhaw.fundhive.model.InvestmentRound"
+}]
