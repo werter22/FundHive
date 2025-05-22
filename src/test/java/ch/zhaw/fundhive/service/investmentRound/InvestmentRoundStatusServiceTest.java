@@ -72,10 +72,13 @@ class InvestmentRoundStatusServiceTest {
     }
 
     @Test
-    void openRound_setsOpenIfStatusIsUpcoming() {
+    void openRound_setsDatesToTodayIfOpeningBeforeStartDate() {
         InvestmentRound round = new InvestmentRound();
         round.setId("R1");
         round.setStatus(InvestmentStatus.UPCOMING);
+
+        LocalDate futureDate = LocalDate.now().plusDays(5);
+        round.setDate(futureDate.toString()); // Scheduled start date in the future
 
         when(repository.findById("R1")).thenReturn(Optional.of(round));
 
@@ -83,6 +86,8 @@ class InvestmentRoundStatusServiceTest {
 
         assertTrue(result.isPresent());
         assertEquals(InvestmentStatus.OPEN, result.get().getStatus());
+        assertEquals(LocalDate.now().toString(), result.get().getDate());
+        assertEquals(LocalDate.now().plusDays(90).toString(), result.get().getEndDate());
         verify(repository).save(round);
     }
 
@@ -178,6 +183,34 @@ class InvestmentRoundStatusServiceTest {
         service.expireOutdatedRounds();
 
         assertEquals(InvestmentStatus.OPEN, futureRound.getStatus());
+        verify(repository, never()).save(any());
+    }
+
+    @Test
+    void autoOpenScheduledRounds_setsOpenIfStartDateIsToday() {
+        InvestmentRound round = new InvestmentRound();
+        round.setStatus(InvestmentStatus.UPCOMING);
+        round.setDate(LocalDate.now().toString());
+
+        when(repository.findAll()).thenReturn(List.of(round));
+
+        service.autoOpenScheduledRounds();
+
+        assertEquals(InvestmentStatus.OPEN, round.getStatus());
+        verify(repository).save(round);
+    }
+
+    @Test
+    void autoOpenScheduledRounds_skipsIfStartDateIsInFuture() {
+        InvestmentRound round = new InvestmentRound();
+        round.setStatus(InvestmentStatus.UPCOMING);
+        round.setDate(LocalDate.now().plusDays(1).toString()); // Future
+
+        when(repository.findAll()).thenReturn(List.of(round));
+
+        service.autoOpenScheduledRounds();
+
+        assertEquals(InvestmentStatus.UPCOMING, round.getStatus());
         verify(repository, never()).save(any());
     }
 }

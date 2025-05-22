@@ -36,7 +36,7 @@ public class InvestmentRoundStatusService {
         return Optional.empty();
     }
 
-    // manually open round
+    // manually open round before current start date
     public Optional<InvestmentRound> openRound(String roundId) {
         Optional<InvestmentRound> roundOptional = repository.findById(roundId);
 
@@ -44,11 +44,21 @@ public class InvestmentRoundStatusService {
             InvestmentRound round = roundOptional.get();
 
             if (round.getStatus() == InvestmentStatus.UPCOMING) {
+                LocalDate today = LocalDate.now();
+                LocalDate startDate = LocalDate.parse(round.getDate());
+
+                // Entrepreneur opens early → reset start + end
+                if (today.isBefore(startDate)) {
+                    round.setDate(today.toString());
+                    round.setEndDate(today.plusDays(90).toString());
+                }
+
                 round.setStatus(InvestmentStatus.OPEN);
                 repository.save(round);
                 return Optional.of(round);
             }
         }
+
         return Optional.empty();
     }
 
@@ -66,6 +76,7 @@ public class InvestmentRoundStatusService {
     @Scheduled(cron = "0 0 0 * * *")
     public void autoExpireRounds() {
         expireOutdatedRounds();
+        autoOpenScheduledRounds();
     }
 
     // Round expires after 90 days
@@ -82,6 +93,22 @@ public class InvestmentRoundStatusService {
                 LocalDate endDate = LocalDate.parse(round.getEndDate());
                 if (today.isAfter(endDate)) {
                     round.setStatus(InvestmentStatus.EXPIRED);
+                    repository.save(round);
+                }
+            }
+        }
+    }
+
+    // Open rounds automatically on start date
+    public void autoOpenScheduledRounds() {
+        List<InvestmentRound> rounds = repository.findAll();
+        LocalDate today = LocalDate.now();
+
+        for (InvestmentRound round : rounds) {
+            if (round.getStatus() == InvestmentStatus.UPCOMING) {
+                LocalDate startDate = LocalDate.parse(round.getDate());
+                if (today.equals(startDate)) {
+                    round.setStatus(InvestmentStatus.OPEN);
                     repository.save(round);
                 }
             }

@@ -30,11 +30,11 @@ FundHive ist eine FinTeech-Plattform, die Startups mit interessierten Investoren
 ### TRENDS & TECHNOLOGIE
 Durch die zunehmende Digitalisierung und den erleichterten Zugang zu Know-how hat sich in der Schweiz in den letzten 15 Jahren ein wachsender Markt für Crowdfunding entwickelt. Wie in der folgenden Abbildung ersichtlich, gab es in den letzten zehn Jahren einen Boom an Crowdfunding-Plattformen. Dieser Boom hat sich jedoch mittlerweile abgeschwächt und die Gesamtanzahl der Plattformen ist seit 2020 weitgehend stabil geblieben.
 
-![Diagram](doc/abb_1.png)
+![Diagram Funding Plattformen](doc/abb_1.png)
 
 Besonders relevant für FundHive ist die Entwicklung des Volumens im Bereich des Crowdinvestings. Diese Branche ist noch relativ jung und hat sich seit 2017 bei einem durchschnittlichen Volumen von rund 150 Millionen Franken stabilisiert.
 
-![Diagram](doc/abb_2.png)
+![Diagram finazierte Kampagnen](doc/abb_2.png)
 
 FundHive sieht in der fortschreitenden Entwicklung von prädiktiven Modellen die Chance, sich in diesen Markt zu integrieren. Die stetig verbesserten Datenmodelle und das wachsende Volumen an Datensätzen ermöglichen es, eine Vielzahl von Branchen zu innovieren und diese werden Kapital benötigen.
 
@@ -151,6 +151,7 @@ FundHive verbindet Startups und Investoren durch datenbasierte, transparente Ana
 
 ### UNFAIRER VORTEIL
 - **KI-gestützte Due-Diligence** für automatisierte Startup-Bewertungen  
+- **KI-gestützte Unterstützung** für Selbstdarstellung der Starups
 - **Exklusive Datenbank** mit validierten Startups & Investoren  
 - **Niedrige Einstiegshürden** im Vergleich zu klassischen VC-Investments  
 
@@ -164,24 +165,63 @@ FundHive verbindet Startups und Investoren durch datenbasierte, transparente Ana
 - **Premium-Modelle** für erweiterte Analysefunktionen  
 
 ## Diskussion Feedback Pitch
-> Diskussion des Feedbacks aus dem Pitch (bezogen auf Projektinhalt)
+| **Thema**                         | **Antwort / Maßnahme** |
+|----------------------------------|--------------------------|
+| **Vertrauen & Sicherheit**       | Startups durchlaufen eine **Verifizierungsphase**, z. B. Upload von Handelsregisterauszug, Website, Pitch Deck. Zusätzlich führen wir ein **KI-gestütztes Scoring-Modell** ein, das kontinuierlich neue Daten (Aktualität, Plausibilität) berücksichtigt. Scam-Versuche können durch Flagging durch andere Nutzer gemeldet werden. |
+| **Datenherkunft & Qualität**     | Alle Analyse-Daten stammen direkt von den Startups, werden aber mit öffentlichen Quellen (z. B. Handelsregister, LinkedIn, Firmenverzeichnissen) abgeglichen. Eine **manuelle Stichprobenkontrolle** ist bei verdächtigen Fällen vorgesehen. |
+| **KI-Funktion & Bias-Vermeidung**| Die KI dient nicht der Entscheidung, sondern der **Unterstützung**: Sie analysiert Trends, Risiken und Auffälligkeiten und zeigt diese transparent an. Investoren können dann eigenständig entscheiden. Wir planen zudem eine Möglichkeit zur **Erklärung von Scoring-Ergebnissen** („Why this score?“). |
+| **Mehrwert gegenüber Konkurrenz**| Im Gegensatz zu Kickstarter & Co liegt der Fokus auf **echten Beteiligungen** und **datengesteuertem Matching**. FundHive ist **kein Spendenportal**, sondern eine Plattform für Kapitalbeteiligungen mit Fokus auf professionelle und zukünfige Investoren. |
+| **Provision & Geschäftsmodell**  | Die **5–10 % Erfolgsprovision** liegt im Branchenschnitt. Weitere Einnahmen sind durch **Premium-Zugänge**  und **analytische Zusatzfunktionen** geplant. |
+| **Geldfluss & Transaktionen**    | FundHive agiert als **Vermittlungsplattform** – die eigentliche Zahlungsabwicklung erfolgt über einen **verifizierten Drittanbieter**. So wird sichergestellt, dass das Geld erst nach Vertragsschluss weitergeleitet wird. |
+
 
 # Anforderungen
 ## Use-Case Diagramm
-> Hier das Diagramm einbinden
+![Use-Case Diagramm](doc/UC_diagram.drawio.svg)
 
 ## Use-Case Beschreibung
-![Datenmodell](doc/UC_diagram.drawio.svg)
-> Hier die Use-Case Beschreibung einfügen so wie du das in RE gelernt hast. 
+Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
+
+ **-- Finanzierungsrunde erfassen --**
+
+- **Actors**: Entrepreneur  
+- **Eintrittsbedingungen**: Das zugehörige Startup existiert bereits.  
+- **Ereignissequenz**:  
+  1. Entrepreneur navigiert zu seinem Startup-Page.  
+  2. Öffnet das Formular mit dem Button „+ Create New Funding Round“.  
+  3. Gibt relevante Informationen ein (z. B. Rundenname, Zielbetrag, Startdatum).  
+  4. Speichert die Finanzierungsrunde.  
+- **Austrittsbedingung**: Die Finanzierungsrunde wurde erfolgreich kreiert und erscheint mit Status `UPCOMING`unter Investment Rounds.  
+- **Besondere Anforderungen**: Das Enddatum jeder Runde wird automatisch auf 90 Tage nach dem Startdatum gesetzt, daher ist es im interesse des Startups die Runde sobald wie möglich zu eröffnen.
+- **Daten**: `round_name`, `goal_amount`, `start_date`
+
 
 ## Fachliches Datenmodell 
-![Datenmodell](doc/ER_diagram.drawio.svg)
+![ER_Diagram](doc/ER_diagram.drawio.svg)
 
 ## Erläuterungen zum Datenmodell 
-> Beschreibe die Entitäten, deren Attribute sowie die Beziehungen zwischen den Entitäten.
 
+**Entitäten und Attribute**
+
+| **Entität**         | **Attribute**                                                                                                   | **Attribut-Beschreibung**                                                                                                                                                           |
+|---------------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Entrepreneur**     | `name`, `email`                                                                                                 | Der Name und die E-Mail-Adresse des Entrepreneurs, die zur Identifikation und Kontaktaufnahme dienen.                                                                                 |
+| **Startup**          | `name`, `description`, `AI_rating`, `industry`, `funding_status`, `valuation`, `amount_raised`, `goal_amount` | Der Name des Startups, eine Beschreibung seines Geschäftsmodells, die durch KI vergebene Bewertung, die Branche, der aktuelle Finanzierungsstatus, die Bewertung des Unternehmens, der bereits eingesammelte Betrag und das Finanzierungsziel. |
+| **Investment round** | `round_name`, `start_date`, `end_date`                                                                         | Bezeichnung der Finanzierungsrunde (z. B. Seed, Series A) sowie deren Start- und Enddatum.                                                                                            |
+| **Investor**         | `name`, `email`, `AI_rating`                                                                                    | Der Name und die E-Mail-Adresse des Investors sowie eine durch KI vergebene Bewertung seiner Investitionshistorie oder Vertrauenswürdigkeit.                                         |
+| **Transaction**      | `amount`, `date`                                                                                                | Die Höhe des investierten Betrags und das Datum, an dem die Transaktion durchgeführt wurde.                                                                                           |
+
+**Beziehungen**
+| **Beziehung** | **Beteiligte Entitäten**              | **Kardinalität**                            | **Beschreibung**                                                                 |
+|---------------|----------------------------------------|---------------------------------------------|----------------------------------------------------------------------------------|
+| `creates`     | Entrepreneur → Startup                 | 1 Entrepreneur erstellt N Startups          | Ein Entrepreneur kann mehrere Startups gründen, aber jedes Startup hat nur einen Gründer. |
+| `launches`    | Startup → Investment round             | 1 Startup startet N Runden                  | Ein Startup kann mehrere Finanzierungsrunden durchführen.                        |
+| `has`         | Investment round → Transaction         | 1 Runde → N Transaktionen                   | Eine Finanzierungsrunde umfasst viele Transaktionen.                             |
+| `does`        | Investor → Transaction                 | 1 Investor tätigt N Transaktionen           | Ein Investor kann mehrfach investieren. Jede Transaktion gehört zu einem Investor. |
 ## Zustandsdiagramm
-> Hier das Zustandsdiagramm einbinden für diejenige Entität(en), welche mehrere Zustände durchläuft mit Events, Effects und Guards.
+**Status der Finanzierungsrunden**
+
+![State_Diagram](doc/State_diagram.drawio.svg)
 
 ## UI-Mockup 
 > Mockup oder Skizze des UIs
@@ -191,7 +231,13 @@ FundHive verbindet Startups und Investoren durch datenbasierte, transparente Ana
 > Beschreibung des Frontends mit Screenshots der fertigen Applikation. Alle Teile des GUIs, die bewertet werden sollen, müssen abgebildet sein.
 
 ## KI-Funktionen
-> Aufgaben und Funktionen des eingebundenen KI-Modells.
+
+| **Anwendung** | **Aufgaben & Funktionen** |
+|---------------|----------------------------------------|
+| **Startup-Bewertung (AI Rating)** | Das System analysiert auf Basis von Name, Branche, Bewertung und Beschreibung eines Startups dessen Erfolgspotenzial. Eine Large Language Model (LLM)-basierte Bewertung liefert einen numerischen Score (0.0–5.0), der regelmäßig aktualisiert und beim Erstellen automatisch generiert wird. **Ziel:** Orientierungshilfe für Investoren und einheitliche Qualitätsindikatoren. |
+| **Pitch-Optimierung (Beschreibung verbessern)** | Die KI überarbeitet die vorhandene Startup-Beschreibung im HTML-Format sprachlich und stilistisch, ohne neue Informationen hinzuzufügen. Dabei achtet das Modell auf professionelle, überzeugende Formulierungen und gute Struktur. **Ergebnis:** Eine ansprechende und investorentaugliche Präsentation des Startups – semantisch korrektes HTML inklusive. |
+| **Investorensuche / Empfehlung (Startup-Matching)** | Ein dialogbasierter KI-Assistent versteht die Anfrage eines Investors (z. B. branchenspezifische Interessen oder Bewertungskriterien) und schlägt passende Startups aus der Datenbank vor. Die Entscheidung basiert auf Startupdaten, semantischem Verständnis und optional auch Tool-gestütztem Filtern (z. B. Branchen, Fundingstatus, Bewertungsspanne). **Ziel:** Relevante, präzise Empfehlungen in natürlicher Sprache. |
+
 
 # Fazit
 
