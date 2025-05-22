@@ -1,43 +1,83 @@
 <script>
   import { onMount, createEventDispatcher } from "svelte";
   import Quill from "quill";
+  import BlotFormatter from "quill-blot-formatter";
   import "quill/dist/quill.snow.css";
 
-  // the HTML content to edit
   export let content = "";
-  // Quill modules (e.g. toolbar configuration)
-  export let modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline"],
-      ["link", "image"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["clean"]
-    ]
-  };
 
-  export function getHtml() {
-  return quill?.root.innerHTML || "";
-}
+  Quill.register("modules/blotFormatter", BlotFormatter);
 
   const dispatch = createEventDispatcher();
   let editorDiv;
   let quill;
 
+  // Replace with your actual Cloudinary info
+  const cloudName = "dksmrobtx";
+  const uploadPreset = "fundhive_uploads";
+
+  function imageHandler() {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("folder", "startups");
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      const data = await res.json();
+      const range = quill.getSelection(true);
+      quill.insertEmbed(range.index, "image", data.secure_url);
+    };
+  }
+
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, false] }],
+        ["bold", "italic", "underline"],
+        ["link", "image"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["clean"],
+      ],
+      handlers: {
+        image: imageHandler,
+      },
+    },
+    blotFormatter: {},
+  };
+
+  export function getHtml() {
+    return quill?.root.innerHTML || "";
+  }
+
   onMount(() => {
     quill = new Quill(editorDiv, {
       theme: "snow",
-      modules
+      modules,
     });
-    // initialize editor HTML
+
     quill.root.innerHTML = content;
-    // emit changes upstream
+
     quill.on("text-change", () => {
       dispatch("input", quill.root.innerHTML);
     });
   });
 
-  // reactive update: if parent changes content, update editor
   $: if (quill && quill.root.innerHTML !== content) {
     const sel = quill.getSelection();
     quill.root.innerHTML = content;
@@ -45,10 +85,18 @@
   }
 </script>
 
+<div bind:this={editorDiv}></div>
+
 <style>
   :global(.ql-editor) {
     min-height: 200px;
   }
-</style>
 
-<div bind:this={editorDiv}></div>
+  :global(.ql-editor img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+    border-radius: 6px;
+  }
+</style>

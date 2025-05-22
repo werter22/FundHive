@@ -5,6 +5,7 @@
   import { goto } from "$app/navigation";
   import { get } from "svelte/store";
   import { jwt_token, user, isAuthenticated } from "../../../store";
+  import { cleanEditorHtml } from "$lib/sanitizeHtml";
   import QuillEditor from "$lib/components/QuillEditor.svelte";
 
   const API_ROOT = $page.url.origin;
@@ -17,7 +18,7 @@
   let showChat = $state(false);
 
   let chatContainer = $state(null);
-  
+
   let chatMessages = $state([]);
   let userMessage = $state("");
 
@@ -49,16 +50,19 @@
   });
 
   $effect(() => {
-  // Trigger when chatMessages change
-  chatMessages.length; // this tracks dependency
+    // Trigger when chatMessages change
+    chatMessages.length; // this tracks dependency
 
-  if (chatContainer) {
-    // Defer to let DOM update
-    setTimeout(() => {
-      chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: "smooth" });
-    }, 0);
-  }
-});
+    if (chatContainer) {
+      // Defer to let DOM update
+      setTimeout(() => {
+        chatContainer.scrollTo({
+          top: chatContainer.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 0);
+    }
+  });
 
   function getFundingOverview() {
     var config = {
@@ -113,7 +117,10 @@
     axios(config)
       .then((response) => {
         chatMessages.push({ type: "user", text: userMessage });
-        chatMessages.push({ type: "bot", text: response.data.replace(/^```html|```$/g, "").trim() });
+        chatMessages.push({
+          type: "bot",
+          text: response.data.replace(/^```html|```$/g, "").trim(),
+        });
         userMessage = "";
       })
       .catch((error) => {
@@ -123,10 +130,8 @@
   }
 
   function saveChanges() {
-  const rawHtml = quillEditorRef.getHtml();
-  description = stripInlineStyles(rawHtml);
-  startup.description = description;
-  
+    const rawHtml = quillEditorRef.getHtml();
+    const sanitizedHtml = cleanEditorHtml(rawHtml);
     var config = {
       method: "put",
       url: `${API_ROOT}/api/startups/${id}`,
@@ -134,7 +139,13 @@
         "Content-Type": "application/json",
         Authorization: "Bearer " + $jwt_token,
       },
-      data: JSON.parse(JSON.stringify(startup)),
+      data: {
+        name: startup.name,
+        description: sanitizedHtml,
+        industry: startup.industry,
+        valuation: startup.valuation,
+        fundingStatus: startup.fundingStatus,
+      },
     };
 
     axios(config)
@@ -144,7 +155,6 @@
         getStartup();
       })
       .catch(function (error) {
-        console.log(startup);
         console.error("Failed to save changes:", error);
         alert("Could not save changes.");
       });
