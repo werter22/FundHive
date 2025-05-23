@@ -30,11 +30,11 @@ FundHive ist eine FinTeech-Plattform, die Startups mit interessierten Investoren
 ### TRENDS & TECHNOLOGIE
 Durch die zunehmende Digitalisierung und den erleichterten Zugang zu Know-how hat sich in der Schweiz in den letzten 15 Jahren ein wachsender Markt für Crowdfunding entwickelt. Wie in der folgenden Abbildung ersichtlich, gab es in den letzten zehn Jahren einen Boom an Crowdfunding-Plattformen. Dieser Boom hat sich jedoch mittlerweile abgeschwächt und die Gesamtanzahl der Plattformen ist seit 2020 weitgehend stabil geblieben.
 
-![Diagram Funding Plattformen](doc/abb_1.png)
+![Diagram Funding Plattformen](doc/refrences/abb_1.png)
 
 Besonders relevant für FundHive ist die Entwicklung des Volumens im Bereich des Crowdinvestings. Diese Branche ist noch relativ jung und hat sich seit 2017 bei einem durchschnittlichen Volumen von rund 150 Millionen Franken stabilisiert.
 
-![Diagram finazierte Kampagnen](doc/abb_2.png)
+![Diagram finazierte Kampagnen](doc/refrences/abb_2.png)
 
 FundHive sieht in der fortschreitenden Entwicklung von prädiktiven Modellen die Chance, sich in diesen Markt zu integrieren. Die stetig verbesserten Datenmodelle und das wachsende Volumen an Datensätzen ermöglichen es, eine Vielzahl von Branchen zu innovieren und diese werden Kapital benötigen.
 
@@ -182,19 +182,131 @@ FundHive verbindet Startups und Investoren durch datenbasierte, transparente Ana
 ## Use-Case Beschreibung
 Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 
- **-- Finanzierungsrunde erfassen --**
+
+**Finanzierungsrunde erfassen**
 
 - **Actors**: Entrepreneur  
-- **Eintrittsbedingungen**: Das zugehörige Startup existiert bereits.  
+- **Eintrittsbedingungen**: Das zugehörige Startup existiert bereits und ist aktiv.  
+- **Ereignissequenz**:  
+  1. Entrepreneur wählt ein Startup aus.  
+  2. Öffnet das Formular „Finanzierungsrunde erfassen“.  
+  3. Gibt relevante Informationen ein (z. B. Rundenname, Zielbetrag, Zeitraum).  
+  4. Speichert die Finanzierungsrunde.  
+- **Austrittsbedingung**: Die Finanzierungsrunde ist dem Startup zugeordnet und im System gespeichert.  
+- **Daten**: `round_name`, `goal_amount`, `start_date`, `end_date`  
+
+**Finanzierungsrundenansicht**
+
+- **Actors**: Admin  
+- **Eintrittsbedingungen**: Der Admin ist eingeloggt.  
+- **Ereignissequenz**:  
+  1. Admin öffnet die Ansicht „Finanzierungsrunden“.  
+  2. Das System zeigt eine Liste aller bestehenden Finanzierungsrunden mit Details an.   
+
+**Finanzierungsrundenverwaltung**
+
+- **Actors**: Entrepreneur  
+- **Eintrittsbedingungen**: Der Entrepreneur ist Gründer des dazugehörigen Startups und hat mindestens eine Finanzierungsrunde erstellt.  
 - **Ereignissequenz**:  
   1. Entrepreneur navigiert zu seinem Startup-Page.  
-  2. Öffnet das Formular mit dem Button „+ Create New Funding Round“.  
-  3. Gibt relevante Informationen ein (z. B. Rundenname, Zielbetrag, Startdatum).  
-  4. Speichert die Finanzierungsrunde.  
-- **Austrittsbedingung**: Die Finanzierungsrunde wurde erfolgreich kreiert und erscheint mit Status `UPCOMING`unter Investment Rounds.  
-- **Besondere Anforderungen**: Das Enddatum jeder Runde wird automatisch auf 90 Tage nach dem Startdatum gesetzt, daher ist es im interesse des Startups die Runde sobald wie möglich zu eröffnen.
-- **Daten**: `round_name`, `goal_amount`, `start_date`
+  2. Er erhält eine Liste seiner Runden und je nach Status der Runden Optionen die nur er ausführen kann.   
 
+**In offene Finanzierungsrunden investieren**
+
+- **Actors**: Investor  
+- **Eintrittsbedingungen**: Der Investor ist eingeloggt und es existieren offene Finanzierungsrunden.  
+- **Ereignissequenz**:  
+  1. Investor sucht oder filtert nach Startups.  
+  2. In der Startup-Detailansicht sieht er die Runden die dieses Startup verwaltet.  
+  3. Der Investor wählt eine Runde die den Button "Invest" hat.
+  4. Gibt Investitionsbetrag ein und bestätigt die Transaktion.  
+- **Austrittsbedingung**: Die Investition ist abgeschlossen und im Portfolio sowie bei der Finanzierungsrunde verbucht.  
+- **Ausnahmen**: Ungültiger Betrag - melden erfolgt, technischer Fehler bei Transaktion - Fehlermeldung.  
+- **Daten**: `amount`  
+
+**Investmentportfolio ansehen**
+
+- **Actors**: Investor  
+- **Eintrittsbedingungen**: Der Investor ist eingeloggt und hat mindestens eine Transaktion durchgeführt.  
+- **Ereignissequenz**:  
+  1. Investor navigiert zur Portfolio-Ansicht.  
+  2. Das System zeigt alle getätigten Investitionen samt Beträgen, Runden und Datum.  
+
+**KI-Assistent für Beschreibung**
+
+- **Actors**: Entrepreneur  
+- **Eintrittsbedingungen**: Der Entrepreneur befindet sich auf der Detailseite seines Startups.  
+- **Ereignissequenz**:  
+  1. Entrepreneur öffnet den KI-Assistenten unter dem Editor für Beschreibung.  
+  2. Der Assistent generiert automatisch eine Vorschlagsbeschreibung basierend auf vorhandenen Startup-Daten.  
+  3. Der Entrepreneur kann die generierte Beschreibung anpassen oder text teile kopieren.  
+- **Austrittsbedingung**: Die neue oder überarbeitete Beschreibung wird gespeichert.  
+- **Ausnahmen**: Die KI liefert keinen sinnvollen Vorschlag oder ein technischer Fehler tritt auf.  
+- **Besondere Anforderungen**: Antwortzeit der KI soll rasch sein.  
+
+**KI-Assistent für Startupsuche**
+
+- **Actors**: Investor, Entrepreneur, Admin  
+- **Eintrittsbedingungen**: Der Nutzer ist eingeloggt.  
+- **Ereignissequenz**:  
+  1. Der Nutzer aktiviert den KI-Assistenten zur Unterstützung der Startup-Suche.  
+  2. Die KI analysiert Nutzerinteressen und vorhandene Daten.  
+  3. Es werden individualisierte Startup-Vorschläge angezeigt.  
+- **Austrittsbedingung**: Eine Liste relevanter Startups wird präsentiert.  
+- **Ausnahmen**: Keine passenden Vorschläge gefunden, Fehler in der KI-Auswertung.  
+- **Besondere Anforderungen**: Personalisierung und Reaktionszeit der KI.  
+
+**Startup-Details ansehen**
+
+- **Actors**: Investor  
+- **Eintrittsbedingungen**: Der Investor findet ein Starup das ihn interessiert.  
+- **Ereignissequenz**:  
+  1. Investor klickt auf ein Startup aus der Ergebnisliste.  
+  2. Das System zeigt eine Detailansicht mit Beschreibung, Branche, Finanzierungsstatus,AI-Rating und die vorhandenen Finanzierungsrunden.  
+- **Austrittsbedingung**: Die Detailseite des gewählten Startups wird angezeigt.  
+- **Ausnahmen**: Das Startup ist nicht mehr verfügbar oder konnte nicht geladen werden - Fehlermeldung.  
+
+**Startup-Details bearbeiten**
+
+- **Actors**: Entrepreneur  
+- **Eintrittsbedingungen**: Ein Startup wurde bereits vom Entrepreneur erstellt.  
+- **Ereignissequenz**:  
+  1. Entrepreneur navigiert zur Deatailansicht seines Startups.  
+  2. Änderungen an Feldern wie Beschreibung, Branche, Zielbetrag oder Bewertung werden vorgenommen.  
+  3. Änderungen werden gespeichert.  
+- **Austrittsbedingung**: Die aktualisierten Informationen sind im System gespeichert und sichtbar.  
+- **Ausnahmen**: Ungültige Eingaben oder Speichervorgang schlägt fehl - Fehlermeldung.  
+- **Daten**: `name`, `description`, `industry`, `valuation`, `funding_status`
+
+**Startup erstellen**
+
+- **Actors**: Entrepreneur  
+- **Eintrittsbedingungen**: Der Entrepreneur ist eingeloggt.  
+- **Ereignissequenz**:  
+  1. Entrepreneur geht zum Formular „Startup erstellen“ im Account-Page.  
+  2. Gibt grundlegende Informationen ein (z. B. Name, Branche, Beschreibung).  
+  3. Speichert das Startup.  
+- **Austrittsbedingung**: Das neue Startup ist im System gespeichert und dem Entrepreneur zugeordnet.  
+- **Ausnahmen**: Pflichtfelder nicht ausgefüllt, technische Fehler beim Speichern - Fehlermeldung.  
+- **Daten**: `name`, `description`, `industry`, `valuation`, `funding_status`
+
+**Startups suchen**
+
+- **Actors**: Investor, Entrepreneur, Admin,    
+- **Ereignissequenz**:  
+  1. Nutzer sind auf der Startups-Page.  
+  2. Gibt Filterkriterien ein (z. B. Branche, Bewertung, Finanzierungsstatus).  
+  4. Das System zeigt passende Startups an.  
+- **Austrittsbedingung**: Eine Liste gefundener Startups wird angezeigt.  
+
+**Transaktionenansicht**
+
+- **Actors**: Admin  
+- **Eintrittsbedingungen**: Der Admin ist eingeloggt.  
+- **Ereignissequenz**:  
+  1. Admin öffnet die Transaktionenansicht.  
+  2. Das System lädt alle Transaktionen inkl. zugehöriger Investoren, Beträge und Zeitpunkte.  
+  3. Admin filtert die Transaktionen.  
 
 ## Fachliches Datenmodell 
 ![ER_Diagram](doc/ER_diagram.drawio.svg)
@@ -219,12 +331,36 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 | `has`         | Investment round → Transaction         | 1 Runde → N Transaktionen                   | Eine Finanzierungsrunde umfasst viele Transaktionen.                             |
 | `does`        | Investor → Transaction                 | 1 Investor tätigt N Transaktionen           | Ein Investor kann mehrfach investieren. Jede Transaktion gehört zu einem Investor. |
 ## Zustandsdiagramm
-**Status der Finanzierungsrunden**
+**Status der Finanzierungsrunden:**
 
 ![State_Diagram](doc/State_diagram.drawio.svg)
 
 ## UI-Mockup 
-> Mockup oder Skizze des UIs
+
+![Login_Page](doc/mockUI/login.drawio.svg)
+![Signup_Page](doc/mockUI/signup.drawio.svg)
+
+
+**Admin Pages:**
+
+![Admin_InvestmentRounds_View_Page](doc/mockUI/admin_IR_page.drawio.svg)
+![Admin_TransactionView_Page](doc/mockUI/admin_transaction_view.drawio.svg)
+![Admin_Acc_Page](doc/mockUI/admin_acc.drawio.svg)
+
+**Entrepreneur Pages:**
+
+![Entrepreneur_OwnStartup_Page](doc/mockUI/entrepreneur_own_startup.drawio.svg)
+![Entrepreneur_Acc_Page](doc/mockUI/entrepreneur_acc.drawio.svg)
+
+**Investor Pages:**
+
+![Investor_Startup_Details_Page](doc/mockUI/investor_indiv_startup_page.drawio.svg)
+![Investor_Portfolio_Page](doc/mockUI/investor_portfolio.drawio.svg)
+![Investor_Acc_Page](doc/mockUI/investor_acc.drawio.svg)
+
+**All logged in users:**
+
+![Startups_Page](doc/mockUI/startup_page_AI_chat.drawio.svg)
 
 # Implementation
 ## Frontend
