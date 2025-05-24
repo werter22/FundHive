@@ -4,6 +4,14 @@ RUN apt-get update && apt-get install -y curl \
   && apt-get install -y nodejs \ 
   && curl -L https://www.npmjs.com/install.sh | npm_install="10.2.3" | sh 
  
+ARG MONGO_URI
+ARG AUTH0_DOMAIN
+ARG OPEN_AI_KEY
+
+ ENV MONGO_URI=${MONGO_URI} \
+     AUTH0_DOMAIN=${AUTH0_DOMAIN} \
+     OPEN_AI_KEY=${OPEN_AI_KEY}
+
 WORKDIR /usr/src/app 
  
 COPY . . 
