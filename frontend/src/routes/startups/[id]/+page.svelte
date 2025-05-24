@@ -7,6 +7,7 @@
   import { jwt_token, user, isAuthenticated } from "../../../store";
   import { cleanEditorHtml } from "$lib/sanitizeHtml";
   import QuillEditor from "$lib/components/QuillEditor.svelte";
+  import GlassCard from "$lib/components/GlassCard.svelte";
 
   const API_ROOT = $page.url.origin;
   const id = $page.params.id;
@@ -288,89 +289,82 @@
 </script>
 
 <!-- Main content -->
-
 {#if error}
   <div class="alert alert-danger mt-4">{error}</div>
 {:else if !startup}
   <div class="text-center mt-4">Loading...</div>
 {:else}
-  <h1 class="mt-4">
-    {startup.name || "Untitled Startup"}
-    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
-      <input
-        class="form-control"
-        bind:value={startup.name}
-        placeholder="Name"
-      />
+  <GlassCard className="mt-4">
+    <h1 class="mt-4">
+      {startup.name || "Untitled Startup"}
+      {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
+        <input
+          class="form-control"
+          bind:value={startup.name}
+          placeholder="Name"
+        />
+      {/if}
+    </h1>
+
+    <!-- Overview section -->
+
+    <h2 class="mt-3">Funding Overview</h2>
+    {#if overview}
+      <div class="funding-overview-content">
+        <p><strong>Total Rounds:</strong> {overview.roundCount}</p>
+        <p>
+          <strong>Total Raised:</strong> ${Number(
+            overview.totalRaised,
+          ).toLocaleString()}
+        </p>
+      </div>
+    {:else}
+      <p class="text-muted">No funding overview available.</p>
     {/if}
-  </h1>
-
-  <!-- Overview section -->
-
-  <h2 class="mt-3">Funding Overview</h2>
-  {#if overview}
-    <div class="card mb-4 p-3">
-      <p><strong>Total Rounds:</strong> {overview.roundCount}</p>
-      <p>
-        <strong>Total Raised:</strong> ${Number(
-          overview.totalRaised,
-        ).toLocaleString()}
-      </p>
-    </div>
-  {:else}
-    <p class="text-muted">No funding overview available.</p>
-  {/if}
+  </GlassCard>
 
   <!-- Startup edit form section -->
 
-  <div class="card p-4 mb-4">
+  <GlassCard className="mt-4">
     <h3 class="mb-3">Startup Details</h3>
-
     {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
-      <div class="mb-3">
-        <label for="description"><strong>Description:</strong></label>
-        <QuillEditor
-          bind:this={quillEditorRef}
-          bind:content={description}
-          class="form-control"
-        />
-        <button
-          class="btn btn-primary mt-3"
-          onclick={() => (showChat = !showChat)}
-        >
-          {showChat ? "Close Chat" : "Open Description Assistant"}
-        </button>
-        {#if showChat}
-          <div class="chat-box mt-3 border rounded p-3 bg-light">
-            <div
-              class="chat-history"
-              bind:this={chatContainer}
-              style="max-height: 300px; overflow-y: auto;"
-            >
+      <label for="description"><strong>Description:</strong></label>
+      <div class="editor-wrapper">
+        <QuillEditor bind:this={quillEditorRef} bind:content={description} />
+      </div>
+      <button
+        class="btn btn-primary mt-3"
+        onclick={() => (showChat = !showChat)}
+      >
+        {showChat ? "Close Chat" : "Open Description Assistant"}
+      </button>
+
+      {#if showChat}
+        <div class="chat-area-bottom">
+          <!-- Chat history -->
+          <div class="chat-window mb-2">
+            <div class="chat-log">
               {#each chatMessages as msg}
-                <div class={msg.type === "user" ? "text-end" : "text-start"}>
-                  <div class="mb-2">
-                    <strong>{msg.type === "user" ? "You" : "AI"}:</strong>
-                    {@html msg.text}
-                  </div>
+                <div class="message {msg.type}">
+                  <strong>{msg.type === "user" ? "You:" : "AI:"}</strong>
+                  {@html msg.text}
                 </div>
               {/each}
             </div>
-
-            <div class="input-group mt-3">
-              <input
-                type="text"
-                bind:value={userMessage}
-                class="form-control"
-                placeholder="Ask the assistant..."
-                onkeydown={(e) => e.key === "Enter" && sendMessage()}
-              />
-              <button class="btn btn-success" onclick={sendMessage}>Send</button
-              >
-            </div>
           </div>
-        {/if}
-      </div>
+
+          <!-- Input + Send -->
+          <div class="chat-input">
+            <input
+              type="text"
+              bind:value={userMessage}
+              placeholder="Ask the assistant..."
+              onkeydown={(e) => e.key === "Enter" && sendMessage()}
+            />
+            <button onclick={sendMessage}>Send</button>
+          </div>
+        </div>
+      {/if}
 
       <div class="mb-3">
         <label for="industry"><strong>Industry:</strong></label>
@@ -466,22 +460,22 @@
         </p>
       </div>
     {/if}
-  </div>
+  </GlassCard>
 
   <!-- Investmentrounds creation form section -->
 
-  <h2 class="mt-4">Investment Rounds</h2>
+  <GlassCard className="mt-4">
+    <h2 class="mt-4">Investment Rounds</h2>
 
-  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
-    {#if !creatingRound}
-      <button
-        class="btn btn-primary mb-3"
-        onclick={() => (creatingRound = true)}
-      >
-        + Create New Funding Round
-      </button>
-    {:else}
-      <div class="card p-4 mb-4">
+    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
+      {#if !creatingRound}
+        <button
+          class="btn btn-primary mb-3"
+          onclick={() => (creatingRound = true)}
+        >
+          + Create New Funding Round
+        </button>
+      {:else}
         <h5>Create New Funding Round</h5>
 
         <div class="mb-3">
@@ -522,92 +516,163 @@
             onclick={() => (creatingRound = false)}>Cancel</button
           >
         </div>
-      </div>
+      {/if}
     {/if}
-  {/if}
 
-  <!-- Investmentrounds section -->
+    <!-- Investmentrounds section -->
 
-  {#if investmentRounds.length > 0}
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Round Name</th>
-          <th>Amount Raised</th>
-          <th>Goal Amount</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each investmentRounds as round}
+    {#if investmentRounds.length > 0}
+      <table class="uniform-table">
+        <thead>
           <tr>
-            <td>{round.round_name}</td>
-            <td>${Number(round.amount_raised ?? 0).toLocaleString()}</td>
-            <td>${Number(round.goal_amount ?? 0).toLocaleString()}</td>
-            <td>{round.date}</td>
-            <td>{round.endDate}</td>
-            <td>{round.status}</td>
-            <td>
-              {#if round.status === "UPCOMING"}
-                {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
-                  <div class="d-flex gap-2">
-                    <button
-                      class="btn btn-success btn-sm"
-                      onclick={() => publishRound(round.id)}>Publish</button
-                    >
-                    <button
-                      class="btn btn-danger btn-sm"
-                      onclick={() => cancelRound(round.id)}>Cancel</button
-                    >
-                  </div>
-                {/if}
-              {:else if round.status === "OPEN"}
-                <div class="d-flex flex-column gap-2">
-                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
-                    <button
-                      class="btn btn-danger btn-sm"
-                      onclick={() => cancelRound(round.id)}>Cancel</button
-                    >
-                  {/if}
-
-                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("investor")}
-                    {#if investingRoundId !== round.id}
-                      <button
-                        class="btn btn-primary btn-sm"
-                        onclick={() => startInvesting(round.id)}>Invest</button
-                      >
-                    {:else}
-                      <div class="d-flex gap-2">
-                        <input
-                          type="number"
-                          class="form-control form-control-sm"
-                          placeholder="Amount"
-                          bind:value={newInvestmentAmount}
-                        />
-                        <button
-                          class="btn btn-success btn-sm"
-                          onclick={submitInvestment}>Confirm</button
-                        >
-                        <button
-                          class="btn btn-secondary btn-sm"
-                          onclick={cancelInvesting}>Cancel</button
-                        >
-                      </div>
-                    {/if}
-                  {/if}
-                </div>
-              {:else}
-                <span class="text-muted">-</span>
-              {/if}
-            </td>
+            <th>Round Name</th>
+            <th>Amount Raised</th>
+            <th>Goal Amount</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Actions</th>
           </tr>
-        {/each}
-      </tbody>
-    </table>
-  {:else}
-    <p class="text-muted">No investment rounds found for this startup.</p>
-  {/if}
+        </thead>
+        <tbody>
+          {#each investmentRounds as round}
+            <tr>
+              <td>{round.round_name}</td>
+              <td>${Number(round.amount_raised ?? 0).toLocaleString()}</td>
+              <td>${Number(round.goal_amount ?? 0).toLocaleString()}</td>
+              <td>{round.date}</td>
+              <td>{round.endDate}</td>
+              <td>{round.status}</td>
+              <td>
+                {#if round.status === "UPCOMING"}
+                  {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
+                    <div class="d-flex gap-2">
+                      <button
+                        class="btn btn-success btn-sm"
+                        onclick={() => publishRound(round.id)}>Publish</button
+                      >
+                      <button
+                        class="btn btn-danger btn-sm"
+                        onclick={() => cancelRound(round.id)}>Cancel</button
+                      >
+                    </div>
+                  {/if}
+                {:else if round.status === "OPEN"}
+                  <div class="d-flex flex-column gap-2">
+                    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur") && $user.sub === startup.ownerId}
+                      <button
+                        class="btn btn-danger btn-sm"
+                        onclick={() => cancelRound(round.id)}>Cancel</button
+                      >
+                    {/if}
+
+                    {#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("investor")}
+                      {#if investingRoundId !== round.id}
+                        <button
+                          class="btn btn-primary btn-sm"
+                          onclick={() => startInvesting(round.id)}
+                          >Invest</button
+                        >
+                      {:else}
+                        <div class="d-flex gap-2">
+                          <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            placeholder="Amount"
+                            bind:value={newInvestmentAmount}
+                          />
+                          <button
+                            class="btn btn-success btn-sm"
+                            onclick={submitInvestment}>Confirm</button
+                          >
+                          <button
+                            class="btn btn-secondary btn-sm"
+                            onclick={cancelInvesting}>Cancel</button
+                          >
+                        </div>
+                      {/if}
+                    {/if}
+                  </div>
+                {:else}
+                  <span class="text-muted">-</span>
+                {/if}
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    {:else}
+      <p class="text-muted">No investment rounds found for this startup.</p>
+    {/if}
+  </GlassCard>
 {/if}
+
+<style>
+  /* Chat-area container */
+  .chat-area-bottom {
+    background: var(--form-bg);
+    border: 1px solid var(--form-border);
+    border-radius: var(--form-radius);
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  /* Scrollable history */
+  .chat-window {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+
+  .chat-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* Message bubbles */
+  .message {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--form-border);
+    border-radius: var(--form-radius);
+    line-height: 1.4;
+    color: #000;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .message.user {
+    text-align: right;
+    background: rgba(0, 212, 255, 0.1);
+  }
+  .message.AI {
+    text-align: left;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Input + button row */
+  .chat-input {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .chat-input input {
+    flex: 1;
+    background: var(--form-bg);
+    border: 1px solid var(--form-border);
+    border-radius: var(--form-radius);
+    padding: var(--form-padding);
+    color: var(--form-text);
+  }
+  .chat-input input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .chat-input button {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-color);
+    border: none;
+    border-radius: var(--form-radius);
+    padding: var(--form-padding);
+  }
+</style>

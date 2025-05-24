@@ -88,7 +88,15 @@
 <div bind:this={editorDiv}></div>
 
 <style>
+:global(.ql-toolbar) {
+  color: white;
+    background: rgba(61, 61, 61, 0.2);
+    border-radius: 6px;
+  }
+
   :global(.ql-editor) {
+    color: white;
+    background: rgba(61, 61, 61, 0.2);
     min-height: 200px;
   }
 
@@ -98,5 +106,6 @@
     display: block;
     margin: 1rem auto;
     border-radius: 6px;
-  }
+  }  
+  
 </style>

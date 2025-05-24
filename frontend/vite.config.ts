@@ -5,5 +5,11 @@ export default defineConfig({
 	plugins: [sveltekit()],
 	build: {
 		sourcemap: true, // Enables debugging the frontend code in the browser (with developer tools)
-	}
+	},
+  server: {
+    proxy: {
+      '/api': 'http://localhost:8080',
+      '/auth': 'http://localhost:8080'
+    }
+  }
 });

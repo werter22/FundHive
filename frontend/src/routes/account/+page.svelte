@@ -3,6 +3,7 @@
   import { page } from "$app/state";
   import { onMount } from "svelte";
   import { jwt_token, user, isAuthenticated } from "../../store";
+  import GlassCard from "$lib/components/GlassCard.svelte";
 
   const API_ROOT = page.url.origin;
 
@@ -45,24 +46,45 @@
   }
 </script>
 
-<h1 class="mt-4">Account</h1>
+<GlassCard className="mt-4">
 
-<div class="d-flex align-items-center mb-4">
-  <div
-    class="rounded-square d-flex align-items-center justify-content-center me-4"
-    style="width: 100px; height: 100px; background-color: #e9a8c6; color: white; font-size: 2rem; font-weight: bold;"
-  ></div>
+<div class="profile-header">
+  <h1 class="account-title">Account</h1>
+  <button class="btn btn-secondary edit-btn"> Edit Profile</button>
+</div>
 
-  <div>
-    <p><strong>Name:</strong> {$user.name}</p>
-    <p><strong>Nickname:</strong> {$user.nickname}</p>
-    <p><strong>First Name:</strong> {$user.given_name}</p>
-    <p><strong>Last Name:</strong> {$user.family_name}</p>
-    <p><strong>Email:</strong> {$user.email}</p>
+<!-- NEW: avatar + name/email on its own centered row -->
+<div class="profile-top">
+  <div class="avatar">
+    <div class="avatar-fallback">{$user.nickname?.[0] || 'U'}</div>
+  </div>
+  <div class="profile-identity">
+    <div class="username">{$user.nickname}</div>
+    <div class="email">{$user.email}</div>
   </div>
 </div>
 
-{#if $isAuthenticated && $user.user_roles  && $user.user_roles.includes("entrepreneur")}
+   <div class="profile-details">
+      <div class="detail">
+        <span class="label">First Name</span>
+        <span class="value">{$user.given_name}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Last Name</span>
+        <span class="value">{$user.family_name}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Nickname</span>
+        <span class="value">{$user.nickname}</span>
+      </div>
+      <div class="detail">
+        <span class="label">Email</span>
+        <span class="value">{$user.email}</span>
+      </div>
+    </div>
+
+
+{#if $isAuthenticated && $user.user_roles && $user.user_roles.includes("entrepreneur")}
   <h2 class="mt-5">Create New Startup</h2>
   <form class="mt-4" onsubmit={createStartup}>
     <div class="mb-3">
@@ -142,3 +164,93 @@
     <button class="btn btn-success" type="submit">Create Startup</button>
   </form>
 {/if}
+</GlassCard>
+
+<style>
+
+  
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+  .avatar {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--focus-border);
+    background: var(--form-bg);
+  }
+  .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background: var(--form-bg);
+    color: var(--form-text);
+    font-size: 2rem;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .username {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--form-text);
+  }
+  .email {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.8);
+  }
+
+.edit-btn {
+  background: transparent;
+  border: 2px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  padding: 0.5rem 1rem;
+  border-radius: var(--form-radius);
+  font-size: 0.9rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.edit-btn:hover {
+  background: var(--accent-cyan);
+  color: #fff;
+}
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+  .profile-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .detail {
+    display: flex;
+    flex-direction: column;
+  }
+  .label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .value {
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    color: var(--form-text);
+  }
+</style>

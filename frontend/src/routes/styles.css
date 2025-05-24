@@ -1,4 +1,309 @@
-/* In dieser Datei können globale Styles definiert werden */
-h1 {
-    color: orangered;
+/* Global Stylesheet: styles.css */
+
+/* ==================================================
+   1. CSS Variables (Theming)
+   ==================================================*/
+:root {
+  /* Form fields */
+  --form-bg: rgba(255, 255, 255, 0.1);
+  --form-border: rgba(255, 255, 255, 0.2);
+  --form-radius: 0.5rem;
+  --form-padding: 0.75rem 1rem;
+  --form-text: #e7e7e7;
+  --form-font-size: 1rem;
+  --focus-border: var(--accent-cyan, #00d4ff);
+  --focus-ring: rgba(0, 212, 255, 0.3);
+
+  /* Button colors */
+  --btn-primary-bg: var(--accent-yellow, #ffd94f);
+  --btn-primary-color: #000;
+  /* Use same primary for success actions */
+  --btn-success-bg: var(--btn-primary-bg);
+  --btn-success-color: var(--btn-primary-color);
+  --btn-secondary-bg: #6c757d;
+  --btn-secondary-color: #fff;
+  --btn-danger-bg: #dc3545;
+  --btn-danger-color: #fff;
+  --btn-warning-bg: #ffd94f;
+  --btn-warning-color: #000;
+}
+
+/* ==================================================
+   2. Base Elements & Layout
+   ==================================================*/
+body {
+  margin: 0;
+  padding: 0;
+  background: #f0f0f0 url('/images/background.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+h1{
+  color: #ffd94f;
+}
+
+h2, h3, h4, h5, h6 {
+  color: black !important;
+  margin-bottom: 1rem;
+}
+
+section {
+  padding: 2rem 0;
+}
+
+p {
+  color: var(--form-text) !important;
+  margin-bottom: 1rem;
+}
+
+/* ==================================================
+   3. Form Controls Override (High Specificity)
+   ==================================================*/
+input.form-control,
+textarea.form-control,
+select.form-select,
+input:not([type]) {
+  /* !important to override Bootstrap defaults */
+  background: var(--form-bg) !important;
+  color: var(--form-text) !important;
+  border: 1px solid var(--form-border) !important;
+  border-radius: var(--form-radius) !important;
+  padding: var(--form-padding) !important;
+  font-size: var(--form-font-size) !important;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-select:focus {
+  outline: none !important;
+  border-color: var(--focus-border) !important;
+  box-shadow: 0 0 0 0.2rem var(--focus-ring) !important;
+  background: var(--form-bg) !important;
+}
+
+/* Placeholder Color */
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Radios & Checkboxes */
+
+
+label,
+.form-label,
+.form-check-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--form-text) !important;
+  font-weight: 500;
+}
+
+.invalid-feedback {
+  color: #ffbaba !important;
+  font-size: 0.875rem;
+  margin: -0.75rem 0 1rem;
+}
+
+/* ==================================================
+   4. Custom Select Arrow
+   ==================================================*/
+select.form-select {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5'%3E%3Cpath fill='%23fff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 1rem center !important;
+  padding-right: 2.5rem !important;
+}
+select.form-select option {
+  background: #fff;
+  color: #000;
+}
+
+/* ==================================================
+   5. Bootstrap Dropdowns
+   ==================================================*/
+.dropdown-menu {
+  background: var(--form-bg) !important;
+  border: 1px solid var(--form-border) !important;
+  border-radius: var(--form-radius) !important;
+  padding: 0.5rem 0;
+}
+
+.dropdown-item {
+  color: var(--form-text) !important;
+  padding: 0.5rem 1rem;
+  transition: background 0.2s;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ==================================================
+   6. Tables Override
+   ==================================================*/
+.table,
+table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin-bottom: 1.5rem;
+  color: var(--form-text) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+.table thead,
+table thead {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.table th,
+.table td,
+th, td {
+  padding: 0.75rem 1rem !important;
+  border: 1px solid var(--form-border) !important;
+  text-align: left;
+}
+
+.table tbody tr:nth-child(even),
+table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+.table .btn {
+  margin-right: 0.5rem;
+}
+
+/* ==================================================
+   7. Buttons Override
+   ==================================================*/
+.btn {
+  font-size: var(--form-font-size) !important;
+  border-radius: var(--form-radius) !important;
+  padding: var(--form-padding) !important;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-primary,
+button.btn-primary {
+  background: var(--btn-primary-bg) !important;
+  color: var(--btn-primary-color) !important;
+  border: none !important;
+}
+
+.btn-success,
+button.btn-success {
+  background: var(--btn-success-bg) !important;
+  color: var(--btn-success-color) !important;
+  border: none !important;
+}
+
+.btn-secondary,
+button.btn-secondary {
+  background: var(--btn-secondary-bg) !important;
+  color: var(--btn-secondary-color) !important;
+  border: none !important;
+}
+
+.btn-danger,
+button.btn-danger {
+  background: var(--btn-danger-bg) !important;
+  color: var(--btn-danger-color) !important;
+  border: none !important;
+}
+
+.btn-warning,
+button.btn-warning {
+  background: var(--btn-warning-bg) !important;
+  color: var(--btn-warning-color) !important;
+  border: none !important;
+}
+
+button:hover,
+.btn:hover {
+  opacity: 0.9 !important;
+}
+
+button:active,
+.btn:active {
+  transform: scale(0.98) !important;
+}
+
+/* ==================================================
+   8. Quill Snow-Theme Toolbar Exceptions
+   ==================================================*/
+
+/* Make the toolbar container solid white with a light border */
+.ql-snow .ql-toolbar {
+  background: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Restore all toolbar buttons to dark icons */
+.ql-snow .ql-toolbar button {
+  background: transparent !important;
+  color: #444 !important;        /* sets currentColor for SVG icons */
+  border: none !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.25rem !important;
+}
+
+/* Force the SVG paths inside those buttons to use that color */
+.ql-snow .ql-toolbar button svg {
+  fill: currentColor !important;
+  stroke: none !important;
+}
+
+/* Restore the native white dropdowns (header/font selects) */
+.ql-snow .ql-toolbar select {
+  background: #fff !important;
+  color: #444 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 2px !important;
+  padding: 0 0.25em !important;
+}
+
+/* ==================================================
+   8. Quill Snow-Theme Toolbar Exceptions
+   ==================================================*/
+
+/* Make the toolbar container solid white with a light border */
+.ql-snow .ql-toolbar {
+  background: #fff !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Restore all toolbar buttons to dark icons */
+.ql-snow .ql-toolbar button {
+  background: transparent !important;
+  color: #444 !important;        /* sets currentColor for SVG icons */
+  border: none !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.25rem !important;
+}
+
+/* Force the SVG paths inside those buttons to use that color */
+.ql-snow .ql-toolbar button svg {
+  fill: currentColor !important;
+  stroke: none !important;
+}
+
+/* Restore the native white dropdowns (header/font selects) */
+.ql-snow .ql-toolbar select {
+  background: #fff !important;
+  color: #444 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 2px !important;
+  padding: 0 0.25em !important;
 }
