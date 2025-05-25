@@ -2,6 +2,7 @@ describe('Investor views a startup with open funding round', () => {
     beforeEach(() => {
         // === Login as Investor ===
         cy.visit('http://localhost:8080');
+        cy.contains('button', 'Log In').click();
         cy.get('#username').type(Cypress.env('investor').email);
         cy.get('#password').type(Cypress.env('investor').password);
         cy.contains('button', 'Log in').click();
@@ -128,46 +129,45 @@ describe('Investor views a startup with open funding round', () => {
         cy.contains('h1', 'Startups').should('exist');
 
         // === Filter by Industry: Media ===
-        cy.get('select').eq(0).select('Media'); // Assumes industry dropdown is first
+        cy.get('select').eq(0).select('Media'); // Industry
         cy.get('button').contains('Search').click();
 
         // === Only Barkchain should appear ===
-        cy.get('table tbody tr').should('have.length', 1);
-        cy.contains('td', 'Barkchain').should('exist');
-        cy.contains('td', 'MEDIA').should('exist');
+        cy.get('.startup-card').should('have.length', 1);
+        cy.get('.startup-card').contains('Barkchain').should('exist');
+        cy.get('.startup-card').contains('MEDIA').should('exist');
 
-        // === Clear filters (if needed) ===
+        // === Clear filters ===
         cy.get('select').eq(0).select('All industries');
 
         // === Filter by Funding: Series A ===
-        cy.get('select').eq(1).select('Series A'); // Assumes funding status dropdown is second
+        cy.get('select').eq(1).select('Series A'); // Funding
         cy.get('button').contains('Search').click();
 
-        cy.get('table tbody tr').should('have.length', 1);
-        cy.contains('td', 'HealthHolo').should('exist');
-        cy.contains('td', 'SERIES_A').should('exist');
+        cy.get('.startup-card').should('have.length', 1);
+        cy.get('.startup-card').contains('HealthHolo').should('exist');
+        cy.get('.startup-card').contains('SERIES_A').should('exist');
 
         // === Combined filter: Education + Series B ===
         cy.get('select').eq(0).select('Education');
         cy.get('select').eq(1).select('Series B');
         cy.get('button').contains('Search').click();
 
-        cy.get('table tbody tr').should('have.length', 1);
-        cy.contains('td', 'EduVerse').should('exist');
+        cy.get('.startup-card').should('have.length', 1);
+        cy.get('.startup-card').contains('EduVerse').should('exist');
 
         // === No results case ===
         cy.get('select').eq(0).select('Automotive');
         cy.get('select').eq(1).select('Seed');
         cy.get('button').contains('Search').click();
 
-        cy.get('table tbody tr').should('have.length', 1);
-        cy.contains('No startups found.').should('exist'); 
+        cy.contains('No startups found.').should('exist');
 
         // === Reset filters ===
         cy.get('select').eq(0).select('All industries');
         cy.get('select').eq(1).select('All funding statuses');
         cy.get('button').contains('Search').click();
 
-        cy.get('table tbody tr').should('have.length.at.least', 4); // Expecting all startups again
+        cy.get('.startup-card').should('have.length.at.least', 4);
     });
 });

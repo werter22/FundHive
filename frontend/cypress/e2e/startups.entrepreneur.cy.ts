@@ -2,6 +2,9 @@ describe('Entrepreneur creates a startup and multiple funding rounds', () => {
   beforeEach(() => {
     // Login as entrepreneur
     cy.visit('http://localhost:8080');
+
+    cy.contains('button', 'Log In').click();
+
     cy.get('#username').type(Cypress.env('entrepreneur').email);
     cy.get('#password').type(Cypress.env('entrepreneur').password);
     cy.contains('button', 'Log in').click();

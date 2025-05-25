@@ -4,6 +4,8 @@ describe('Manage startups as admin', () => {
 
         cy.visit('http://localhost:8080');
 
+        cy.contains('button', 'Log In').click();
+
         cy.get("#username").type(Cypress.env()["admin"].email);
         cy.get("#password").type(Cypress.env()["admin"].password);
 
