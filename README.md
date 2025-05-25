@@ -3,7 +3,7 @@
 ![Branches](https://github.com/werter22/FundHive/blob/main/.github/badges/branches.svg)
 
 # FundHive
-FundHive ist eine FinTeech-Plattform, die Startups mit interessierten Investoren verbindet. Investoren können sich über die Startups informieren und direkt investieren. Die exklusive KI der Plattform hilft sowohl Investoren als auch Unternehmern, das Investitionsrisiko und die Erfolgsaussichten besser einzuschätzen.
+FundHive ist eine FinTech-Plattform, die Startups mit interessierten Investoren verbindet. Investoren können sich über die Startups informieren und direkt investieren. Die exklusive KI der Plattform hilft sowohl Investoren als auch Unternehmern, das Investitionsrisiko und die Erfolgsaussichten besser einzuschätzen.
 
 # Inhaltsverzeichnis
 - [Einleitung](#einleitung)
@@ -41,20 +41,20 @@ FundHive sieht in der fortschreitenden Entwicklung von prädiktiven Modellen die
 ### POTENTIELLE PARTNER & WETTBEWERB
 Grösste Wettbewerber im der Crowdfunding Branche: Conda, OOMNIUM 
 
-Als mögliche Partner könnten Crowdhouse (gegründet 2015) und Foxstone(2017) unsere Plattform unterstützen da sie den Grossteil des Volumens in Crowdfunding einnehmen jedoch beträgt die Mindestinvestitionssummen in der Regel mehrere zehntausend Franken. Daher besteht die Möglichkeit das FundHive das finanzieren attraktiver macht für weniger Kapitaleinsatz.
+Als mögliche Partner kämen Crowdhouse (gegründet 2015) und Foxstone (gegründet 2017) in Frage, da sie den Grossteil des Crowdfunding-Volumens abdecken. Die Mindestinvestitionssummen betragen dort jedoch in der Regel mehrere zehntausend Franken. Daher besteht die Möglichkeit, dass FundHive das Finanzieren durch geringeren Kapitaleinsatz attraktiver gestaltet.
 
 ### FAKTEN
 Viele der Abbildungen und Informationen zum Markt und zur Branche wurden aus der jährlichen Crowdfunding Studie des Instituts für Finanzdienstleistungen Zug IFZ der Hochschule Luzern. Das Dokument ist im Ordner /doc beireitgestellt.
 
 ### POTENZIALFELDER
 Demokratisierung der Startup-Investitionen:
-Der aktuelle Crowdinvesting-Markt in der Schweiz ist geprägt von hohen Mindestinvestitionen, die oft mehrere zehntausend Franken betragen. Dies stellt eine Hürde für Kleinanleger dar, die sich an vielversprechenden Startups beteiligen möchten. FundHive könnte hier eine Lücke schließen, indem es eine zugänglichere Investmentlösung mit geringeren Einstiegshürden anbietet.
+Der aktuelle Crowdinvesting-Markt in der Schweiz ist geprägt von hohen Mindestinvestitionen, die oft mehrere zehntausend Franken betragen. Dies stellt eine Hürde für Kleinanleger dar, die sich an vielversprechenden Startups beteiligen möchten. FundHive könnte hier eine Lücke schliessen, indem es eine zugänglichere Investmentlösung mit geringeren Einstiegshürden anbietet.
 
 Transparenz und Glaubwürdigkeit im Startup-Finanzierungsmarkt:
 Ein wiederkehrendes Thema im Bereich Startup-Finanzierung ist das fehlende Vertrauen zwischen Investoren und Startups. Viele Investoren haben Schwierigkeiten, die Qualität und Seriosität eines Startups objektiv einzuschätzen. Durch KI-gestützte Due-Diligence-Prozesse und ein Bewertungssystem für Startups und Investoren könnte FundHive das Vertrauen erhöhen und so den Markt effizienter gestalten.
 
 Wachsendes Volumen an Startup-Daten für prädiktive Modelle:
-Die zunehmende Digitalisierung ermöglicht es, große Mengen an Daten über Startups, Finanzierungsrunden und Markttrends zu sammeln. Die Nutzung von KI- und Datenanalysen zur Vorhersage von Investmentchancen wird in der Finanzbranche immer relevanter. FundHive könnte sich als führende Plattform für datengetriebenes Investieren positionieren und Investoren eine analytisch fundierte Entscheidungsbasis bieten.
+Die zunehmende Digitalisierung ermöglicht es, grosse Mengen an Daten über Startups, Finanzierungsrunden und Markttrends zu sammeln. Die Nutzung von KI- und Datenanalysen zur Vorhersage von Investmentchancen wird in der Finanzbranche immer relevanter. FundHive könnte sich als führende Plattform für datengetriebenes Investieren positionieren und Investoren eine analytisch fundierte Entscheidungsbasis bieten.
 
 Integration neuer Finanzierungsmodelle:
 Neben klassischen Crowdinvesting-Methoden entstehen neue Modelle wie Revenue-Based Financing oder tokenisierte Investments (z. B. über Blockchain). FundHive könnte langfristig solche Modelle integrieren, um eine flexible und innovative Finanzierungsplattform für Startups und Investoren zu bieten.
@@ -134,7 +134,7 @@ Machbarkeit: Hammer vs. Raumschiff
 🔵🔵🔵🔵🔵🔵🔵🔵⚪️⚪️
 
 ### DAS WOW
-„Die erste Plattform, die Startup-Investments mit KI-gestützten Bewertungen revolutioniert – Investoren erhalten datenbasierte Einblicke, die sonst nur Großbanken vorbehalten sind.“
+„Die erste Plattform, die Startup-Investments mit KI-gestützten Bewertungen revolutioniert – Investoren erhalten datenbasierte Einblicke, die sonst nur Grossbanken vorbehalten sind.“
 
 ### HIGH-LEVEL-KONZEPT
 „Das Bloomberg-Terminal für Startup-Investments – einfach, transparent und datengetrieben.“
@@ -165,7 +165,7 @@ FundHive verbindet Startups und Investoren durch datenbasierte, transparente Ana
 - **Premium-Modelle** für erweiterte Analysefunktionen  
 
 ## Diskussion Feedback Pitch
-| **Thema**                         | **Antwort / Maßnahme** |
+| **Thema**                         | **Antwort / Massnahme** |
 |----------------------------------|--------------------------|
 | **Vertrauen & Sicherheit**       | Startups durchlaufen eine **Verifizierungsphase**, z. B. Upload von Handelsregisterauszug, Website, Pitch Deck. Zusätzlich führen wir ein **KI-gestütztes Scoring-Modell** ein, das kontinuierlich neue Daten (Aktualität, Plausibilität) berücksichtigt. Scam-Versuche können durch Flagging durch andere Nutzer gemeldet werden. |
 | **Datenherkunft & Qualität**     | Alle Analyse-Daten stammen direkt von den Startups, werden aber mit öffentlichen Quellen (z. B. Handelsregister, LinkedIn, Firmenverzeichnissen) abgeglichen. Eine **manuelle Stichprobenkontrolle** ist bei verdächtigen Fällen vorgesehen. |
@@ -186,13 +186,13 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 **Finanzierungsrunde erfassen**
 
 - **Actors**: Entrepreneur  
-- **Eintrittsbedingungen**: Das zugehörige Startup existiert bereits und ist aktiv.  
+- **Eintrittsbedingungen**: Das zugehörige Startup existiert bereits und ist aktiv. Der Entreprenuer ist Besitzer des Starups. 
 - **Ereignissequenz**:  
   1. Entrepreneur wählt ein Startup aus.  
   2. Öffnet das Formular „Finanzierungsrunde erfassen“.  
   3. Gibt relevante Informationen ein (z. B. Rundenname, Zielbetrag, Zeitraum).  
   4. Speichert die Finanzierungsrunde.  
-- **Austrittsbedingung**: Die Finanzierungsrunde ist dem Startup zugeordnet und im System gespeichert.  
+- **Austrittsbedingung**: Die Finanzierungsrunde ist dem Startup zugeordnet und in der Datenbank gespeichert.  
 - **Daten**: `round_name`, `goal_amount`, `start_date`, `end_date`  
 
 **Finanzierungsrundenansicht**
@@ -206,10 +206,10 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 **Finanzierungsrundenverwaltung**
 
 - **Actors**: Entrepreneur  
-- **Eintrittsbedingungen**: Der Entrepreneur ist Gründer des dazugehörigen Startups und hat mindestens eine Finanzierungsrunde erstellt.  
+- **Eintrittsbedingungen**: Der Entrepreneur ist Besitzer des dazugehörigen Startups und hat mindestens eine Finanzierungsrunde erstellt.  
 - **Ereignissequenz**:  
-  1. Entrepreneur navigiert zu seinem Startup-Page.  
-  2. Er erhält eine Liste seiner Runden und je nach Status der Runden Optionen die nur er ausführen kann.   
+  1. Entrepreneur navigiert zu seinem Startupdetailansicht.  
+  2. Er erhält eine Liste seiner Runden und je nach Status der Runden hat er Optionen die nur er ausführen kann.   
 
 **In offene Finanzierungsrunden investieren**
 
@@ -217,7 +217,7 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 - **Eintrittsbedingungen**: Der Investor ist eingeloggt und es existieren offene Finanzierungsrunden.  
 - **Ereignissequenz**:  
   1. Investor sucht oder filtert nach Startups.  
-  2. In der Startup-Detailansicht sieht er die Runden die dieses Startup verwaltet.  
+  2. In der Startupdetailansicht sieht er die Runden die dieses Startup verwaltet.  
   3. Der Investor wählt eine Runde die den Button "Invest" hat.
   4. Gibt Investitionsbetrag ein und bestätigt die Transaktion.  
 - **Austrittsbedingung**: Die Investition ist abgeschlossen und im Portfolio sowie bei der Finanzierungsrunde verbucht.  
@@ -227,10 +227,11 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 **Investmentportfolio ansehen**
 
 - **Actors**: Investor  
-- **Eintrittsbedingungen**: Der Investor ist eingeloggt und hat mindestens eine Transaktion durchgeführt.  
+- **Eintrittsbedingungen**: Der Investor ist eingeloggt und hat optional mindestens eine Transaktion durchgeführt.  
 - **Ereignissequenz**:  
   1. Investor navigiert zur Portfolio-Ansicht.  
   2. Das System zeigt alle getätigten Investitionen samt Beträgen, Runden und Datum.  
+- **Ausnahmen**: Noch keine Transactionen - In der Tabelle: "Keine Transaktionen vorhanden".
 
 **KI-Assistent für Beschreibung**
 
@@ -238,10 +239,10 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 - **Eintrittsbedingungen**: Der Entrepreneur befindet sich auf der Detailseite seines Startups.  
 - **Ereignissequenz**:  
   1. Entrepreneur öffnet den KI-Assistenten unter dem Editor für Beschreibung.  
-  2. Der Assistent generiert automatisch eine Vorschlagsbeschreibung basierend auf vorhandenen Startup-Daten.  
+  2. Der Assistent generiert automatisch eine Vorschlagsbeschreibung basierend auf vorhandenen Startupdaten.  
   3. Der Entrepreneur kann die generierte Beschreibung anpassen oder text teile kopieren.  
 - **Austrittsbedingung**: Die neue oder überarbeitete Beschreibung wird gespeichert.  
-- **Ausnahmen**: Die KI liefert keinen sinnvollen Vorschlag oder ein technischer Fehler tritt auf.  
+- **Ausnahmen**: Die KI liefert keinen sinnvollen Vorschlag oder ein technischer Fehler tritt auf. 
 - **Besondere Anforderungen**: Antwortzeit der KI soll rasch sein.  
 
 **KI-Assistent für Startupsuche**
@@ -253,10 +254,10 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
   2. Die KI analysiert Nutzerinteressen und vorhandene Daten.  
   3. Es werden individualisierte Startup-Vorschläge angezeigt.  
 - **Austrittsbedingung**: Eine Liste relevanter Startups wird präsentiert.  
-- **Ausnahmen**: Keine passenden Vorschläge gefunden, Fehler in der KI-Auswertung.  
+- **Ausnahmen**: Keine passenden Vorschläge gefunden - KI bringt das zum Audruck und schlägt Alternativen vor.  
 - **Besondere Anforderungen**: Personalisierung und Reaktionszeit der KI.  
 
-**Startup-Details ansehen**
+**Startupdetails ansehen**
 
 - **Actors**: Investor  
 - **Eintrittsbedingungen**: Der Investor findet ein Starup das ihn interessiert.  
@@ -266,15 +267,15 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 - **Austrittsbedingung**: Die Detailseite des gewählten Startups wird angezeigt.  
 - **Ausnahmen**: Das Startup ist nicht mehr verfügbar oder konnte nicht geladen werden - Fehlermeldung.  
 
-**Startup-Details bearbeiten**
+**Startupdetails bearbeiten**
 
 - **Actors**: Entrepreneur  
-- **Eintrittsbedingungen**: Ein Startup wurde bereits vom Entrepreneur erstellt.  
+- **Eintrittsbedingungen**: Ein Startup wurde bereits vom Entrepreneur erstellt und er ist der Besitzer.  
 - **Ereignissequenz**:  
   1. Entrepreneur navigiert zur Deatailansicht seines Startups.  
   2. Änderungen an Feldern wie Beschreibung, Branche, Zielbetrag oder Bewertung werden vorgenommen.  
   3. Änderungen werden gespeichert.  
-- **Austrittsbedingung**: Die aktualisierten Informationen sind im System gespeichert und sichtbar.  
+- **Austrittsbedingung**: Die aktualisierten Informationen sind in der Datenbank gespeichert und auf der Webseite sichtbar.  
 - **Ausnahmen**: Ungültige Eingaben oder Speichervorgang schlägt fehl - Fehlermeldung.  
 - **Daten**: `name`, `description`, `industry`, `valuation`, `funding_status`
 
@@ -286,7 +287,7 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
   1. Entrepreneur geht zum Formular „Startup erstellen“ im Account-Page.  
   2. Gibt grundlegende Informationen ein (z. B. Name, Branche, Beschreibung).  
   3. Speichert das Startup.  
-- **Austrittsbedingung**: Das neue Startup ist im System gespeichert und dem Entrepreneur zugeordnet.  
+- **Austrittsbedingung**: Das neue Startup ist in der Datenbank gespeichert und dem Entrepreneur zugeordnet.  
 - **Ausnahmen**: Pflichtfelder nicht ausgefüllt, technische Fehler beim Speichern - Fehlermeldung.  
 - **Daten**: `name`, `description`, `industry`, `valuation`, `funding_status`
 
@@ -358,19 +359,86 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 ![Investor_Portfolio_Page](doc/mockUI/investor_portfolio.drawio.svg)
 ![Investor_Acc_Page](doc/mockUI/investor_acc.drawio.svg)
 
-**All logged in users:**
+**Für alle Benutzer:**
 
 ![Startups_Page](doc/mockUI/startup_page_AI_chat.drawio.svg)
 
 # Implementation
 ## Frontend
-> Beschreibung des Frontends mit Screenshots der fertigen Applikation. Alle Teile des GUIs, die bewertet werden sollen, müssen abgebildet sein.
+
+Die "Landing-Page" lädt Nutzer ein, sich als Entrepreneur oder Investor zu registrieren.
+![1 Root Page](doc/screenshots/1_root_page.PNG)
+
+Damit auch unregistrierte Nutzer einen Vorgeschmack auf die Plattform bekommen, ist die Startup-Seite auch ohne Login einsehbar. Allerdings sind die individuellen Startup-Seiten und der AI-Assistent zur Suche nicht nutzbar.
+![2 Startup Page No Login](doc/screenshots/2_startup_page_no_login.PNG)
+
+Schlichtes "Log in" Formular mit Logo.
+![3 Login](doc/screenshots/3_login.PNG)
+
+Bei der Anmeldung kann der Nutzer angeben, ob er ein Startup finanzieren lassen oder in ein Startup investieren möchte.
+Diese Auswahl weist dem Account automatisch die entsprechende Rolle zu: „Entrepreneur“ bei „get my startup funded“ und „Investor“ bei „invest in a startup“.
+![4 Signup](doc/screenshots/4_signup.PNG)
+
+Nach erfolgreicher Anmeldung oder dem Einloggen wird der Nutzer begrüsst.
+Da Startups im Mittelpunkt der Anwendung stehen, führt ein direkter Link zur Startup-Seite.
+![5 Landing Page](doc/screenshots/5_landing_page.PNG)
+
+Der praktische Startup-AI-Assistent steht nun allen Benutzerrollen zur Verfügung.
+Der Chat kann bei Bedarf eingeblendet und bei Nichtgebrauch wieder ausgeblendet werden.
+![6 Startup Page Ai Chat](doc/screenshots/6_startup_page_AI_chat.PNG)
+
+Der Assistent lässt sich mit natürlichen Fragen bedienen.
+Im gezeigten Beispiel wird nach Startups mit Umweltbewusstsein gesucht. Die KI erkennt die Anfrage korrekt, identifiziert passende Startups und gibt gezielte Empfehlungen.
+![7 Startup Page Ai Chat Used](doc/screenshots/7_startup_page_AI_chat_used.PNG)
+
+Der Admin kann unter „Investment Rounds“ alle Runden einsehen, die jemals auf der Plattform erstellt wurden. Mithilfe der Filteroptionen lassen sich beispielsweise alle offenen Runden dieses Monats anzeigen.
+Zusätzlich kann im erweiterten Filterbereich auch das Enddatum gezielt definiert werden.
+Wichtig dabei: Bei gleichzeitiger Auswahl von Start- und Enddatum sollte beachtet werden, dass Start- und Enddatum standardmässig 90 Tage auseinanderliegen.
+![8 Admin All Rounds](doc/screenshots/8_admin_all_rounds.PNG)
+
+Diese Seite listet alle Investitionen tabellarisch auf. Admins können gezielt nach Transaktionen filtern – z.B. anhand eines Datumsbereichs. Dies ermöglicht eine präzise Nachverfolgung und Analyse sämtlicher Investitionsaktivitäten auf der Plattform.
+![9 Admin All Transactions](doc/screenshots/9_admin_all_transactions.PNG)
+
+Die Account-Seite für Admins und Investoren zeigt ihre persönlichen Daten an. In zukünftigen Erweiterungen soll es den Nutzern möglich sein, ihre Account-Angaben zu bearbeiten und Zugriff auf weitere benutzerspezifische Funktionen zu erhalten.
+![10 Admin Acc](doc/screenshots/10_admin_acc.PNG)
+
+Diese Seite bietet Investoren eine Übersicht über ihre bisherigen Investitionen.
+![11 Investor Portfolio](doc/screenshots/11_investor_portfolio.PNG)
+
+Auf der individuellen Startup-Seite erhält der Investor eine Übersicht über die Anzahl der Investmentrunden sowie das bisher insgesamt eingesammelte Kapital. Zusätzlich wird hier die vollständige Beschreibung des Startups angezeigt.
+![12 Investor Startup View](doc/screenshots/12_investor_startup_view.PNG)
+
+Scrollt der Investor zum unteren Ende der Seite, sieht er eine Tabelle mit allen Investmentrunden des Startups.
+Zu beachten ist: Investitionen sind nur in offenen Runden möglich, in diesem Beispiel ist derzeit keine Runde offen.
+![13 Investor Startup View](doc/screenshots/13_investor_startup_view.PNG)
+
+Hier sieht man, dass dem Investor ein „Invest-Button" angezeigt wird, da diese Runde offen ist.
+![14 Investor Startup View Open Round](doc/screenshots/14_investor_startup_view_open_round.PNG)
+
+Der Investor kann hier den gewünschten Investitionsbetrag eingeben und durch Klick auf „Confirm“ die Investition abschliessen oder mit „Cancel“ abbrechen. Nach der Bestätigung wird der Betrag unter „Amount Raised“ automatisch aktualisiert, ebenso der „Total Raised“-Wert im oberen Bereich der Seite.
+![15 Investor Startup View Invest](doc/screenshots/15_investor_startup_view_invest.PNG)
+
+Als Entrepreneur hat der Benutzer zusätzlich zu seinen Profilangaben Zugriff auf ein Formular zur Erstellung eines neuen Startups.
+![16 Entrepreneur Acc Create Startup](doc/screenshots/16_entrepreneur_acc_create_startup.PNG)
+
+Zusätzlich kann er als Besitzer eines Startups auf der individuellen Startupdeatilseite die Angaben bearbeiten.
+Dafür steht ihm ein einfacher Editor zur Verfügung, der auch das Hochladen von Bildern erlaubt.
+![17 Entrepreneur Startup Editor](doc/screenshots/17_entrepreneur_startup_editor.PNG)
+
+Des Weiteren kann der Gründer den AI-Assistenten nutzen, um die Beschreibung besonders ansprechend zu gestalten und Feedback oder Verbesserungsvorschläge zu erhalten.
+![18 Entrepreneur Startup Ai Assist](doc/screenshots/18_entrepreneur_startup_AI_assist.PNG)
+
+Hier ist auch ersichtlich, dass der Investor die Möglichkeit hat, eine Investitionsrunde mit dem Status „Upcoming“ manuell zu öffnen oder zu stornieren.
+![19 Entrepreneur Startup](doc/screenshots/19_entrepreneur_startup.PNG)
+
+Zudem kann er über den Button „+ Create New Funding Round“ eine neue Runde erstellen.
+![20 Entrepreneur Startup New Round](doc/screenshots/20_entrepreneur_startup_new_round.PNG)
 
 ## KI-Funktionen
 
 | **Anwendung** | **Aufgaben & Funktionen** |
 |---------------|----------------------------------------|
-| **Startup-Bewertung (AI Rating)** | Das System analysiert auf Basis von Name, Branche, Bewertung und Beschreibung eines Startups dessen Erfolgspotenzial. Eine Large Language Model (LLM)-basierte Bewertung liefert einen numerischen Score (0.0–5.0), der regelmäßig aktualisiert und beim Erstellen automatisch generiert wird. **Ziel:** Orientierungshilfe für Investoren und einheitliche Qualitätsindikatoren. |
+| **Startup-Bewertung (AI Rating)** | Das System analysiert auf Basis von Name, Branche, Bewertung und Beschreibung eines Startups dessen Erfolgspotenzial. Eine Large Language Model (LLM)-basierte Bewertung liefert einen numerischen Score (0.0–5.0), der regelmässig aktualisiert und beim Erstellen eiens Startups automatisch generiert wird. **Ziel:** Orientierungshilfe für Investoren und einheitliche Qualitätsindikatoren. |
 | **Pitch-Optimierung (Beschreibung verbessern)** | Die KI überarbeitet die vorhandene Startup-Beschreibung im HTML-Format sprachlich und stilistisch, ohne neue Informationen hinzuzufügen. Dabei achtet das Modell auf professionelle, überzeugende Formulierungen und gute Struktur. **Ergebnis:** Eine ansprechende und investorentaugliche Präsentation des Startups – semantisch korrektes HTML inklusive. |
 | **Investorensuche / Empfehlung (Startup-Matching)** | Ein dialogbasierter KI-Assistent versteht die Anfrage eines Investors (z. B. branchenspezifische Interessen oder Bewertungskriterien) und schlägt passende Startups aus der Datenbank vor. Die Entscheidung basiert auf Startupdaten, semantischem Verständnis und optional auch Tool-gestütztem Filtern (z. B. Branchen, Fundingstatus, Bewertungsspanne). **Ziel:** Relevante, präzise Empfehlungen in natürlicher Sprache. |
 
@@ -378,4 +446,30 @@ Use-Cases sind in alphabetisher Reihenfolge aufgelistet.
 # Fazit
 
 ## Stand der Implementation
-> Stand der Implementation, nächste Schritte (mit Referenz auf den Backlog).
+**Stand der Implementation**
+
+Die Kernfunktionen der Plattform sind umgesetzt und funktionsfähig. Benutzer können sich registrieren, ihre Rolle wählen (Investor oder Entrepreneur) und erhalten entsprechend angepasste Ansichten. Das System ist stabil, klar strukturiert und bereit für die nächsten Ausbauschritte.
+
+**Nächste Schritte**
+
+Der Prototyp bietet bereits eine solide Grundlage, doch es stehen noch einige spannende Verbesserungen an:
+
+- **“Meine Startups” für Gründer**  
+  Gründer sollen bald direkt in ihrem Account alle von ihnen angelegten Startups auf einen Blick sehen. So ersparen sie sich den Umweg über die öffentliche Übersicht und können mit einem Klick in die Detailansicht wechseln.
+
+- **Investoren-Übersicht im Admin-Bereich**  
+  Für Administratoren wird es einen neuen Bereich geben, in dem alle registrierten Investoren samt Kontaktdaten und KI-Rating übersichtlich gelistet sind. Das erleichtert Monitoring und Compliance und hilft bei der Pflege unserer Investorendatenbank.
+
+- **Profilbearbeitung**  
+  Der „Edit Profile“-Button auf der Account-Seite wird noch zum Leben erweckt: Nutzer können künftig ihren Namen, Spitznamen und ihre E-Mail-Adresse direkt im Frontend anpassen und Änderungen sofort sehen.
+
+- **Status der Finanzierungsrunden direkt in der Übersicht**  
+  Investoren müssen nicht mehr erst in jede Einzelansicht springen, um zu prüfen, ob eine Runde offen oder bereits geschlossen ist. Ein Badge auf der Startup-Karte zeigt künftig den aktuellen Status und das Datum an.
+
+- **“Meine Investoren” für Gründer**  
+  Ähnlich zur Startup-Übersicht entsteht ein Bereich, in dem Gründer sehen, wer bereits in ihr Projekt investiert hat. Kontaktinformationen und Profillinks ermöglichen den direkten Austausch – ganz ohne Einblicke in vertrauliche Beträge.
+
+- **“Follow” & Benachrichtigungen für Investoren**  
+  Investoren können zukünftig Startups “folgen” und erhalten automatisch Benachrichtigungen, wenn neue Runden starten, schliessen oder wichtige Meilensteine erreicht werden. Ein kleines Glöckchen-Icon im Header zeigt dabei die ungelesenen Updates an.
+
+Mit diesen Features machen wir unsere Plattform noch nutzerfreundlicher und schaffen klare, schnelle Wege zu den wichtigsten Informationen – sowohl für Gründer als auch Investoren.
